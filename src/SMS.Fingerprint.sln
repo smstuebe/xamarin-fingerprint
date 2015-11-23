@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.Core", "SMS.Fingerprint.Core\SMS.Fingerprint.Core.csproj", "{148BA2E5-3D9F-40A9-9B4F-FE584FBD658E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint", "SMS.Fingerprint\SMS.Fingerprint.csproj", "{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.iOS", "SMS.Fingerprint.iOS\SMS.Fingerprint.iOS.csproj", "{13A8B97E-AC65-4A51-96DF-9A859176D433}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{148BA2E5-3D9F-40A9-9B4F-FE584FBD658E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{148BA2E5-3D9F-40A9-9B4F-FE584FBD658E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{148BA2E5-3D9F-40A9-9B4F-FE584FBD658E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{148BA2E5-3D9F-40A9-9B4F-FE584FBD658E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13A8B97E-AC65-4A51-96DF-9A859176D433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13A8B97E-AC65-4A51-96DF-9A859176D433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13A8B97E-AC65-4A51-96DF-9A859176D433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13A8B97E-AC65-4A51-96DF-9A859176D433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
