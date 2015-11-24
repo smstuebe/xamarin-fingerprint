@@ -3,6 +3,7 @@
 */
 
 using System;
+using SMS.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint
 {

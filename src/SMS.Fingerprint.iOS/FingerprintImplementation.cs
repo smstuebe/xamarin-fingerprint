@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Foundation;
 using LocalAuthentication;
+using SMS.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint
 {

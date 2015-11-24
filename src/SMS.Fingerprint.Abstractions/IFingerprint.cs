@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace SMS.Fingerprint
+namespace SMS.Fingerprint.Abstractions
 {
     public enum FingerprintAuthenticationResultStatus
     {
