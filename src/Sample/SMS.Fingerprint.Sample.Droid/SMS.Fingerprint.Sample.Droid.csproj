@@ -117,6 +117,10 @@
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>SMS.Fingerprint.Abstractions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SMS.Fingerprint.Android\SMS.Fingerprint.Android.csproj">
+      <Project>{616d802d-93aa-4fb3-b7aa-dac1a38943e0}</Project>
+      <Name>SMS.Fingerprint.Android</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj">
       <Name>SMS.Fingerprint.Sample</Name>
     </ProjectReference>
