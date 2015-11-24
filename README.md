@@ -15,7 +15,7 @@ With the Hardware menu you can
 * go to Security > Fingerprint, then follow the enrollment instructions
 * when it asks for touch
  * open command prompt
- * telnet 127.0.0.1 <emulator id> (adb devices prints "emulator-<emulator-id>")
+ * telnet 127.0.0.1 <emulator id> (adb devices prints "emulator-&lt;emulator-id&gt;")
  * finger touch 1
  * finger touch 1
 
