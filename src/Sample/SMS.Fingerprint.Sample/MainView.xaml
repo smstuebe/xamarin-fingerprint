@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SMS.Fingerprint.Sample.MainView">
-  <StackLayout Orientation="Vertical">
-    <Button Text="Authorize" Clicked="OnAuthorize"></Button>
-    
+  <StackLayout Orientation="Vertical" Padding="10">
+    <Button Text="Authenticate" Clicked="OnAuthenticate"></Button>
+    <Label x:Name="lblStatus"></Label>
     
   </StackLayout>
 </ContentPage>
