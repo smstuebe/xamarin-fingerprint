@@ -1,6 +1,74 @@
 # <img src="doc/xamarin_fingerprint.png" width="100" height="90" /> Xamarin Fingerprint
 Xamarin and MvvMCross plugin for accessing the fingerprint sensor
 
+## Usage
+### API
+The API is defined by the ```IFingerprint``` interface:
+
+```csharp
+/// <summary>
+/// Checks the availability of fingerprint authentication.
+/// Possible Reasons for unavailability:
+/// - Device has no sensor
+/// - OS does not support this functionality
+/// - Fingerprint is not enrolled
+/// </summary>
+bool IsAvailable { get; }
+
+/// <summary>
+/// Requests the authentication.
+/// </summary>
+/// <param name="reason">Reason for the fingerprint authentication request. Displayed to the user.</param>
+/// <returns>Authentication result</returns>
+Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason);
+
+/// <summary>
+/// Requests the authentication (cancelable).
+/// </summary>
+/// <see cref="AuthenticateAsync(string)"/>
+Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken);
+```
+
+The returned ```FingerprintAuthenticationResult``` contains information about the authentication.
+```csharp
+/// <summary>
+/// Indicatates whether the authentication was successful or not.
+/// </summary>
+public bool Authenticated { get { return Status == FingerprintAuthenticationResultStatus.Succeeded; } }
+
+/// <summary>
+/// Detailed information of the authentication.
+/// </summary>
+public FingerprintAuthenticationResultStatus Status { get; set; }
+
+/// <summary>
+/// Reason for the unsucessful authentication.
+/// </summary>
+public string ErrorMessage { get; set; }
+
+```
+
+### Example
+```csharp
+var result = await Fingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+### iOS
+Nothing special on iOS. You can't configure anything and the standard iOS Dialog will be shown.
+
+### Android
+#### Setup
+TODO
+#### Configuration
+TODO
+
 ## Testing on Simulators
 ### iOS
 ![Controlling the sensor on the iOS Simulator](doc/ios_simulator.png "Controlling the sensor on the iOS Simulator")
