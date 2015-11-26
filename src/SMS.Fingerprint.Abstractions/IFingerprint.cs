@@ -18,7 +18,7 @@ namespace SMS.Fingerprint.Abstractions
         /// Requests the authentication.
         /// </summary>
         /// <param name="reason">Reason for the fingerprint authentication request. Displayed to the user.</param>
-        /// <returns></returns>
+        /// <returns>Authentication result</returns>
         Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason);
 
         /// <summary>

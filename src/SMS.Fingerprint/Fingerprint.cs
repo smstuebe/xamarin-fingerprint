@@ -7,7 +7,7 @@ using SMS.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint
 {
-    public class Fingerprint
+    public partial class Fingerprint
     {
         private static Lazy<IFingerprint> _implementation = new Lazy<IFingerprint>(CreateFingerprint, System.Threading.LazyThreadSafetyMode.PublicationOnly);
 

@@ -46,10 +46,11 @@
     <Compile Include="..\SMS.Fingerprint\Fingerprint.cs">
       <Link>Fingerprint.cs</Link>
     </Compile>
+    <Compile Include="Fingerprint.Android.cs" />
     <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="FingerprintAuthenticationCallback.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-	<Compile Include="..\SMS.Fingerprint\Properties\AssemblyInfo.cs">
+    <Compile Include="..\SMS.Fingerprint\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
