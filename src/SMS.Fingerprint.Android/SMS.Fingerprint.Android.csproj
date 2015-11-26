@@ -46,6 +46,7 @@
     <Compile Include="..\SMS.Fingerprint\Fingerprint.cs">
       <Link>Fingerprint.cs</Link>
     </Compile>
+    <Compile Include="Dialog\FingerprintDialogFragment.cs" />
     <Compile Include="Fingerprint.Android.cs" />
     <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="FingerprintAuthenticationCallback.cs" />
