@@ -1,4 +1,4 @@
-# Xamarin Fingerprint
+# ![](doc/xamarin_fingerprint.png) Xamarin Fingerprint
 Xamarin and MvvMCross plugin for accessing the fingerprint sensor
 
 ## Testing on Simulators
