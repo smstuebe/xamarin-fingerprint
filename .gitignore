@@ -197,3 +197,10 @@ FakesAssemblies/
 
 # generated code 
 Resource.Designer.cs
+
+# fake
+.fake/
+FAKE.**.**.**/
+
+# Build
+out/
