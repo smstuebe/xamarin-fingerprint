@@ -49,7 +49,9 @@
     <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="FingerprintAuthenticationCallback.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+	<Compile Include="..\SMS.Fingerprint\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.Fingerprint.Abstractions\SMS.Fingerprint.Abstractions.csproj">
