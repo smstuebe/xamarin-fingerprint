@@ -51,6 +51,7 @@ public string ErrorMessage { get; set; }
 ```
 
 ### Example
+#### vanilla
 ```csharp
 var result = await Fingerprint.Current.AuthenticateAsync("Prove you have fingers!");
 if (result.Authenticated)
@@ -62,6 +63,22 @@ else
     // not allowed to do secret stuff :(
 }
 ```
+
+#### using MvvMCross
+```csharp
+var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
+
+var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
 ### iOS
 Nothing special on iOS. You can't configure anything and the standard iOS Dialog will be shown.
 
@@ -88,6 +105,8 @@ With the Hardware menu you can
  * `telnet 127.0.0.1 <emulator-id>` (`adb devices` prints "emulator-&lt;emulator-id&gt;")
  * `finger touch 1`
  * `finger touch 1`
+
+Sending fingerprint sensor events for testing the plugin can be done with the telnet commands, too.
 
 **Note for Windows users:**
 You have to enable telnet: Programs and Features > Add Windows Feature > Telnet Client
