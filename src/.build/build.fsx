@@ -9,6 +9,7 @@ RestorePackages()
 let (+/) path1 path2 = Path.Combine(path1, path2)
 let NuGetTargetDir = @"./out/nuget/"
 let BuildTargetDir = @"./out/lib/"
+let BootstrapFile = "FingerprintPluginBootstrap.cs.pp"
 
 Target "clean" (fun _ ->
     trace "cleaning up..."
@@ -29,11 +30,22 @@ Target "build" (fun _ ->
    !! "../SMS.Fingerprint.iOS/*.csproj"
      |> MSBuildRelease (BuildTargetDir +/ "ios") "Build"
      |> Log "Output: "
+
+   !! "../SMS.MvvmCross.Fingerprint.Android/*.csproj"
+     |> MSBuildRelease (BuildTargetDir +/ "mvx" +/ "android") "Build"
+     |> Log "Output: "
+
+   !! "../SMS.MvvmCross.Fingerprint.iOS/*.csproj"
+     |> MSBuildRelease (BuildTargetDir +/ "mvx" +/ "ios") "Build"
+     |> Log "Output: "
+
+    
+   File.Copy("../SMS.MvvmCross.Fingerprint.Android" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "android" +/ BootstrapFile)
+   File.Copy("../SMS.MvvmCross.Fingerprint.iOS" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "ios" +/ BootstrapFile)
 )
 
-Target "nupack" (fun _ ->
-   
-    let doc = System.Xml.Linq.XDocument.Load("SMS.Fingerprint.nuspec")
+let nupack (specFile:string) = 
+    let doc = System.Xml.Linq.XDocument.Load(specFile)
     let vers = doc.Descendants(XName.Get("version", doc.Root.Name.NamespaceName)) 
 
     NuGet (fun p -> 
@@ -42,7 +54,11 @@ Target "nupack" (fun _ ->
         Version = (Seq.head vers).Value
         OutputPath = NuGetTargetDir
         WorkingDir = BuildTargetDir
-        }) "SMS.Fingerprint.nuspec"
+        }) specFile
+
+Target "nupack" (fun _ ->
+    nupack "SMS.Fingerprint.nuspec"
+    nupack "SMS.Mvvmcross.Fingerprint.nuspec"
 )
 
 // Dependencies

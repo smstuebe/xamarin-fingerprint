@@ -12,5 +12,5 @@ namespace SMS.MvvmCross.Fingerprint.Android
             SMS.Fingerprint.Fingerprint.SetCurrentActivityResolver(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
             Mvx.LazyConstructAndRegisterSingleton(() => SMS.Fingerprint.Fingerprint.Current);
         }
-    }
+    }   
 }

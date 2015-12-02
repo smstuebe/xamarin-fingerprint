@@ -28,6 +28,6 @@
 
     <!-- iOS -->
     <file src="ios\SMS.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
-    <file src="ios\SMS.Fingerprint.dll" target="lib\Xamarin.iOS10" />
+    <file src="ios\SMS.Fingerprint.dll" target="lib\Xamarin.iOS10" />   
   </files>
 </package>

@@ -34,6 +34,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PluginLoader.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,10 +64,15 @@
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>SMS.Fingerprint.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SMS.Fingerprint\SMS.Fingerprint.csproj">
-      <Project>{4ab8ba07-fc70-4f51-9e52-26a5942bad80}</Project>
-      <Name>SMS.Fingerprint</Name>
+    <ProjectReference Include="..\SMS.Fingerprint.iOS\SMS.Fingerprint.iOS.csproj">
+      <Project>{13a8b97e-ac65-4a51-96df-9a859176d433}</Project>
+      <Name>SMS.Fingerprint.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FingerprintPluginBootstrap.cs.pp" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

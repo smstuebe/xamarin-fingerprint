@@ -19,11 +19,9 @@
     <dependencies>
       <group targetFramework="MonoAndroid">
         <dependency id="MvvmCross.HotTuna.CrossCore" version="" /> <!-- Plugin system is old and stable, so we don't need a specific version (for now) -->
-        <dependency id="SMS.Fingerprint" version="" />
       </group>
       <group targetFramework="Xamarin.iOS">
         <dependency id="MvvmCross.HotTuna.CrossCore" version="" />
-        <dependency id="SMS.Fingerprint" version="" />
       </group>
     </dependencies>
   </metadata>
@@ -33,8 +31,14 @@
 
     <!-- Android -->
     <file src="mvx\android\SMS.MvvmCross.Fingerprint.Android.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\SMS.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\SMS.Fingerprint.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\FingerprintPluginBootstrap.cs.pp" target="content\MonoAndroid\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
 
     <!-- iOS -->
     <file src="mvx\ios\SMS.MvvmCross.Fingerprint.iOS.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\SMS.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\SMS.Fingerprint.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\FingerprintPluginBootstrap.cs.pp" target="content\Xamarin.iOS10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
   </files>
 </package>

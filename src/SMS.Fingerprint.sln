@@ -23,8 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{44D4F8
 	ProjectSection(SolutionItems) = preProject
 		.build\build.bat = .build\build.bat
 		.build\build.fsx = .build\build.fsx
-		.build\SMS.Fingerprint.MvvmCross.nuspec = .build\SMS.Fingerprint.MvvmCross.nuspec
 		.build\SMS.Fingerprint.nuspec = .build\SMS.Fingerprint.nuspec
+		.build\SMS.Mvvmcross.Fingerprint.nuspec = .build\SMS.Mvvmcross.Fingerprint.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23667AB3-6148-4B1C-8DE1-EF92273D25E4}"
