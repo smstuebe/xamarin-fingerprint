@@ -11,7 +11,7 @@ using SMS.Fingerprint.Dialog;
 
 namespace SMS.Fingerprint
 {
-    public class FingerprintImplementation : IFingerprint
+    internal class FingerprintImplementation : IFingerprint
     {
         public bool IsAvailable => CheckAvailability();
 

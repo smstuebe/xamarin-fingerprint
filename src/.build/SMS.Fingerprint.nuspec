@@ -12,7 +12,7 @@
 	  <summary>Authenticate a user via fingerprint from a cross platform API.</summary>
     <tags>xamarin monodroid Xamarin.iOS10 fingerprint Xamarin.Android</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
-	<releaseNotes>
+	  <releaseNotes>
        [0.0.1]
        -initial version
     </releaseNotes>
