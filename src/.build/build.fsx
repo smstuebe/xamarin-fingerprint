@@ -4,13 +4,38 @@ open Fake
 open System.Xml.Linq
 open System.IO
 
-RestorePackages()
-
 let (+/) path1 path2 = Path.Combine(path1, path2)
 let NuGetTargetDir = @"./out/nuget/"
 let BuildTargetDir = @"./out/lib/"
 let BootstrapFile = "FingerprintPluginBootstrap.cs.pp"
+let NugetPath = "../.nuget/NuGet.exe"
 
+let Build (projectName:string, targetSubDir:string) =
+    !! (".." +/ projectName +/ projectName + ".csproj")
+     |> MSBuildRelease (BuildTargetDir +/ targetSubDir) "Build"
+     |> Log "Output: "
+
+let NuPack (specFile:string) = 
+    let doc = System.Xml.Linq.XDocument.Load(specFile)
+    let vers = doc.Descendants(XName.Get("version", doc.Root.Name.NamespaceName)) 
+
+    NuGet (fun p -> 
+    {p with
+        ToolPath = NugetPath
+        Version = (Seq.head vers).Value
+        OutputPath = NuGetTargetDir
+        WorkingDir = BuildTargetDir
+        }) specFile
+
+let RestorePackages() = 
+    !! "../**/packages.config"
+    |> Seq.iter (RestorePackage (fun p ->
+        { p with
+            ToolPath = NugetPath
+            OutputPath = "../packages"
+        }))
+
+// Targets
 Target "clean" (fun _ ->
     trace "cleaning up..."
     CleanDir NuGetTargetDir
@@ -18,47 +43,24 @@ Target "clean" (fun _ ->
 )
 
 Target "build" (fun _ ->
-   trace "building libraries..."
-   !! "../SMS.Fingerprint/*.csproj"
-     |> MSBuildRelease (BuildTargetDir +/ "pcl") "Build"
-     |> Log "Output: "
+    trace "restoring packages..."
+    RestorePackages()
 
-   !! "../SMS.Fingerprint.Android/*.csproj"
-     |> MSBuildRelease (BuildTargetDir +/ "android") "Build"
-     |> Log "Output: "
-
-   !! "../SMS.Fingerprint.iOS/*.csproj"
-     |> MSBuildRelease (BuildTargetDir +/ "ios") "Build"
-     |> Log "Output: "
-
-   !! "../SMS.MvvmCross.Fingerprint.Android/*.csproj"
-     |> MSBuildRelease (BuildTargetDir +/ "mvx" +/ "android") "Build"
-     |> Log "Output: "
-
-   !! "../SMS.MvvmCross.Fingerprint.iOS/*.csproj"
-     |> MSBuildRelease (BuildTargetDir +/ "mvx" +/ "ios") "Build"
-     |> Log "Output: "
-
+    trace "building libraries..."
+    Build("SMS.Fingerprint", "pcl")
+    Build("SMS.Fingerprint.Android", "android")
+    Build("SMS.Fingerprint.iOS", "ios")
+    Build("SMS.MvvmCross.Fingerprint.Android", "mvx" +/ "android")
+    Build("SMS.MvvmCross.Fingerprint.iOS", "mvx" +/ "ios")
     
-   File.Copy("../SMS.MvvmCross.Fingerprint.Android" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "android" +/ BootstrapFile)
-   File.Copy("../SMS.MvvmCross.Fingerprint.iOS" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "ios" +/ BootstrapFile)
+    trace "copy mvvm cross bootstrap files..."
+    File.Copy("../SMS.MvvmCross.Fingerprint.Android" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "android" +/ BootstrapFile)
+    File.Copy("../SMS.MvvmCross.Fingerprint.iOS" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "ios" +/ BootstrapFile)
 )
 
-let nupack (specFile:string) = 
-    let doc = System.Xml.Linq.XDocument.Load(specFile)
-    let vers = doc.Descendants(XName.Get("version", doc.Root.Name.NamespaceName)) 
-
-    NuGet (fun p -> 
-    {p with
-        ToolPath = "../.nuget/NuGet.exe"
-        Version = (Seq.head vers).Value
-        OutputPath = NuGetTargetDir
-        WorkingDir = BuildTargetDir
-        }) specFile
-
 Target "nupack" (fun _ ->
-    nupack "SMS.Fingerprint.nuspec"
-    nupack "SMS.Mvvmcross.Fingerprint.nuspec"
+    NuPack "SMS.Fingerprint.nuspec"
+    NuPack "SMS.Mvvmcross.Fingerprint.nuspec"
 )
 
 // Dependencies
