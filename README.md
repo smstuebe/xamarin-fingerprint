@@ -111,5 +111,5 @@ Sending fingerprint sensor events for testing the plugin can be done with the te
 **Note for Windows users:**
 You have to enable telnet: Programs and Features > Add Windows Feature > Telnet Client
 
-### Contribution
-<i class="octicon octicon-repo-forked"></i> + <i class="octicon octicon-git-pull-request"></i>
+## Contribution
+<img src="http://i.imgur.com/WFBeQuG.png" /> + <img src="http://i.imgur.com/P4Ay9tm.png" />
