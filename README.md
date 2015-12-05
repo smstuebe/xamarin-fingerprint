@@ -1,4 +1,4 @@
-# <img src="doc/xamarin_fingerprint.png" width="90" height="71"/> Xamarin Fingerprint
+# <img src="doc/xamarin_fingerprint.png" width="80" height="71"/> Xamarin Fingerprint
 Xamarin and MvvMCross plugin for accessing the fingerprint sensor
 
 It is available via NuGet: TODO
