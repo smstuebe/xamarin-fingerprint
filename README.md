@@ -1,8 +1,7 @@
-# <img src="doc/xamarin_fingerprint.png" width="80" height="71"/> Xamarin Fingerprint
+# <img src="doc/xamarin_fingerprint.png" width="80" height="71"/> Xamarin Fingerprint 
+[![NuGet](https://img.shields.io/nuget/v/SMS.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/SMS.Fingerprint/) [![NuGet MvvMCross](https://img.shields.io/nuget/v/SMS.MvvmCross.Fingerprint.svg?label=NuGet MvvMCross)](https://www.nuget.org/packages/SMS.MvvmCross.Fingerprint/)
+
 Xamarin and MvvMCross plugin for accessing the fingerprint sensor
-
-It is available via NuGet: TODO
-
 ## Usage
 ### API
 The API is defined by the ```IFingerprint``` interface:
