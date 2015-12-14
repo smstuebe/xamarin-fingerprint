@@ -21,6 +21,7 @@ namespace SMS.Fingerprint.Sample.Droid
             RegisterActivityLifecycleCallbacks(this);
             
             Fingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+            Fingerprint.DialogEnabled = true;
         }
 
         public override void OnTerminate()

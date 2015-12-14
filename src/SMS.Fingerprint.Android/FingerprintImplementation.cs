@@ -36,7 +36,7 @@ namespace SMS.Fingerprint
             return await AuthenticateNoDialogAsync(cancellationToken);
         }
 
-        private async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(CancellationToken cancellationToken)
+        internal static async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(CancellationToken cancellationToken)
         {
             var cancellationSignal = new CancellationSignal();
             var callback = new FingerprintAuthenticationCallback();

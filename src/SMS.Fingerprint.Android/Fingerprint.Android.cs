@@ -10,7 +10,7 @@ namespace SMS.Fingerprint
         private static Func<Activity> _activityResolver;
 
         public static Activity CurrentActivity => GetCurrentActivity();
-        public static bool DialogEnabled { get; set; }
+        public static bool DialogEnabled { get; set; } = true;
         
         public static void SetCurrentActivityResolver(Func<Activity> activityResolver)
         {

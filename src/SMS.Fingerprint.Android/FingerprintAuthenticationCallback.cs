@@ -24,22 +24,33 @@ namespace SMS.Fingerprint
         {
             base.OnAuthenticationSucceeded(res);
             var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
-            _taskCompletionSource.SetResult(result);
+            SetResultSafe(result);
         }
 
-        public override void OnAuthenticationFailed()
-        {
-            base.OnAuthenticationFailed();
-            var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.UnknownError };
-            _taskCompletionSource.SetResult(result);
-        }
+        // Do not cancel the dialog on error.
+        // TODO: Implement feedback (shaking icon, display text, ...)
+        //public override void OnAuthenticationFailed()
+        //{
+        //    base.OnAuthenticationFailed();
+        //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.UnknownError };
+        //    SetResultSafe(result);
+        //}
 
         public override void OnAuthenticationError(FingerprintState errorCode, ICharSequence errString)
         {
             base.OnAuthenticationError(errorCode, errString);
             var message = errString != null ? errString.ToString() : string.Empty;
             var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
-            _taskCompletionSource.SetResult(result);
+            SetResultSafe(result);
+        }
+
+        private void SetResultSafe(FingerprintAuthenticationResult result)
+        {
+            if (!(_taskCompletionSource.Task.IsCanceled || _taskCompletionSource.Task.IsCompleted ||
+                  _taskCompletionSource.Task.IsFaulted))
+            {
+                _taskCompletionSource.SetResult(result);
+            }
         }
 
         //public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)

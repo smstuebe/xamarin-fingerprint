@@ -10,10 +10,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Authenticate a user via fingerprint from a cross platform API.</description>
     <summary>Authenticate a user via fingerprint from a cross platform API.</summary>
-    <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 fingerprint Xamarin.Android</tags>
+    <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 fingerprint Xamarin.Android touchid</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
-      [0.0.1]
+      [0.0.1-beta]
       -initial version
     </releaseNotes>
     <dependencies>
@@ -30,7 +30,7 @@
     <file src="pcl\SMS.Fingerprint.Abstractions.dll" target="lib\portable-win+net45+wp8+win8+wpa81" />
 
     <!-- Android -->
-    <file src="mvx\android\SMS.MvvmCross.Fingerprint.Android.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\SMS.MvvmCross.Fingerprint.Droid.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\SMS.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\SMS.Fingerprint.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\FingerprintPluginBootstrap.cs.pp" target="content\MonoAndroid\Bootstrap\FingerprintPluginBootstrap.cs.pp" />

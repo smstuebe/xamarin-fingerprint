@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SMS.MvvmCross.Fingerprint.Android</RootNamespace>
-    <AssemblyName>SMS.MvvmCross.Fingerprint.Android</AssemblyName>
+    <AssemblyName>SMS.MvvmCross.Fingerprint.Droid</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>

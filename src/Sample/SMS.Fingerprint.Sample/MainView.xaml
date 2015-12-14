@@ -3,8 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SMS.Fingerprint.Sample.MainView">
   <StackLayout Orientation="Vertical" Padding="10">
+    <StackLayout Orientation="Horizontal">
+      <StackLayout.IsVisible>
+        <OnPlatform x:TypeArguments="x:Boolean"
+          iOS="False"
+          Android="True"
+          WinPhone="False" />
+      </StackLayout.IsVisible>
+      <Switch x:Name="swAutoCancel"></Switch>
+      <Label Text="Cancel after 10sec"></Label>
+    </StackLayout>
     <Button Text="Authenticate" Clicked="OnAuthenticate"></Button>
     <Label x:Name="lblStatus"></Label>
-    
   </StackLayout>
 </ContentPage>

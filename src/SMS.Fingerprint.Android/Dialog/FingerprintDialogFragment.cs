@@ -1,10 +1,11 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Hardware.Fingerprints;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using SMS.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint.Dialog
@@ -12,17 +13,18 @@ namespace SMS.Fingerprint.Dialog
     public class FingerprintDialogFragment : DialogFragment
     {
         private TaskCompletionSource<FingerprintAuthenticationResult> _resultTaskCompletionSource;
-        private FingerprintManager _fpService;
+        private Button _cancelButton;
+        private bool _canceledByLifecycle;
+        private CancellationTokenSource _cancelationTokenSource;
+        private bool _hasResult;
 
         public string Reason { get; private set; }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            _fpService = Fingerprint.GetService();
             RetainInstance = true;
-            SetStyle(DialogFragmentStyle.Normal, 0);        
+            SetStyle(DialogFragmentStyle.NoTitle, 0);
         }
 
         public async Task<FingerprintAuthenticationResult> ShowAsync(string reason, CancellationToken cancellationToken)
@@ -31,6 +33,8 @@ namespace SMS.Fingerprint.Dialog
 
             var currentActivity = Fingerprint.CurrentActivity;
             Show(currentActivity.FragmentManager, "fingerprint-fragment");
+
+            cancellationToken.Register(Dismiss);
 
             return await _resultTaskCompletionSource.Task;
         }
@@ -43,37 +47,77 @@ namespace SMS.Fingerprint.Dialog
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Dialog.SetTitle(Reason);
-            return new View(Context);
-        }
+            var view = inflater.Inflate(Resource.Layout.FingerprintDialog, container);
+            view.FindViewById<TextView>(Resource.Id.fingerprint_txtReason).Text = Reason;
 
+            _cancelButton = view.FindViewById<Button>(Resource.Id.fingerprint_btnCancel);
+
+            return view;
+        }
+        
         public override void OnDismiss(IDialogInterface dialog)
         {
             base.OnDismiss(dialog);
-            _resultTaskCompletionSource.SetResult(new FingerprintAuthenticationResult
+
+            if (!_hasResult)
             {
-                Status = FingerprintAuthenticationResultStatus.Canceled
-            });
+                _resultTaskCompletionSource.SetResult(new FingerprintAuthenticationResult
+                {
+                    Status = FingerprintAuthenticationResultStatus.Canceled
+                });
+            }
         }
 
         public override void OnResume()
         {
             base.OnResume();
-            //if (mStage == Stage.FINGERPRINT) {
-            //    mFingerprintUiHelper.startListening(mCryptoObject);
-            //}
+
+            var param = Dialog.Window.Attributes;
+            param.Width = ViewGroup.LayoutParams.MatchParent;
+            param.Height = ViewGroup.LayoutParams.WrapContent;
+            Dialog.Window.Attributes = param;
+
+            if (_cancelButton != null)
+            {
+                _cancelButton.Click += OnCancel;
+            }
+
+            StartAuthenticationAsync();
+        }
+
+        private async void StartAuthenticationAsync()
+        {
+            _cancelationTokenSource = new CancellationTokenSource();
+            _canceledByLifecycle = false;
+            _hasResult = false;
+
+            var result = await FingerprintImplementation.AuthenticateNoDialogAsync(_cancelationTokenSource.Token);
+
+            if (!_canceledByLifecycle)
+            {
+                _cancelationTokenSource = null;
+                _hasResult = true;
+                Dismiss();
+                _resultTaskCompletionSource.SetResult(result);    
+            }
+        }
+
+        private void OnCancel(object sender, EventArgs e)
+        {
+            Dismiss();    
         }
 
         public override void OnPause()
         {
             base.OnPause();
-            //mFingerprintUiHelper.stopListening();
-        }
 
-        //@Override
-        //public void onAttach(Activity activity) {
-        //    super.onAttach(activity);
-        //    mActivity = (MainActivity) activity;
-        //}
+            if (_cancelButton != null)
+            {
+                _cancelButton.Click -= OnCancel;
+            }
+
+            _canceledByLifecycle = true;
+            _cancelationTokenSource?.Cancel();
+        }
     }
 }

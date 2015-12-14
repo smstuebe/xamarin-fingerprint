@@ -2,8 +2,8 @@
 
 namespace $rootnamespace$.Bootstrap
 {
-    public class AccelerometerPluginBootstrap
-        : MvxLoaderPluginBootstrapAction<SMS.MvvmCross.Fingerprint.PluginLoader, SMS.MvvmCross.Fingerprint.Android.Plugin>
+    public class FingerprintPluginBootstrap
+        : MvxPluginBootstrapAction<SMS.MvvmCross.Fingerprint.PluginLoader>
     {
     }
 }
