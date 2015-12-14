@@ -84,13 +84,23 @@ Nothing special on iOS. You can't configure anything and the standard iOS Dialog
 
 ### Android
 #### Setup
-1. Request the permission in AndroidManifest.xml:
+**Request the permission in AndroidManifest.xml**
 ```xml
 <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 ```
-#### Configuration
-TODO
+**Set the resolver of the current Activity**
 
+Skip this, if you use the MvvMCross Plugin or don't use the dialog.
+
+We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/CurrentActivity) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
+```csharp
+Fingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+```
+#### Configuration
+You can disable the dialog on Android (e.g. show fingerprint icon within your activity).
+```csharp
+Fingerprint.DialogEnabled = false;
+```
 ## Testing on Simulators
 ### iOS
 ![Controlling the sensor on the iOS Simulator](doc/ios_simulator.png "Controlling the sensor on the iOS Simulator")
