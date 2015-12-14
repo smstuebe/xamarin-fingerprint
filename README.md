@@ -84,7 +84,10 @@ Nothing special on iOS. You can't configure anything and the standard iOS Dialog
 
 ### Android
 #### Setup
-TODO
+1. Request the permission in AndroidManifest.xml:
+```xml
+<uses-permission android:name="android.permission.USE_FINGERPRINT" />
+```
 #### Configuration
 TODO
 
