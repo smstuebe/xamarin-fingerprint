@@ -1,14 +1,20 @@
 ﻿#r @"FAKE.4.8.0/tools/FakeLib.dll"
 #r "System.Xml.Linq"
-open Fake
+
 open System.Xml.Linq
+open System.Xml;
 open System.IO
+open System.Text.RegularExpressions
+open Fake
+open Fake.XMLHelper;
+
 
 let (+/) path1 path2 = Path.Combine(path1, path2)
 let NuGetTargetDir = @"./out/nuget/"
 let BuildTargetDir = @"./out/lib/"
 let BootstrapFile = "FingerprintPluginBootstrap.cs.pp"
 let NugetPath = "../.nuget/NuGet.exe"
+let NuspecFiles = ["SMS.Fingerprint.nuspec"; "SMS.Mvvmcross.Fingerprint.nuspec"] 
 
 let Build (projectName:string, targetSubDir:string) =
     !! (".." +/ projectName +/ projectName + ".csproj")
@@ -26,6 +32,15 @@ let NuPack (specFile:string) =
         OutputPath = NuGetTargetDir
         WorkingDir = BuildTargetDir
         }) specFile
+
+let NuVersion (specFile:string, version:string) = 
+    let xmlDocument = new XmlDocument()
+    xmlDocument.Load specFile
+    let nsmgr = XmlNamespaceManager(xmlDocument.NameTable)
+    nsmgr.AddNamespace("ns", "http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd")
+    let node = xmlDocument.DocumentElement.SelectSingleNode("//ns:version", nsmgr)
+    node.InnerText <- version
+    xmlDocument.Save specFile
 
 let RestorePackages() = 
     !! "../**/packages.config"
@@ -59,8 +74,22 @@ Target "build" (fun _ ->
 )
 
 Target "nupack" (fun _ ->
-    NuPack "SMS.Fingerprint.nuspec"
-    NuPack "SMS.Mvvmcross.Fingerprint.nuspec"
+    List.iter NuPack NuspecFiles
+)
+
+//call: build version v=1.0.0
+Target "version" (fun _ ->
+    let version = getBuildParam "v"
+    let cleanVersion = Regex.Replace(version, @"[^\d\.].*$", "")
+
+    BulkReplaceAssemblyInfoVersions ".." (fun info ->
+    {info with
+        AssemblyVersion = cleanVersion  
+        AssemblyFileVersion = cleanVersion
+        AssemblyInformationalVersion = version
+    })
+
+    List.iter (fun f -> NuVersion(f, version)) NuspecFiles
 )
 
 // Dependencies
