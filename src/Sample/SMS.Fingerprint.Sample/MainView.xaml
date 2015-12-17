@@ -6,7 +6,7 @@
     <StackLayout Orientation="Horizontal">
       <StackLayout.IsVisible>
         <OnPlatform x:TypeArguments="x:Boolean"
-          iOS="False"
+          iOS="True"
           Android="True"
           WinPhone="False" />
       </StackLayout.IsVisible>

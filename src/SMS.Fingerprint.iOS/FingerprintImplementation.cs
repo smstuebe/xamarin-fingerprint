@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Foundation;
 using LocalAuthentication;
+using ObjCRuntime;
 using SMS.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint
@@ -9,7 +11,7 @@ namespace SMS.Fingerprint
     internal class FingerprintImplementation : IFingerprint
     {
         private NSError _error;
-        private readonly LAContext _context;
+        private LAContext _context;
 
         public bool IsAvailable
         {
@@ -32,6 +34,7 @@ namespace SMS.Fingerprint
         public async Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken)
         {
             var result = new FingerprintAuthenticationResult();
+            cancellationToken.Register(CancelAuthentication);
 
             if (!IsAvailable)
             {
@@ -70,6 +73,15 @@ namespace SMS.Fingerprint
             }
 
             return result;
+        }
+
+        private void CancelAuthentication()
+        {
+            if (_context.RespondsToSelector(new Selector("invalidate")))
+            {
+                _context.Invalidate();
+                _context = new LAContext();
+            }
         }
     }
 }
