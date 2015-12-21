@@ -2,12 +2,14 @@
 using Android.App;
 using Android.Hardware.Fingerprints;
 using Java.Lang;
+using SMS.Fingerprint.Dialog;
 
 namespace SMS.Fingerprint
 {
     public partial class Fingerprint
     {
         private static Func<Activity> _activityResolver;
+        private static Type _dialogFragmentType;
 
         public static Activity CurrentActivity => GetCurrentActivity();
         public static bool DialogEnabled { get; set; } = true;
@@ -17,9 +19,20 @@ namespace SMS.Fingerprint
             _activityResolver = activityResolver;
         }
 
+        public static void SetDialogFragmentType<TFragment>() where TFragment : FingerprintDialogFragment
+        {
+            _dialogFragmentType = typeof (TFragment);
+        }
+
         internal static FingerprintManager GetService()
         {
             return (FingerprintManager)CurrentActivity.GetSystemService(Class.FromType(typeof(FingerprintManager)));
+        }
+
+        internal static FingerprintDialogFragment CreateDialogFragment()
+        {
+            _dialogFragmentType = _dialogFragmentType ?? typeof (FingerprintDialogFragment);
+            return (FingerprintDialogFragment) Activator.CreateInstance(_dialogFragmentType);
         }
 
         private static Activity GetCurrentActivity()

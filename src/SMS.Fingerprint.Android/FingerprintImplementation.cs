@@ -7,7 +7,6 @@ using Android.Hardware.Fingerprints;
 using Android.OS;
 using Java.Lang;
 using SMS.Fingerprint.Abstractions;
-using SMS.Fingerprint.Dialog;
 
 namespace SMS.Fingerprint
 {
@@ -29,7 +28,7 @@ namespace SMS.Fingerprint
 
             if (Fingerprint.DialogEnabled)
             {
-                var fragment = new FingerprintDialogFragment();
+                var fragment = Fingerprint.CreateDialogFragment();
                 return await fragment.ShowAsync(reason, cancellationToken);
             }
 

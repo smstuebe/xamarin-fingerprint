@@ -21,6 +21,9 @@ namespace SMS.Fingerprint.Sample.Droid
             RegisterActivityLifecycleCallbacks(this);
             
             Fingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+            
+            // uncomment this line to use custom dialog
+            //Fingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
             Fingerprint.DialogEnabled = true;
         }
 
