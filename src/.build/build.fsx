@@ -1,4 +1,5 @@
-﻿#r @"FAKE.4.8.0/tools/FakeLib.dll"
+﻿// don't forget nuget setapikey <key> before publish ;)
+#r @"FAKE.4.8.0/tools/FakeLib.dll"
 #r "System.Xml.Linq"
 
 open System.Xml.Linq
@@ -7,9 +8,11 @@ open System.IO
 open System.Text.RegularExpressions
 open Fake
 open Fake.XMLHelper;
+open Fake.Git;
 
 
 let (+/) path1 path2 = Path.Combine(path1, path2)
+let RepositoryRootDir = "../../"
 let NuGetTargetDir = @"./out/nuget/"
 let BuildTargetDir = @"./out/lib/"
 let BootstrapFile = "FingerprintPluginBootstrap.cs.pp"
@@ -21,19 +24,12 @@ let Build (projectName:string, targetSubDir:string) =
      |> MSBuildRelease (BuildTargetDir +/ targetSubDir) "Build"
      |> Log "Output: "
 
-let NuPack (specFile:string) = 
+let NuVersionGet (specFile:string) =
     let doc = System.Xml.Linq.XDocument.Load(specFile)
-    let vers = doc.Descendants(XName.Get("version", doc.Root.Name.NamespaceName)) 
+    let versionElements = doc.Descendants(XName.Get("version", doc.Root.Name.NamespaceName))
+    (Seq.head versionElements).Value
 
-    NuGet (fun p -> 
-    {p with
-        ToolPath = NugetPath
-        Version = (Seq.head vers).Value
-        OutputPath = NuGetTargetDir
-        WorkingDir = BuildTargetDir
-        }) specFile
-
-let NuVersion (specFile:string, version:string) = 
+let NuVersionSet (specFile:string, version:string) = 
     let xmlDocument = new XmlDocument()
     xmlDocument.Load specFile
     let nsmgr = XmlNamespaceManager(xmlDocument.NameTable)
@@ -41,6 +37,23 @@ let NuVersion (specFile:string, version:string) =
     let node = xmlDocument.DocumentElement.SelectSingleNode("//ns:version", nsmgr)
     node.InnerText <- version
     xmlDocument.Save specFile
+
+let NuPack (specFile:string, publish:bool) = 
+    let version = NuVersionGet(specFile)
+    let project = specFile.Replace(".nuspec", "")
+
+    NuGet (fun p -> 
+    {p with
+        ToolPath = NugetPath
+        Version = version
+        OutputPath = NuGetTargetDir
+        WorkingDir = BuildTargetDir
+        Project = project
+        Publish = publish
+        }) specFile
+
+let NuPackAll (publish:bool) = 
+    NuspecFiles |> List.iter (fun file -> NuPack(file, publish))
 
 let RestorePackages() = 
     !! "../**/packages.config"
@@ -74,7 +87,7 @@ Target "build" (fun _ ->
 )
 
 Target "nupack" (fun _ ->
-    List.iter NuPack NuspecFiles
+    NuPackAll false
 )
 
 //call: build version v=1.0.0
@@ -89,13 +102,32 @@ Target "version" (fun _ ->
         AssemblyInformationalVersion = version
     })
 
-    List.iter (fun f -> NuVersion(f, version)) NuspecFiles
+    List.iter (fun f -> NuVersionSet(f, version)) NuspecFiles
+)
+
+Target "publish" (fun _ ->    
+    if not (Fake.Git.Information.isCleanWorkingCopy RepositoryRootDir) then
+        failwith "Uncommited changes. Please commit everything!"
+    
+    NuPackAll true
+
+    let version = NuVersionGet(Seq.head NuspecFiles)    
+    let branchName = Fake.Git.Information.getBranchName RepositoryRootDir
+    trace ("Current GIT Branch: " + branchName)
+    
+    let tagName = ("v" + version)
+    trace ("Creating Tag: " + tagName)
+    tag RepositoryRootDir tagName
+    pushTag RepositoryRootDir  "origin" tagName
 )
 
 // Dependencies
 "clean"
   ==> "build"
   ==> "nupack"
+
+"build"
+  ==> "publish"
 
 // start build
 RunTargetOrDefault "build"

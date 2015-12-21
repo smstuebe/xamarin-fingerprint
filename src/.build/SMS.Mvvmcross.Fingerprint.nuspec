@@ -1,7 +1,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SMS.MvvmCross.Fingerprint</id>
-    <version>0.0.1-beta1</version>
+    <version>0.0.1</version>
     <title>MvvmCross Fingerprint Plugin</title>
     <authors>Sven-Michael Stübe</authors>
     <owners>Sven-Michael Stübe</owners>
@@ -13,12 +13,12 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 fingerprint Xamarin.Android touchid</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
-      [0.0.1-beta]
+      [0.0.1]
       -initial version
     </releaseNotes>
     <dependencies>
       <group targetFramework="MonoAndroid">
-        <dependency id="MvvmCross.HotTuna.CrossCore" version="" /> <!-- Plugin system is old and stable, so we don't need a specific version (for now) -->
+        <dependency id="MvvmCross.HotTuna.CrossCore" version="" />
       </group>
       <group targetFramework="Xamarin.iOS">
         <dependency id="MvvmCross.HotTuna.CrossCore" version="" />
@@ -28,13 +28,11 @@
   <files>
     <!-- PCL -->
     <file src="pcl\SMS.Fingerprint.Abstractions.dll" target="lib\portable-win+net45+wp8+win8+wpa81" />
-
     <!-- Android -->
     <file src="mvx\android\SMS.MvvmCross.Fingerprint.Droid.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\SMS.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\SMS.Fingerprint.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\FingerprintPluginBootstrap.cs.pp" target="content\MonoAndroid\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
-
     <!-- iOS -->
     <file src="mvx\ios\SMS.MvvmCross.Fingerprint.iOS.dll" target="lib\Xamarin.iOS10" />
     <file src="mvx\ios\SMS.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
