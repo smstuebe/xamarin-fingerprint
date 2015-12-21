@@ -100,6 +100,25 @@ You can disable the dialog on Android (e.g. show fingerprint icon within your ac
 ```csharp
 Fingerprint.DialogEnabled = false;
 ```
+
+If you don't like the default dialog, you can easily customize it. You have to inherit from `FingerprintDialogFragment` e.g. like:
+```csharp
+public class MyCustomDialogFragment : FingerprintDialogFragment
+{
+    public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        var view = base.OnCreateView(inflater, container, savedInstanceState);
+        view.Background = new ColorDrawable(Color.Magenta); // make it fancyyyy :D
+        return view;
+    }
+}
+```
+
+And somewhere in your code set your custom dialog fragment:
+```csharp
+Fingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
+```
+
 ## Testing on Simulators
 ### iOS
 ![Controlling the sensor on the iOS Simulator](doc/ios_simulator.png "Controlling the sensor on the iOS Simulator")
