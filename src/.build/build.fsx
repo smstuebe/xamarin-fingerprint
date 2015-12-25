@@ -20,7 +20,7 @@ let NugetPath = "../.nuget/NuGet.exe"
 let NuspecFiles = ["SMS.Fingerprint.nuspec"; "SMS.Mvvmcross.Fingerprint.nuspec"] 
 
 let Build (projectName:string, targetSubDir:string) =
-    !! (".." +/ projectName +/ projectName + ".csproj")
+    [".." +/ projectName +/ projectName + ".csproj"]
      |> MSBuildRelease (BuildTargetDir +/ targetSubDir) "Build"
      |> Log "Output: "
 
@@ -81,10 +81,12 @@ Target "build" (fun _ ->
     Build("SMS.Fingerprint.UWP", "uwp")
     Build("SMS.MvvmCross.Fingerprint.Android", "mvx" +/ "android")
     Build("SMS.MvvmCross.Fingerprint.iOS", "mvx" +/ "ios")
+    Build("SMS.MvvmCross.Fingerprint.WindowsUWP", "mvx" +/ "uwp")
     
     trace "copy mvvm cross bootstrap files..."
     File.Copy("../SMS.MvvmCross.Fingerprint.Android" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "android" +/ BootstrapFile)
     File.Copy("../SMS.MvvmCross.Fingerprint.iOS" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "ios" +/ BootstrapFile)
+    File.Copy("../SMS.MvvmCross.Fingerprint.WindowsUWP" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "uwp" +/ BootstrapFile)
 )
 
 Target "nupack" (fun _ ->

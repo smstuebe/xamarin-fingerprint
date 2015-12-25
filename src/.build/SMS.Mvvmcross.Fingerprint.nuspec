@@ -40,5 +40,10 @@
     <file src="mvx\ios\SMS.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
     <file src="mvx\ios\SMS.Fingerprint.dll" target="lib\Xamarin.iOS10" />
     <file src="mvx\ios\FingerprintPluginBootstrap.cs.pp" target="content\Xamarin.iOS10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
+    <!-- UWP -->
+    <file src="mvx\uwp\SMS.MvvmCross.Fingerprint.WindowsUWP.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\SMS.Fingerprint.Abstractions.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\SMS.Fingerprint.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\FingerprintPluginBootstrap.cs.pp" target="content\UAP10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
   </files>
 </package>
