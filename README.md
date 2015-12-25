@@ -2,6 +2,14 @@
 [![NuGet](https://img.shields.io/nuget/v/SMS.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/SMS.Fingerprint/) [![NuGet MvvMCross](https://img.shields.io/nuget/v/SMS.MvvmCross.Fingerprint.svg?label=NuGet MvvMCross)](https://www.nuget.org/packages/SMS.MvvmCross.Fingerprint/)
 
 Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
+## Support & Limitations
+
+| Platform  | Version | Limitations |
+| ------------- | ----------- | ----------- |
+| Xamarin.Android | 6.0 |  |
+| Xamarin.iOS     | 8.0 | Cancelable programmatically since iOS 9.0 |
+| Windows UWP     | 10  | |
+
 ## Usage
 ### API
 The API is defined by the ```IFingerprint``` interface:
