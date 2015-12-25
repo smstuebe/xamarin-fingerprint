@@ -78,6 +78,7 @@ Target "build" (fun _ ->
     Build("SMS.Fingerprint", "pcl")
     Build("SMS.Fingerprint.Android", "android")
     Build("SMS.Fingerprint.iOS", "ios")
+    Build("SMS.Fingerprint.UWP", "uwp")
     Build("SMS.MvvmCross.Fingerprint.Android", "mvx" +/ "android")
     Build("SMS.MvvmCross.Fingerprint.iOS", "mvx" +/ "ios")
     
