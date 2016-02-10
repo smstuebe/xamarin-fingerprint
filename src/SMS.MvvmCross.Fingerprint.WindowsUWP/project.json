@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "MvvmCross.HotTuna.CrossCore": "4.0.0-beta7"
+    "MvvmCross.Platform": "4.0.0"
   },
   "frameworks": {
     "uap10.0": {}

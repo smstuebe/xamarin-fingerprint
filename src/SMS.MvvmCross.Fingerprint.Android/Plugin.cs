@@ -1,6 +1,6 @@
-﻿using Cirrious.CrossCore;
-using Cirrious.CrossCore.Droid.Platform;
-using Cirrious.CrossCore.Plugins;
+﻿using MvvmCross.Platform;
+using MvvmCross.Platform.Droid.Platform;
+using MvvmCross.Platform.Plugins;
 
 namespace SMS.MvvmCross.Fingerprint.Android
 {

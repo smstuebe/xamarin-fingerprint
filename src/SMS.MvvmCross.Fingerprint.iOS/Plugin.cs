@@ -1,5 +1,5 @@
-﻿using Cirrious.CrossCore;
-using Cirrious.CrossCore.Plugins;
+﻿using MvvmCross.Platform;
+using MvvmCross.Platform.Plugins;
 
 namespace SMS.MvvmCross.Fingerprint.iOS
 {
