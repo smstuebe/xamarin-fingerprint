@@ -204,3 +204,4 @@ FAKE.**.**.**/
 
 # Build
 out/
+src/Sample/SMS.Fingerprint.Sample.UWP/project.lock.json
