@@ -17,7 +17,7 @@ let NuGetTargetDir = @"./out/nuget/"
 let BuildTargetDir = @"./out/lib/"
 let BootstrapFile = "FingerprintPluginBootstrap.cs.pp"
 let NugetPath = "../.nuget/NuGet.exe"
-let NuspecFiles = ["SMS.Fingerprint.nuspec"; "SMS.Mvvmcross.Fingerprint.nuspec"] 
+let NuspecFiles = ["Plugin.Fingerprint.nuspec"; "MvvmCross.Plugins.Fingerprint.nuspec"] 
 
 let Build (projectName:string, targetSubDir:string) =
     [".." +/ projectName +/ projectName + ".csproj"]
@@ -75,18 +75,18 @@ Target "build" (fun _ ->
     RestorePackages()
 
     trace "building libraries..."
-    Build("SMS.Fingerprint", "pcl")
-    Build("SMS.Fingerprint.Android", "android")
-    Build("SMS.Fingerprint.iOS", "ios")
-    Build("SMS.Fingerprint.UWP", "uwp")
-    Build("SMS.MvvmCross.Fingerprint.Android", "mvx" +/ "android")
-    Build("SMS.MvvmCross.Fingerprint.iOS", "mvx" +/ "ios")
-    Build("SMS.MvvmCross.Fingerprint.WindowsUWP", "mvx" +/ "uwp")
+    Build("Plugin.Fingerprint", "pcl")
+    Build("Plugin.Fingerprint.Android", "android")
+    Build("Plugin.Fingerprint.iOS", "ios")
+    Build("Plugin.Fingerprint.UWP", "uwp")
+    Build("MvvmCross.Plugins.Fingerprint.Android", "mvx" +/ "android")
+    Build("MvvmCross.Plugins.Fingerprint.iOS", "mvx" +/ "ios")
+    Build("MvvmCross.Plugins.Fingerprint.WindowsUWP", "mvx" +/ "uwp")
     
     trace "copy mvvm cross bootstrap files..."
-    File.Copy("../SMS.MvvmCross.Fingerprint.Android" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "android" +/ BootstrapFile)
-    File.Copy("../SMS.MvvmCross.Fingerprint.iOS" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "ios" +/ BootstrapFile)
-    File.Copy("../SMS.MvvmCross.Fingerprint.WindowsUWP" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "uwp" +/ BootstrapFile)
+    File.Copy("../MvvmCross.Plugins.Fingerprint.Android" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "android" +/ BootstrapFile)
+    File.Copy("../MvvmCross.Plugins.Fingerprint.iOS" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "ios" +/ BootstrapFile)
+    File.Copy("../MvvmCross.Plugins.Fingerprint.WindowsUWP" +/ BootstrapFile, BuildTargetDir +/ "mvx" +/ "uwp" +/ BootstrapFile)
 )
 
 Target "nupack" (fun _ ->
