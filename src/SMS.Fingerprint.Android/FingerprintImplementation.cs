@@ -6,9 +6,9 @@ using Android.Content.PM;
 using Android.Hardware.Fingerprints;
 using Android.OS;
 using Java.Lang;
-using SMS.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Abstractions;
 
-namespace SMS.Fingerprint
+namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : IFingerprint
     {
@@ -26,9 +26,9 @@ namespace SMS.Fingerprint
                 return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
             }
 
-            if (Fingerprint.DialogEnabled)
+            if (CrossFingerprint.DialogEnabled)
             {
-                var fragment = Fingerprint.CreateDialogFragment();
+                var fragment = CrossFingerprint.CreateDialogFragment();
                 return await fragment.ShowAsync(reason, cancellationToken);
             }
 
@@ -41,7 +41,7 @@ namespace SMS.Fingerprint
             var callback = new FingerprintAuthenticationCallback();
             cancellationToken.Register(() => cancellationSignal.Cancel());
 
-            Fingerprint.GetService().Authenticate(null, cancellationSignal, FingerprintAuthenticationFlags.None, callback, null);
+            CrossFingerprint.GetService().Authenticate(null, cancellationSignal, FingerprintAuthenticationFlags.None, callback, null);
 
             return await callback.GetTask();
         }

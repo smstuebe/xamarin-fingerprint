@@ -4,9 +4,9 @@ using Android.Hardware.Fingerprints;
 using Java.Lang;
 using SMS.Fingerprint.Dialog;
 
-namespace SMS.Fingerprint
+namespace Plugin.Fingerprint
 {
-    public partial class Fingerprint
+    public partial class CrossFingerprint
     {
         private static Func<Activity> _activityResolver;
         private static Type _dialogFragmentType;

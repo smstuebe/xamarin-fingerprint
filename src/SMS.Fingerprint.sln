@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint", "SMS.Fingerprint\SMS.Fingerprint.csproj", "{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint", "SMS.Fingerprint\Plugin.Fingerprint.csproj", "{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.iOS", "SMS.Fingerprint.iOS\SMS.Fingerprint.iOS.csproj", "{13A8B97E-AC65-4A51-96DF-9A859176D433}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint.iOS", "SMS.Fingerprint.iOS\Plugin.Fingerprint.iOS.csproj", "{13A8B97E-AC65-4A51-96DF-9A859176D433}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{3015FCD9-4308-47F9-BC7B-1C060FCA31A9}"
 EndProject
@@ -15,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.Sample.iOS"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.Sample", "Sample\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj", "{02094FA7-945E-43BB-AEB9-203C2D018E86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.Abstractions", "SMS.Fingerprint.Abstractions\SMS.Fingerprint.Abstractions.csproj", "{9E635804-0422-40BB-8F5C-303853A9CE3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint.Abstractions", "SMS.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj", "{9E635804-0422-40BB-8F5C-303853A9CE3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.Android", "SMS.Fingerprint.Android\SMS.Fingerprint.Android.csproj", "{616D802D-93AA-4FB3-B7AA-DAC1A38943E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint.Android", "SMS.Fingerprint.Android\Plugin.Fingerprint.Android.csproj", "{616D802D-93AA-4FB3-B7AA-DAC1A38943E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{44D4F832-D019-4500-9AEE-BA7038FCBD91}"
 	ProjectSection(SolutionItems) = preProject
@@ -36,15 +36,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23667A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MvvmCross", "MvvmCross", "{BA5BB115-619A-4189-8F85-E8D6E5100929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.MvvmCross.Fingerprint.Android", "SMS.MvvmCross.Fingerprint.Android\SMS.MvvmCross.Fingerprint.Android.csproj", "{93A4EB5A-15AF-4EB3-95EB-657374397A38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmCross.Plugins.Fingerprint.Android", "SMS.MvvmCross.Fingerprint.Android\MvvmCross.Plugins.Fingerprint.Android.csproj", "{93A4EB5A-15AF-4EB3-95EB-657374397A38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.MvvmCross.Fingerprint.iOS", "SMS.MvvmCross.Fingerprint.iOS\SMS.MvvmCross.Fingerprint.iOS.csproj", "{F828DBAB-31DA-44E2-A50F-4D24A87644C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmCross.Plugins.Fingerprint.iOS", "SMS.MvvmCross.Fingerprint.iOS\MvvmCross.Plugins.Fingerprint.iOS.csproj", "{F828DBAB-31DA-44E2-A50F-4D24A87644C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.UWP", "SMS.Fingerprint.UWP\SMS.Fingerprint.UWP.csproj", "{8D8D126D-70A4-4489-BCBF-256838DF0002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint.UWP", "SMS.Fingerprint.UWP\Plugin.Fingerprint.UWP.csproj", "{8D8D126D-70A4-4489-BCBF-256838DF0002}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Fingerprint.Sample.UWP", "Sample\SMS.Fingerprint.Sample.UWP\SMS.Fingerprint.Sample.UWP.csproj", "{25F504C9-3250-4FD7-A6AA-A1FC11F24C08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.MvvmCross.Fingerprint.WindowsUWP", "SMS.MvvmCross.Fingerprint.WindowsUWP\SMS.MvvmCross.Fingerprint.WindowsUWP.csproj", "{93E187B0-BAE9-4D14-BB7A-5DFD031F4A17}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmCross.Plugins.Fingerprint.WindowsUWP", "SMS.MvvmCross.Fingerprint.WindowsUWP\MvvmCross.Plugins.Fingerprint.WindowsUWP.csproj", "{93E187B0-BAE9-4D14-BB7A-5DFD031F4A17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

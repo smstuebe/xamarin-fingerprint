@@ -1,14 +1,15 @@
 ﻿using MvvmCross.Platform;
 using MvvmCross.Platform.Plugins;
+using Plugin.Fingerprint;
 
-namespace SMS.MvvmCross.Fingerprint.iOS
+namespace MvvmCross.Plugins.Fingerprint.WindowsUWP
 {
     public class Plugin
         : IMvxPlugin
     {
         public void Load()
         {
-            Mvx.LazyConstructAndRegisterSingleton(() => SMS.Fingerprint.Fingerprint.Current);
+            Mvx.LazyConstructAndRegisterSingleton(() => CrossFingerprint.Current);
         }
     }
 }

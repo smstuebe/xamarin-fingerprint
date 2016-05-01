@@ -2,9 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Security.Credentials.UI;
-using SMS.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Abstractions;
 
-namespace SMS.Fingerprint
+namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : IFingerprint
     {

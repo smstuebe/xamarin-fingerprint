@@ -107,13 +107,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SMS.Fingerprint.Abstractions\SMS.Fingerprint.Abstractions.csproj">
+    <ProjectReference Include="..\..\SMS.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>SMS.Fingerprint.Abstractions</Name>
+      <Name>Plugin.Fingerprint.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SMS.Fingerprint.iOS\SMS.Fingerprint.iOS.csproj">
+    <ProjectReference Include="..\..\SMS.Fingerprint.iOS\Plugin.Fingerprint.iOS.csproj">
       <Project>{13a8b97e-ac65-4a51-96df-9a859176d433}</Project>
-      <Name>SMS.Fingerprint.iOS</Name>
+      <Name>Plugin.Fingerprint.iOS</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>

@@ -1,4 +1,4 @@
-﻿namespace SMS.Fingerprint.Abstractions
+﻿namespace Plugin.Fingerprint.Abstractions
 {
     public class FingerprintAuthenticationResult
     {

@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SMS.Fingerprint</RootNamespace>
-    <AssemblyName>SMS.Fingerprint</AssemblyName>
+    <RootNamespace>Plugin.Fingerprint</RootNamespace>
+    <AssemblyName>Plugin.Fingerprint</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -44,11 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SMS.Fingerprint\Fingerprint.cs">
-      <Link>Fingerprint.cs</Link>
+    <Compile Include="..\SMS.Fingerprint\CrossFingerprint.cs">
+      <Link>CrossFingerprint.cs</Link>
     </Compile>
     <Compile Include="Dialog\FingerprintDialogFragment.cs" />
-    <Compile Include="Fingerprint.Android.cs" />
+    <Compile Include="CrossFingerprint.Android.cs" />
     <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="FingerprintAuthenticationCallback.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -77,9 +77,9 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\fingerprint_white.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SMS.Fingerprint.Abstractions\SMS.Fingerprint.Abstractions.csproj">
+    <ProjectReference Include="..\SMS.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>SMS.Fingerprint.Abstractions</Name>
+      <Name>Plugin.Fingerprint.Abstractions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

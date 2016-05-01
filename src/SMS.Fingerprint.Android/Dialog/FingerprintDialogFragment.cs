@@ -6,7 +6,8 @@ using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using SMS.Fingerprint.Abstractions;
+using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint.Dialog
 {
@@ -31,7 +32,7 @@ namespace SMS.Fingerprint.Dialog
         {
             Reason = reason;
 
-            var currentActivity = Fingerprint.CurrentActivity;
+            var currentActivity = CrossFingerprint.CurrentActivity;
             Show(currentActivity.FragmentManager, "fingerprint-fragment");
 
             cancellationToken.Register(Dismiss);

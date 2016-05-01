@@ -130,13 +130,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SMS.Fingerprint.Abstractions\SMS.Fingerprint.Abstractions.csproj">
+    <ProjectReference Include="..\..\SMS.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>SMS.Fingerprint.Abstractions</Name>
+      <Name>Plugin.Fingerprint.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SMS.Fingerprint.UWP\SMS.Fingerprint.UWP.csproj">
+    <ProjectReference Include="..\..\SMS.Fingerprint.UWP\Plugin.Fingerprint.UWP.csproj">
       <Project>{8d8d126d-70a4-4489-bcbf-256838df0002}</Project>
-      <Name>SMS.Fingerprint.UWP</Name>
+      <Name>Plugin.Fingerprint.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj">
       <Project>{02094fa7-945e-43bb-aeb9-203c2d018e86}</Project>

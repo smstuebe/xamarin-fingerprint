@@ -17,7 +17,7 @@ namespace SMS.Fingerprint.Sample
         {
             _cancel = swAutoCancel.IsToggled ? new CancellationTokenSource(TimeSpan.FromSeconds(10)) : new CancellationTokenSource();
             lblStatus.Text = "";
-            var result = await Fingerprint.Current.AuthenticateAsync("Prove you have fingers!", _cancel.Token);
+            var result = await Plugin.Fingerprint.CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!", _cancel.Token);
 
             if (result.Authenticated)
             {

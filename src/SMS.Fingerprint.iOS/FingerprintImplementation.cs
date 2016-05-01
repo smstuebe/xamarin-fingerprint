@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
-using SMS.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Abstractions;
 
-namespace SMS.Fingerprint
+namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : IFingerprint
     {

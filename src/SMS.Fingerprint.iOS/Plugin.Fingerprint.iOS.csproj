@@ -8,9 +8,9 @@
     <ProjectGuid>{13A8B97E-AC65-4A51-96DF-9A859176D433}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>SMS.Fingerprint</RootNamespace>
+    <RootNamespace>Plugin.Fingerprint</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>SMS.Fingerprint</AssemblyName>
+    <AssemblyName>Plugin.Fingerprint</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,8 +34,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\SMS.Fingerprint\Fingerprint.cs">
-      <Link>Fingerprint.cs</Link>
+    <Compile Include="..\SMS.Fingerprint\CrossFingerprint.cs">
+      <Link>CrossFingerprint.cs</Link>
     </Compile>
     <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="..\SMS.Fingerprint\Properties\AssemblyInfo.cs">
@@ -49,9 +49,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SMS.Fingerprint.Abstractions\SMS.Fingerprint.Abstractions.csproj">
+    <ProjectReference Include="..\SMS.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>SMS.Fingerprint.Abstractions</Name>
+      <Name>Plugin.Fingerprint.Abstractions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

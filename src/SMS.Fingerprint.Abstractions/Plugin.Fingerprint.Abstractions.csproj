@@ -8,8 +8,8 @@
     <ProjectGuid>{9E635804-0422-40BB-8F5C-303853A9CE3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SMS.Fingerprint.Abstractions</RootNamespace>
-    <AssemblyName>SMS.Fingerprint.Abstractions</AssemblyName>
+    <RootNamespace>Plugin.Fingerprint.Abstractions</RootNamespace>
+    <AssemblyName>Plugin.Fingerprint.Abstractions</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

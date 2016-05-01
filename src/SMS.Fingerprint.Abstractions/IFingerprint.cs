@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace SMS.Fingerprint.Abstractions
+namespace Plugin.Fingerprint.Abstractions
 {
     public interface IFingerprint
     {

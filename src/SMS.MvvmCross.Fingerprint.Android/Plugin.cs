@@ -1,16 +1,17 @@
 ﻿using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using MvvmCross.Platform.Plugins;
+using Plugin.Fingerprint;
 
-namespace SMS.MvvmCross.Fingerprint.Android
+namespace MvvmCross.Plugins.Fingerprint.Android
 {
     public class Plugin
         : IMvxPlugin
     {
         public void Load()
         {
-            SMS.Fingerprint.Fingerprint.SetCurrentActivityResolver(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
-            Mvx.LazyConstructAndRegisterSingleton(() => SMS.Fingerprint.Fingerprint.Current);
+            CrossFingerprint.SetCurrentActivityResolver(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
+            Mvx.LazyConstructAndRegisterSingleton(() => CrossFingerprint.Current);
         }
     }   
 }

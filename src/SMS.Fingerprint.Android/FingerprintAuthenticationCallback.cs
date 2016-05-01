@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Android.Hardware.Fingerprints;
 using Java.Lang;
-using SMS.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Abstractions;
 
-namespace SMS.Fingerprint
+namespace Plugin.Fingerprint
 {
     internal class FingerprintAuthenticationCallback : FingerprintManager.AuthenticationCallback
     {

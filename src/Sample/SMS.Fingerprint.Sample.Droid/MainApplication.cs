@@ -3,6 +3,7 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using Plugin.Fingerprint;
 
 namespace SMS.Fingerprint.Sample.Droid
 {
@@ -20,11 +21,11 @@ namespace SMS.Fingerprint.Sample.Droid
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
             
-            Fingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
-            
+            CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+
             // uncomment this line to use custom dialog
-            //Fingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
-            Fingerprint.DialogEnabled = true;
+            //CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
+            CrossFingerprint.DialogEnabled = true;
         }
 
         public override void OnTerminate()

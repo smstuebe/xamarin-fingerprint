@@ -1,7 +1,7 @@
 ﻿using MvvmCross.Platform;
 using MvvmCross.Platform.Plugins;
 
-namespace SMS.MvvmCross.Fingerprint
+namespace MvvmCross.Plugins.Fingerprint.iOS
 {
     public class PluginLoader
         : IMvxPluginLoader

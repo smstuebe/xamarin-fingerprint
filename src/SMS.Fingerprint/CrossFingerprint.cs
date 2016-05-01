@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
-using SMS.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Abstractions;
 
-namespace SMS.Fingerprint
+namespace Plugin.Fingerprint
 {
-    public partial class Fingerprint
+    public partial class CrossFingerprint
     {
         private static Lazy<IFingerprint> _implementation = new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
         public static IFingerprint Current => _implementation.Value;
