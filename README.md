@@ -60,7 +60,7 @@ public string ErrorMessage { get; set; }
 ### Example
 #### vanilla
 ```csharp
-var result = await Fingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
 if (result.Authenticated)
 {
     // do secret stuff :)
