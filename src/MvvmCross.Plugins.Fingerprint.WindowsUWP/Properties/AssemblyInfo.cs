@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SMS.MvvmCross.Fingerprint.WindowsUWP")]
+[assembly: AssemblyTitle("MvvmCross.Plugins.Fingerprint.WindowsUWP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SMS.MvvmCross.Fingerprint.WindowsUWP")]
+[assembly: AssemblyProduct("MvvmCross.Plugins.Fingerprint.WindowsUWP")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

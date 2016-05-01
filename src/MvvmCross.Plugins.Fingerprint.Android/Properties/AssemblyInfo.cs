@@ -1,11 +1,11 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("SMS.MvvmCross.Fingerprint.iOS")]
+[assembly: AssemblyTitle("MvvmCross.Plugins.Fingerprint.Droid")]
 [assembly: AssemblyDescription("Authenticate a user via fingerprint from a cross platform API.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SMS.MvvmCross.Fingerprint.iOS")]
+[assembly: AssemblyProduct("MvvmCross.Plugins.Fingerprint.Droid")]
 [assembly: AssemblyCopyright("Copyright 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
