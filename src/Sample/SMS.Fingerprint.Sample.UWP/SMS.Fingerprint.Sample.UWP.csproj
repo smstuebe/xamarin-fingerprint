@@ -130,11 +130,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SMS.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
+    <ProjectReference Include="..\..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>Plugin.Fingerprint.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SMS.Fingerprint.UWP\Plugin.Fingerprint.UWP.csproj">
+    <ProjectReference Include="..\..\Plugin.Fingerprint.UWP\Plugin.Fingerprint.UWP.csproj">
       <Project>{8d8d126d-70a4-4489-bcbf-256838df0002}</Project>
       <Name>Plugin.Fingerprint.UWP</Name>
     </ProjectReference>
