@@ -1,6 +1,6 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>SMS.MvvmCross.Fingerprint</id>
+    <id>MvvmCross.Plugins.Fingerprint</id>
     <version>1.0.0</version>
     <title>MvvmCross Fingerprint Plugin</title>
     <authors>Sven-Michael Stübe</authors>
@@ -36,21 +36,21 @@
   </metadata>
   <files>
     <!-- PCL -->
-    <file src="pcl\SMS.Fingerprint.Abstractions.dll" target="lib\portable-net45+win8+wpa81+wp8" />
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\portable-net45+win8+wpa81+wp8" />
     <!-- Android -->
-    <file src="mvx\android\SMS.MvvmCross.Fingerprint.Droid.dll" target="lib\MonoAndroid" />
-    <file src="mvx\android\SMS.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
-    <file src="mvx\android\SMS.Fingerprint.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\MvvmCross.Plugins.Fingerprint.Droid.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\Plugin.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\Plugin.Fingerprint.dll" target="lib\MonoAndroid" />
     <file src="mvx\android\FingerprintPluginBootstrap.cs.pp" target="content\MonoAndroid\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
     <!-- iOS -->
-    <file src="mvx\ios\SMS.MvvmCross.Fingerprint.iOS.dll" target="lib\Xamarin.iOS10" />
-    <file src="mvx\ios\SMS.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
-    <file src="mvx\ios\SMS.Fingerprint.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\MvvmCross.Plugins.Fingerprint.iOS.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\Plugin.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\Plugin.Fingerprint.dll" target="lib\Xamarin.iOS10" />
     <file src="mvx\ios\FingerprintPluginBootstrap.cs.pp" target="content\Xamarin.iOS10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
     <!-- UWP -->
-    <file src="mvx\uwp\SMS.MvvmCross.Fingerprint.WindowsUWP.dll" target="lib\UAP10" />
-    <file src="mvx\uwp\SMS.Fingerprint.Abstractions.dll" target="lib\UAP10" />
-    <file src="mvx\uwp\SMS.Fingerprint.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\MvvmCross.Plugins.Fingerprint.WindowsUWP.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\Plugin.Fingerprint.Abstractions.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\Plugin.Fingerprint.dll" target="lib\UAP10" />
     <file src="mvx\uwp\FingerprintPluginBootstrap.cs.pp" target="content\UAP10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
   </files>
 </package>

@@ -1,0 +1,55 @@
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Plugin.Fingerprint</id>
+    <version>1.0.0</version>
+    <title>Xamarin Fingerprint Plugin</title>
+    <authors>Sven-Michael Stübe</authors>
+    <owners>Sven-Michael Stübe</owners>
+    <licenseUrl>https://github.com/smstuebe/xamarin-fingerprint/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/smstuebe/xamarin-fingerprint</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Authenticate a user via fingerprint from a cross platform API.</description>
+    <summary>Authenticate a user via fingerprint from a cross platform API.</summary>
+    <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 ios fingerprint Xamarin.Android android touchid biometric windows uwp</tags>
+    <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
+    <releaseNotes>
+      [1.0.0]
+      - Windows UWP support
+      - Added dummy implementation for not implemented platforms
+      [0.0.1]
+      - initial version
+    </releaseNotes>
+  </metadata>
+  <files>
+    <!-- PCL -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\portable-net45+win8+wpa81+wp8" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\portable-net45+win8+wpa81+wp8" />
+    <!-- .NET 4.5 -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\net45" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\net45" />
+    <!-- Android -->
+    <file src="android\Plugin.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
+    <file src="android\Plugin.Fingerprint.dll" target="lib\MonoAndroid" />
+    <!-- iOS -->
+    <file src="ios\Plugin.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
+    <file src="ios\Plugin.Fingerprint.dll" target="lib\Xamarin.iOS10" />
+    <!-- Mac -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\Xamarin.Mac20" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\Xamarin.Mac20" />
+    <!-- UWP -->
+    <file src="uwp\Plugin.Fingerprint.Abstractions.dll" target="lib\UAP10" />
+    <file src="uwp\Plugin.Fingerprint.dll" target="lib\UAP10" />
+    <!-- Win 8 Store -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\netcore45" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\netcore45" />
+    <!-- Win 8.1 -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\win81" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\win81" />
+    <!-- Win Phone 8 -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\wp8" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\wp8" />
+    <!-- Win Phone 8.1 -->
+    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\wpa81" />
+    <file src="pcl\Plugin.Fingerprint.dll" target="lib\wpa81" />
+  </files>
+</package>
