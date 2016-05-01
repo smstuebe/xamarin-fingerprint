@@ -13,6 +13,8 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 ios fingerprint Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
+      [1.1.0]
+      - aligned namespaces with other plugins
       [1.0.0]
       - Windows UWP support
       - Added dummy implementation for not implemented platforms
