@@ -101,12 +101,12 @@ Skip this, if you use the MvvMCross Plugin or don't use the dialog.
 
 We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/CurrentActivity) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
 ```csharp
-Fingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
 ```
 #### Configuration
 You can disable the dialog on Android (e.g. show fingerprint icon within your activity).
 ```csharp
-Fingerprint.DialogEnabled = false;
+CrossFingerprint.DialogEnabled = false;
 ```
 
 If you don't like the default dialog, you can easily customize it. You have to inherit from `FingerprintDialogFragment` e.g. like:
@@ -124,7 +124,7 @@ public class MyCustomDialogFragment : FingerprintDialogFragment
 
 And somewhere in your code set your custom dialog fragment:
 ```csharp
-Fingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
+CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
 ```
 
 ## Testing on Simulators
