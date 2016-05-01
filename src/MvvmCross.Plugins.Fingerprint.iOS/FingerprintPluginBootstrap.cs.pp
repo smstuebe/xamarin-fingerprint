@@ -1,9 +1,9 @@
-﻿using Cirrious.CrossCore.Plugins;
+﻿using MvvmCross.Platform.Plugins;
 
 namespace $rootnamespace$.Bootstrap
 {
     public class FingerprintPluginBootstrap
-        : MvxLoaderPluginBootstrapAction<SMS.MvvmCross.Fingerprint.PluginLoader, SMS.MvvmCross.Fingerprint.iOS.Plugin>
+        : MvxLoaderPluginBootstrapAction<MvvmCross.Plugins.Fingerprint.PluginLoader, MvvmCross.Plugins.Fingerprint.iOS.Plugin>
     {
     }
 }
