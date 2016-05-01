@@ -1,5 +1,5 @@
 # <img src="doc/xamarin_fingerprint.png" width="71" height="71"/> Fingerprint plugin for Xamarin 
-[![NuGet](https://img.shields.io/nuget/v/SMS.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/SMS.Fingerprint/) [![NuGet MvvMCross](https://img.shields.io/nuget/v/SMS.MvvmCross.Fingerprint.svg?label=NuGet MvvMCross)](https://www.nuget.org/packages/SMS.MvvmCross.Fingerprint/)
+[![NuGet](https://img.shields.io/nuget/v/Plugin.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Fingerprint/) [![NuGet MvvMCross](https://img.shields.io/nuget/v/MvvmCross.Plugins.Fingerprint.svg?label=NuGet MvvMCross)](https://www.nuget.org/packages/MvvmCross.Plugins.Fingerprint/)
 
 Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 ## Support & Limitations
