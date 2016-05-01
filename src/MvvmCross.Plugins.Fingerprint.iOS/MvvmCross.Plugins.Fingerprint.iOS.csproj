@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MvvmCross.Plugins.Fingerprint.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>.MvvmCross.Plugins.Fingerprint.iOS</AssemblyName>
+    <AssemblyName>MvvmCross.Plugins.Fingerprint.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
