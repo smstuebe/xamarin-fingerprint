@@ -34,7 +34,6 @@ namespace Plugin.Fingerprint
         {
             var result = new FingerprintAuthenticationResult();
             cancellationToken.Register(CancelAuthentication);
-
             if (!IsAvailable)
             {
                 result.Status = FingerprintAuthenticationResultStatus.NotAvailable;
@@ -71,16 +70,31 @@ namespace Plugin.Fingerprint
                 result.ErrorMessage = resTuple.Item2.LocalizedDescription;
             }
 
+            if (!CrossFingerprint.AllowReuse)
+            {
+                CreateNewContext();
+            }
+
             return result;
         }
 
         private void CancelAuthentication()
         {
-            if (_context.RespondsToSelector(new Selector("invalidate")))
+            CreateNewContext();
+        }
+
+        private void CreateNewContext()
+        {
+            if (_context != null)
             {
-                _context.Invalidate();
-                _context = new LAContext();
+                if (_context.RespondsToSelector(new Selector("invalidate")))
+                {
+                    _context.Invalidate();
+                }
+                _context.Dispose();
             }
+            
+            _context = new LAContext();
         }
     }
 }
