@@ -37,6 +37,7 @@
     <Compile Include="..\Plugin.Fingerprint\CrossFingerprint.cs">
       <Link>CrossFingerprint.cs</Link>
     </Compile>
+    <Compile Include="CrossFingerprint.iOS.cs" />
     <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
