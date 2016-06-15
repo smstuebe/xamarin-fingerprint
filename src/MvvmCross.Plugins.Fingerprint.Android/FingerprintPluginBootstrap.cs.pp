@@ -3,7 +3,7 @@
 namespace $rootnamespace$.Bootstrap
 {
     public class FingerprintPluginBootstrap
-        : MvxPluginBootstrapAction<MvvmCross.Plugins.Fingerprint.Android.PluginLoader>
+        : MvxPluginBootstrapAction<MvvmCross.Plugins.Fingerprint.PluginLoader>
     {
     }
 }

@@ -13,6 +13,9 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 ios fingerprint Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
+      [1.2.0]
+      - fixed plugin loader bug
+      - iOS: invalidate fingerprint after each authentication
       [1.1.0]
       - aligned namespaces with other plugins
       [1.0.0]
@@ -38,21 +41,20 @@
   </metadata>
   <files>
     <!-- PCL -->
-    <file src="pcl\Plugin.Fingerprint.Abstractions.dll" target="lib\portable-net45+win8+wpa81+wp8" />
+    <file src="mvx\pcl\MvvmCross.Plugins.Fingerprint.*" target="lib\portable-net45+win8+wpa81+wp8" />
+    <file src="pcl\Plugin.Fingerprint.Abstractions.*" target="lib\portable-net45+win8+wpa81+wp8" />
     <!-- Android -->
-    <file src="mvx\android\MvvmCross.Plugins.Fingerprint.Droid.dll" target="lib\MonoAndroid" />
-    <file src="mvx\android\Plugin.Fingerprint.Abstractions.dll" target="lib\MonoAndroid" />
-    <file src="mvx\android\Plugin.Fingerprint.dll" target="lib\MonoAndroid" />
+    <file src="mvx\android\MvvmCross.Plugins.Fingerprint.*" target="lib\MonoAndroid" />
+    <file src="mvx\android\Plugin.Fingerprint.*" target="lib\MonoAndroid" />
     <file src="mvx\android\FingerprintPluginBootstrap.cs.pp" target="content\MonoAndroid\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
     <!-- iOS -->
-    <file src="mvx\ios\MvvmCross.Plugins.Fingerprint.iOS.dll" target="lib\Xamarin.iOS10" />
-    <file src="mvx\ios\Plugin.Fingerprint.Abstractions.dll" target="lib\Xamarin.iOS10" />
-    <file src="mvx\ios\Plugin.Fingerprint.dll" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\MvvmCross.Plugins.Fingerprint.*" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\Plugin.Fingerprint.Abstractions.*" target="lib\Xamarin.iOS10" />
+    <file src="mvx\ios\Plugin.Fingerprint.*" target="lib\Xamarin.iOS10" />
     <file src="mvx\ios\FingerprintPluginBootstrap.cs.pp" target="content\Xamarin.iOS10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
     <!-- UWP -->
-    <file src="mvx\uwp\MvvmCross.Plugins.Fingerprint.WindowsUWP.dll" target="lib\UAP10" />
-    <file src="mvx\uwp\Plugin.Fingerprint.Abstractions.dll" target="lib\UAP10" />
-    <file src="mvx\uwp\Plugin.Fingerprint.dll" target="lib\UAP10" />
+    <file src="mvx\uwp\MvvmCross.Plugins.Fingerprint.*" target="lib\UAP10" />
+    <file src="mvx\uwp\Plugin.Fingerprint.*" target="lib\UAP10" />
     <file src="mvx\uwp\FingerprintPluginBootstrap.cs.pp" target="content\UAP10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
   </files>
 </package>

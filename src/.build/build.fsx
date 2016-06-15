@@ -79,6 +79,7 @@ Target "build" (fun _ ->
     Build("Plugin.Fingerprint.Android", "android")
     Build("Plugin.Fingerprint.iOS", "ios")
     Build("Plugin.Fingerprint.UWP", "uwp")
+    Build("MvvmCross.Plugins.Fingerprint", "mvx" +/ "pcl")
     Build("MvvmCross.Plugins.Fingerprint.Android", "mvx" +/ "android")
     Build("MvvmCross.Plugins.Fingerprint.iOS", "mvx" +/ "ios")
     Build("MvvmCross.Plugins.Fingerprint.WindowsUWP", "mvx" +/ "uwp")

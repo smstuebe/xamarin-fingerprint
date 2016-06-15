@@ -52,11 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plugin.cs" />
-    <Compile Include="PluginLoader.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MvvmCross.Plugins.Fingerprint\MvvmCross.Plugins.Fingerprint.csproj">
+      <Project>{99af4877-02df-4dae-a524-4056bae82614}</Project>
+      <Name>MvvmCross.Plugins.Fingerprint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>Plugin.Fingerprint.Abstractions</Name>

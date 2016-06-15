@@ -1,7 +1,7 @@
 ﻿using MvvmCross.Platform;
 using MvvmCross.Platform.Plugins;
 
-namespace MvvmCross.Plugins.Fingerprint.Android
+namespace MvvmCross.Plugins.Fingerprint
 {
     public class PluginLoader
         : IMvxPluginLoader
