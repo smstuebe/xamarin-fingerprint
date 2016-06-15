@@ -70,11 +70,7 @@ namespace Plugin.Fingerprint
                 result.ErrorMessage = resTuple.Item2.LocalizedDescription;
             }
 
-            if (!CrossFingerprint.AllowReuse)
-            {
-                CreateNewContext();
-            }
-
+            CreateNewContext();
             return result;
         }
 
