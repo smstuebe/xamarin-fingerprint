@@ -2,7 +2,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Views;
-using SMS.Fingerprint.Dialog;
+using Plugin.Fingerprint.Dialog;
 
 namespace SMS.Fingerprint.Sample.Droid
 {
