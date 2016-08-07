@@ -7,6 +7,8 @@ Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 | vanilla | [![NuGet](https://img.shields.io/nuget/v/Plugin.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Fingerprint/) | [![NuGet](https://img.shields.io/nuget/vpre/Plugin.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Fingerprint/) |
 | MvvmCross | [![NuGet](https://img.shields.io/nuget/v/MvvmCross.Plugins.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/MvvmCross.Plugins.Fingerprint/) | [![NuGet](https://img.shields.io/nuget/vpre/MvvmCross.Plugins.Fingerprint.svg?label=NuGet)](https://www.nuget.org/packages/MvvmCross.Plugins.Fingerprint/) |
 
+[Changelog](doc/changelog.md)
+
 ## Support & Limitations
 
 | Platform  | Version | Limitations |
