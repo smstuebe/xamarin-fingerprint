@@ -5,7 +5,7 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
-    internal class FingerprintAuthenticationCallback : FingerprintManager.AuthenticationCallback
+    public class FingerprintAuthenticationCallback : FingerprintManager.AuthenticationCallback
     {
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
 
@@ -26,15 +26,6 @@ namespace Plugin.Fingerprint
             var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
             SetResultSafe(result);
         }
-
-        // Do not cancel the dialog on error.
-        // TODO: Implement feedback (shaking icon, display text, ...)
-        //public override void OnAuthenticationFailed()
-        //{
-        //    base.OnAuthenticationFailed();
-        //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.UnknownError };
-        //    SetResultSafe(result);
-        //}
 
         public override void OnAuthenticationError(FingerprintState errorCode, ICharSequence errString)
         {

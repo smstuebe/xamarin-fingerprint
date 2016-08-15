@@ -2,7 +2,7 @@
 using Android.App;
 using Android.Hardware.Fingerprints;
 using Java.Lang;
-using SMS.Fingerprint.Dialog;
+using Plugin.Fingerprint.Dialog;
 
 namespace Plugin.Fingerprint
 {

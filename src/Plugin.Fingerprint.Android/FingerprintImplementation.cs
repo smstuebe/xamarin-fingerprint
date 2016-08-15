@@ -32,13 +32,12 @@ namespace Plugin.Fingerprint
                 return await fragment.ShowAsync(reason, cancellationToken);
             }
 
-            return await AuthenticateNoDialogAsync(cancellationToken);
+            return await AuthenticateNoDialogAsync(cancellationToken, new FingerprintAuthenticationCallback());
         }
 
-        internal static async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(CancellationToken cancellationToken)
+        internal static async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(CancellationToken cancellationToken, FingerprintAuthenticationCallback callback)
         {
             var cancellationSignal = new CancellationSignal();
-            var callback = new FingerprintAuthenticationCallback();
             cancellationToken.Register(() => cancellationSignal.Cancel());
 
             CrossFingerprint.GetService().Authenticate(null, cancellationSignal, FingerprintAuthenticationFlags.None, callback, null);
