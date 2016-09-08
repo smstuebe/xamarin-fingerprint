@@ -7,12 +7,12 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
-    internal class FingerprintImplementation : IFingerprint
+    internal class FingerprintImplementation : FingerprintImplementationBase
     {
         private NSError _error;
         private LAContext _context;
 
-        public bool IsAvailable
+        public override bool IsAvailable
         {
             get
             {
@@ -25,12 +25,7 @@ namespace Plugin.Fingerprint
             _context = new LAContext();
         }
 
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason)
-        {
-            return AuthenticateAsync(reason, new CancellationToken());
-        }
-
-        public async Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken)
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
             cancellationToken.Register(CancelAuthentication);
@@ -40,7 +35,9 @@ namespace Plugin.Fingerprint
                 return result;
             }
 
-            var resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, reason);
+            SetupContextProperties(dialogConfig);
+
+            var resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, dialogConfig.Reason);
 
             if (resTuple.Item1)
             {
@@ -72,6 +69,20 @@ namespace Plugin.Fingerprint
 
             CreateNewContext();
             return result;
+        }
+
+        private void SetupContextProperties(DialogConfiguration dialogConfig)
+        {
+            if (_context.RespondsToSelector(new Selector("localizedFallbackTitle")))
+            {
+                _context.LocalizedFallbackTitle = dialogConfig.FallbackTitle;
+            }
+
+            if (_context.RespondsToSelector(new Selector("localizedCancelTitle")))
+            {
+                // iOS 10!
+                // _context.LocalizedCancelTitle = dialogConfig.CancelTitle;
+            }
         }
 
         private void CancelAuthentication()

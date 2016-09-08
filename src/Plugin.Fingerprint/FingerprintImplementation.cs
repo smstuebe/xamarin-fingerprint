@@ -4,15 +4,11 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
-    internal class FingerprintImplementation : IFingerprint
+    internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        public bool IsAvailable { get; } = false;
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason)
-        {
-            return AuthenticateAsync(reason, CancellationToken.None);
-        }
+        public override bool IsAvailable { get; } = false;
 
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken)
+        public override Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             return Task.FromResult(new FingerprintAuthenticationResult
             {

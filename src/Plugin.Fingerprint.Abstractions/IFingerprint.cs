@@ -18,13 +18,16 @@ namespace Plugin.Fingerprint.Abstractions
         /// Requests the authentication.
         /// </summary>
         /// <param name="reason">Reason for the fingerprint authentication request. Displayed to the user.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation.</param>
         /// <returns>Authentication result</returns>
-        Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason);
+        Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Requests the authentication (cancelable).
+        /// Requests the authentication.
         /// </summary>
-        /// <see cref="AuthenticateAsync(string)"/>
-        Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken);
+        /// <param name="dialogConfig">Configuration of the dialog that is displayed to the user.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation.</param>
+        /// <returns>Authentication result</returns>
+        Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

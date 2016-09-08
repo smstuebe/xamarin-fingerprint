@@ -6,22 +6,17 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
-    internal class FingerprintImplementation : IFingerprint
+    internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        public bool IsAvailable => CheckAvailability();
+        public override bool IsAvailable => CheckAvailability();
 
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason)
-        {
-            return AuthenticateAsync(reason, new CancellationToken());
-        }
-
-        public async Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken)
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
 
             try
             {
-                var verificationResult = await UserConsentVerifier.RequestVerificationAsync(reason);
+                var verificationResult = await UserConsentVerifier.RequestVerificationAsync(dialogConfig.Reason);
 
                 switch (verificationResult)
                 {
@@ -56,7 +51,7 @@ namespace Plugin.Fingerprint
             return result;
         }
 
-        private bool CheckAvailability()
+        private static bool CheckAvailability()
         {
             var availability = UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result;
             return availability == UserConsentVerifierAvailability.Available;

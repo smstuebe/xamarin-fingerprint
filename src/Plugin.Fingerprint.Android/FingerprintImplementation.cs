@@ -10,16 +10,11 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
-    internal class FingerprintImplementation : IFingerprint
+    internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        public bool IsAvailable => CheckAvailability();
+        public override bool IsAvailable => CheckAvailability();
 
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason)
-        {
-            return AuthenticateAsync(reason, new CancellationToken());
-        }
-
-        public async Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken)
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (!IsAvailable)
             {
@@ -29,7 +24,7 @@ namespace Plugin.Fingerprint
             if (CrossFingerprint.DialogEnabled)
             {
                 var fragment = CrossFingerprint.CreateDialogFragment();
-                return await fragment.ShowAsync(reason, cancellationToken);
+                return await fragment.ShowAsync(dialogConfig, cancellationToken);
             }
 
             return await AuthenticateNoDialogAsync(cancellationToken, new FingerprintAuthenticationCallback());
@@ -38,14 +33,17 @@ namespace Plugin.Fingerprint
         internal static async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(CancellationToken cancellationToken, FingerprintAuthenticationCallback callback)
         {
             var cancellationSignal = new CancellationSignal();
-            cancellationToken.Register(() => cancellationSignal.Cancel());
+            cancellationToken.Register(() =>
+            {
+                cancellationSignal.Cancel();
+            });
 
             CrossFingerprint.GetService().Authenticate(null, cancellationSignal, FingerprintAuthenticationFlags.None, callback, null);
 
             return await callback.GetTask();
         }
 
-        private bool CheckAvailability()
+        private static bool CheckAvailability()
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
                 return false;

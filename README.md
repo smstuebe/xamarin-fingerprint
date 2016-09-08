@@ -9,13 +9,13 @@ Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 
 [Changelog](doc/changelog.md)
 
-## Support & Limitations
+## Support
 
-| Platform  | Version | Limitations |
-| ------------- | ----------- | ----------- |
-| Xamarin.Android | 6.0 |  |
-| Xamarin.iOS     | 8.0 | Cancelable programmatically since iOS 9.0 |
-| Windows UWP     | 10  | |
+| Platform  | Version |
+| ------------- | ----------- |
+| Xamarin.Android | 6.0 |
+| Xamarin.iOS     | 8.0 |
+| Windows UWP     | 10  |
 
 ## Usage
 ### API
@@ -43,6 +43,14 @@ Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason);
 /// </summary>
 /// <see cref="AuthenticateAsync(string)"/>
 Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken);
+
+/// <summary>
+/// Requests the authentication.
+/// </summary>
+/// <param name="dialogConfig">Configuration of the dialog that is displayed to the user.</param>
+/// <param name="cancellationToken">Token used to cancel the operation.</param>
+/// <returns>Authentication result</returns>
+Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken));
 ```
 
 The returned ```FingerprintAuthenticationResult``` contains information about the authentication.
@@ -94,7 +102,16 @@ else
 ```
 
 ### iOS
-Nothing special on iOS. You can't configure anything and the standard iOS Dialog will be shown.
+#### Limitations
+
+You can't create a custom dialog. The standard iOS Dialog will be shown.
+
+##### iOS 9+ only
+- cancelable programmatically with passed CancellationToken
+- custom fallback button title
+
+##### iOS 10+ only
+- custom cancel button title
 
 ### Android
 #### Setup
