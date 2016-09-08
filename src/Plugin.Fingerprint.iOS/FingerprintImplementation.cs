@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
 using Plugin.Fingerprint.Abstractions;
+using UIKit;
 
 namespace Plugin.Fingerprint
 {
@@ -16,13 +18,18 @@ namespace Plugin.Fingerprint
         {
             get
             {
+				if (_context == null)
+				{
+					return false;
+				}
+				
                 return _context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out _error);
             }
         }
 
         public FingerprintImplementation()
         {
-            _context = new LAContext();
+			CreateLaContext();
         }
 
         public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
@@ -100,8 +107,19 @@ namespace Plugin.Fingerprint
                 }
                 _context.Dispose();
             }
-            
-            _context = new LAContext();
+
+			CreateLaContext();
         }
+
+		private void CreateLaContext()
+		{
+			if (!UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+			{
+				// LAContext is not available before ios 8.
+				return;
+			}
+
+			_context = new LAContext();
+		}
     }
 }

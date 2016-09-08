@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Android.Hardware.Fingerprints;
+using Android.Runtime;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
 
@@ -14,10 +16,17 @@ namespace Plugin.Fingerprint
             _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
         }
 
+		public FingerprintAuthenticationCallback(IntPtr a, JniHandleOwnership b) : base(a, b)
+		{
+			_taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
+		}
+
         public Task<FingerprintAuthenticationResult> GetTask()
         {
             return _taskCompletionSource.Task;
         }
+
+
 
         // https://developer.android.com/reference/android/hardware/fingerprint/FingerprintManager.AuthenticationCallback.html
         public override void OnAuthenticationSucceeded(FingerprintManager.AuthenticationResult res)
@@ -44,10 +53,10 @@ namespace Plugin.Fingerprint
             }
         }
 
-        //public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)
-        //{
-        //    base.OnAuthenticationHelp(helpCode, helpString);
-        //    _taskCompletionSource.SetResult(null);
-        //}
-    }
+		//public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)
+		//{
+		//    base.OnAuthenticationHelp(helpCode, helpString);
+		//    _taskCompletionSource.SetResult(null);
+		//}
+	}
 }

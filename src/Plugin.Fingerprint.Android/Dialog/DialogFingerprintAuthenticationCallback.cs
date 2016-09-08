@@ -1,3 +1,6 @@
+using System;
+using Android.Runtime;
+
 namespace Plugin.Fingerprint.Dialog
 {
     public class DialogFingerprintAuthenticationCallback : FingerprintAuthenticationCallback
@@ -8,6 +11,8 @@ namespace Plugin.Fingerprint.Dialog
         {
             _listener = listener;
         }
+
+		public DialogFingerprintAuthenticationCallback(IntPtr a, JniHandleOwnership b) : base(a, b) { }
 
         public override void OnAuthenticationFailed()
         {
