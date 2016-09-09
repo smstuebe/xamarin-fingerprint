@@ -2,6 +2,9 @@
 
 ### 1.3.0
 
+#### 1.3.0-beta3 (unreleased)
+- #18 fixed crash on iOS < 7
+
 #### 1.3.0-beta2
 - #13 Fallback button on Android
 - #12 possibility to set localized fallback title
