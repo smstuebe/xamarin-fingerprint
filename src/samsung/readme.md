@@ -1,9 +1,9 @@
-== Build ==
+## Build
 - copy android.jar from a android sdk platform into sdk folder
 - open in IntelliJ
 - Build -> Build Artifacts
 
-== Update ==
+## Update 
 - Download pass sdk from samsung (http://developer.samsung.com/galaxy/pass)
 - Decompile pass-xxx.jar with jd-gui (http://jd.benow.ca/)
 - Save sources
