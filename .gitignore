@@ -205,3 +205,4 @@ FAKE.**.**.**/
 # Build
 out/
 *.lock.json
+src/samsung/sdk/android.jar
