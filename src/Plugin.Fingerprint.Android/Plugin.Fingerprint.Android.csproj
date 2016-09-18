@@ -15,7 +15,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,19 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Plugin.Fingerprint\CrossFingerprint.cs">
-      <Link>CrossFingerprint.cs</Link>
-    </Compile>
+    <Compile Include="CrossFingerprint.cs" />
     <Compile Include="Dialog\DialogFingerprintAuthenticationCallback.cs" />
     <Compile Include="Dialog\FingerprintDialogFragment.cs" />
     <Compile Include="CrossFingerprint.Android.cs" />
     <Compile Include="Dialog\IDialogAuthenticationListener.cs" />
-    <Compile Include="FingerprintImplementation.cs" />
-    <Compile Include="FingerprintAuthenticationCallback.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Samsung\IdentifyListener.cs" />
+    <Compile Include="Samsung\SamsungFingerprintImplementation.cs" />
+    <Compile Include="Standard\FingerprintAuthenticationCallback.cs" />
+    <Compile Include="Standard\StandardFingerprintImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\FingerprintDialog.axml">
@@ -82,6 +82,10 @@
     <ProjectReference Include="..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>Plugin.Fingerprint.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugin.Fingerprint.Android.Samsung\Plugin.Fingerprint.Android.Samsung.csproj">
+      <Project>{e81f50d5-95c3-4d5a-9397-f79946912b5d}</Project>
+      <Name>Plugin.Fingerprint.Android.Samsung</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

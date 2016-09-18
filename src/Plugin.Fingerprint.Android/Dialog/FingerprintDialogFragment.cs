@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Standard;
 
 namespace Plugin.Fingerprint.Dialog
 {
@@ -122,7 +123,7 @@ namespace Plugin.Fingerprint.Dialog
             _cancelationTokenSource = new CancellationTokenSource();
             _canceledByLifecycle = false;
 
-            var result = await FingerprintImplementation.AuthenticateNoDialogAsync(_cancelationTokenSource.Token, _callback);
+            var result = await StandardFingerprintImplementation.AuthenticateNoDialogAsync(_cancelationTokenSource.Token, _callback);
 
             if (!_canceledByLifecycle)
             {

@@ -8,9 +8,9 @@ using Android.OS;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
 
-namespace Plugin.Fingerprint
+namespace Plugin.Fingerprint.Standard
 {
-    internal class FingerprintImplementation : FingerprintImplementationBase
+    internal class StandardFingerprintImplementation : FingerprintImplementationBase
     {
         public override bool IsAvailable => CheckAvailability();
 

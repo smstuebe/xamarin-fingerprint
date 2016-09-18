@@ -40,6 +40,11 @@ public class SpassFingerprint
   {
 
   }
+
+  public boolean hasRegisteredFinger()
+  {
+    return true;
+  }
   
   public int getIdentifiedFingerprintIndex()
   {

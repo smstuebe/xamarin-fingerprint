@@ -1,0 +1,14 @@
+﻿<enum-field-mappings>
+  <mapping jni-class="com/samsung/android/sdk/pass/SpassFingerprint" clr-enum-type="Com.Samsung.Android.Sdk.Pass.SpassFingerprintStatus">
+    <field jni-name="STATUS_AUTHENTIFICATION_SUCCESS" clr-name="Success" value="0" />
+    <field jni-name="STATUS_TIMEOUT_FAILED" clr-name="TimeoutFailed" value="4" />
+    <field jni-name="STATUS_SENSOR_FAILED" clr-name="SensorFailed" value="7" />
+    <field jni-name="STATUS_USER_CANCELLED" clr-name="UserCancelled" value="8" />
+    <field jni-name="STATUS_BUTTON_PRESSED" clr-name="ButtonPressed" value="9" />
+    <field jni-name="STATUS_QUALITY_FAILED" clr-name="QualityFailed" value="12" />
+    <field jni-name="STATUS_USER_CANCELLED_BY_TOUCH_OUTSIDE" clr-name="UserCancelledByTouchOutside" value="13" />
+    <field jni-name="STATUS_AUTHENTIFICATION_FAILED" clr-name="Failed" value="16" />
+    <field jni-name="STATUS_OPERATION_DENIED" clr-name="OperationDenied" value="51" />
+    <field jni-name="STATUS_AUTHENTIFICATION_PASSWORD_SUCCESS" clr-name="PasswordSuccess" value="100" />
+  </mapping>
+</enum-field-mappings>

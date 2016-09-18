@@ -1,3 +1,5 @@
+using Plugin.Fingerprint.Standard;
+
 namespace Plugin.Fingerprint.Dialog
 {
     public class DialogFingerprintAuthenticationCallback : FingerprintAuthenticationCallback

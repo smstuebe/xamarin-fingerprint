@@ -3,7 +3,7 @@ using Android.Hardware.Fingerprints;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
 
-namespace Plugin.Fingerprint
+namespace Plugin.Fingerprint.Standard
 {
     public class FingerprintAuthenticationCallback : FingerprintManager.AuthenticationCallback
     {
