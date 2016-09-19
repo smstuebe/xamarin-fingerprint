@@ -9,9 +9,9 @@ namespace Plugin.Fingerprint.Abstractions
 
         public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return AuthenticateAsync(new DialogConfiguration(reason), cancellationToken);
+            return AuthenticateAsync(new AuthenticationRequestConfiguration(reason), cancellationToken);
         }
 
-        public abstract Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken());
+        public abstract Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken());
     }
 }

@@ -37,7 +37,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DialogConfiguration.cs" />
+    <Compile Include="AuthenticationRequestConfiguration.cs" />
     <Compile Include="FingerprintAuthenticationResult.cs" />
     <Compile Include="FingerprintAuthenticationResultStatus.cs" />
     <Compile Include="FingerprintImplementationBase.cs" />

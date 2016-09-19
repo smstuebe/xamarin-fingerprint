@@ -10,13 +10,13 @@ namespace Plugin.Fingerprint
     {
         public override bool IsAvailable => CheckAvailability();
 
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
 
             try
             {
-                var verificationResult = await UserConsentVerifier.RequestVerificationAsync(dialogConfig.Reason);
+                var verificationResult = await UserConsentVerifier.RequestVerificationAsync(authRequestConfig.Reason);
 
                 switch (verificationResult)
                 {

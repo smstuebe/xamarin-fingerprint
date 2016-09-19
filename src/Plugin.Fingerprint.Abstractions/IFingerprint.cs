@@ -25,9 +25,9 @@ namespace Plugin.Fingerprint.Abstractions
         /// <summary>
         /// Requests the authentication.
         /// </summary>
-        /// <param name="dialogConfig">Configuration of the dialog that is displayed to the user.</param>
+        /// <param name="authRequestConfig">Configuration of the dialog that is displayed to the user.</param>
         /// <param name="cancellationToken">Token used to cancel the operation.</param>
         /// <returns>Authentication result</returns>
-        Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

@@ -23,7 +23,7 @@ namespace Plugin.Fingerprint.Dialog
         private CancellationTokenSource _cancelationTokenSource;
         private FingerprintAuthenticationCallback _callback;
 
-        protected DialogConfiguration Configuration { get; private set; }
+        protected AuthenticationRequestConfiguration Configuration { get; private set; }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -33,7 +33,7 @@ namespace Plugin.Fingerprint.Dialog
             _callback = CreateAuthenticationCallback();
         }
 
-        public async Task<FingerprintAuthenticationResult> ShowAsync(DialogConfiguration config, CancellationToken cancellationToken)
+        public async Task<FingerprintAuthenticationResult> ShowAsync(AuthenticationRequestConfiguration config, CancellationToken cancellationToken)
         {
             Configuration = config;
 

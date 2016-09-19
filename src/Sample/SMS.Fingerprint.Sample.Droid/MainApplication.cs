@@ -7,7 +7,6 @@ using Plugin.Fingerprint;
 
 namespace SMS.Fingerprint.Sample.Droid
 {
-	//You can specify additional application information in this attribute
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
@@ -25,7 +24,6 @@ namespace SMS.Fingerprint.Sample.Droid
 
             // uncomment this line to use custom dialog
             //CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
-            CrossFingerprint.DialogEnabled = true;
         }
 
         public override void OnTerminate()

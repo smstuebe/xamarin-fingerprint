@@ -12,7 +12,6 @@ namespace Plugin.Fingerprint
         private static Type _dialogFragmentType;
 
         public static Activity CurrentActivity => GetCurrentActivity();
-        public static bool DialogEnabled { get; set; } = true;
         
         public static void SetCurrentActivityResolver(Func<Activity> activityResolver)
         {

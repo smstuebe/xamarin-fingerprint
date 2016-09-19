@@ -31,7 +31,7 @@ namespace Plugin.Fingerprint
             CreateLaContext();
         }
 
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
             cancellationToken.Register(CancelAuthentication);
@@ -41,9 +41,9 @@ namespace Plugin.Fingerprint
                 return result;
             }
 
-            SetupContextProperties(dialogConfig);
+            SetupContextProperties(authRequestConfig);
 
-            var resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, dialogConfig.Reason);
+            var resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, authRequestConfig.Reason);
 
             if (resTuple.Item1)
             {
@@ -77,17 +77,17 @@ namespace Plugin.Fingerprint
             return result;
         }
 
-        private void SetupContextProperties(DialogConfiguration dialogConfig)
+        private void SetupContextProperties(AuthenticationRequestConfiguration authRequestConfig)
         {
             if (_context.RespondsToSelector(new Selector("localizedFallbackTitle")))
             {
-                _context.LocalizedFallbackTitle = dialogConfig.FallbackTitle;
+                _context.LocalizedFallbackTitle = authRequestConfig.FallbackTitle;
             }
 
             if (_context.RespondsToSelector(new Selector("localizedCancelTitle")))
             {
                 // iOS 10!
-                // _context.LocalizedCancelTitle = dialogConfig.CancelTitle;
+                // _context.LocalizedCancelTitle = authRequestConfig.CancelTitle;
             }
         }
 

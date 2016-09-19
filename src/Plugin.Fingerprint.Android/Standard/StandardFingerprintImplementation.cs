@@ -14,17 +14,17 @@ namespace Plugin.Fingerprint.Standard
     {
         public override bool IsAvailable => CheckAvailability();
 
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (!IsAvailable)
             {
                 return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
             }
 
-            if (CrossFingerprint.DialogEnabled)
+            if (authRequestConfig.UseDialog)
             {
                 var fragment = CrossFingerprint.CreateDialogFragment();
-                return await fragment.ShowAsync(dialogConfig, cancellationToken);
+                return await fragment.ShowAsync(authRequestConfig, cancellationToken);
             }
 
             return await AuthenticateNoDialogAsync(cancellationToken, new FingerprintAuthenticationCallback());

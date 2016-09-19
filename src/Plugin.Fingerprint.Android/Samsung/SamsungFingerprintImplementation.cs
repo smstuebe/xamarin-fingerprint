@@ -33,7 +33,7 @@ namespace Plugin.Fingerprint.Samsung
             }
         }
 
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (!IsAvailable)
             {

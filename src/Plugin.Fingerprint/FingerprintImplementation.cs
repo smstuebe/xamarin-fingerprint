@@ -8,7 +8,7 @@ namespace Plugin.Fingerprint
     {
         public override bool IsAvailable { get; } = false;
 
-        public override Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = new CancellationToken())
+        public override Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             return Task.FromResult(new FingerprintAuthenticationResult
             {

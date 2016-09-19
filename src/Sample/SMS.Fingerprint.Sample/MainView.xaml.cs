@@ -29,7 +29,7 @@ namespace SMS.Fingerprint.Sample
             _cancel = swAutoCancel.IsToggled ? new CancellationTokenSource(TimeSpan.FromSeconds(10)) : new CancellationTokenSource();
             lblStatus.Text = "";
 
-            var dialogConfig = new DialogConfiguration("Beweise, dass du Finger hast!")
+            var dialogConfig = new AuthenticationRequestConfiguration("Beweise, dass du Finger hast!")
             {
                 CancelTitle = "Abbrechen",
                 FallbackTitle = "Anders!"
