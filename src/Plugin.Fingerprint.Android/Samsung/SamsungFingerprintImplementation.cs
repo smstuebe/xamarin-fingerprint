@@ -5,16 +5,16 @@ using Android.Util;
 using Com.Samsung.Android.Sdk.Pass;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Contract;
 
 namespace Plugin.Fingerprint.Samsung
 {
-    public class SamsungFingerprintImplementation : FingerprintImplementationBase
+    public class SamsungFingerprintImplementation : AndroidFingerprintImplementationBase
     {
         private readonly bool _couldInitialize;
         private readonly bool _hasFingerPrintSensor;
         private readonly SpassFingerprint _spassFingerprint;
 
-        public override bool IsAvailable => CheckAvailability();
         internal bool IsCompatible => _couldInitialize && _hasFingerPrintSensor;
 
         public SamsungFingerprintImplementation()
@@ -33,31 +33,31 @@ namespace Plugin.Fingerprint.Samsung
             }
         }
 
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken)
         {
-            if (!IsAvailable)
-            {
-                return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
-            }
-
             using (cancellationToken.Register(() => _spassFingerprint.CancelIdentify()))
             {
-                var identifyListener = new IdentifyListener();
-                try
-                {
-                    _spassFingerprint.StartIdentify(identifyListener);
-                }
-                catch (Exception ex)
-                {
-                    Log.Warn(nameof(SamsungFingerprintImplementation), ex);
-                    return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed };
-                }
-
+                var identifyListener = new IdentifyListener(StartIdentify, failedListener);
                 return await identifyListener.GetTask();
             }
         }
 
-        private bool CheckAvailability()
+        private bool StartIdentify(SpassFingerprint.IIdentifyListener listener)
+        {
+            try
+            {
+                _spassFingerprint.StartIdentify(listener);
+            }
+            catch (Exception ex)
+            {
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                return false;
+            }
+
+            return true;
+        }
+
+        protected override bool CheckAvailability()
         {
             if (!IsCompatible)
                 return false;

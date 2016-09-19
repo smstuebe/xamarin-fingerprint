@@ -22,12 +22,7 @@ namespace Plugin.Fingerprint
         {
             _dialogFragmentType = typeof (TFragment);
         }
-
-        internal static FingerprintManager GetService()
-        {
-            return (FingerprintManager)CurrentActivity.GetSystemService(Class.FromType(typeof(FingerprintManager)));
-        }
-
+        
         internal static FingerprintDialogFragment CreateDialogFragment()
         {
             _dialogFragmentType = _dialogFragmentType ?? typeof (FingerprintDialogFragment);

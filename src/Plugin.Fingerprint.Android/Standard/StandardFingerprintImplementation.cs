@@ -7,43 +7,24 @@ using Android.Hardware.Fingerprints;
 using Android.OS;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Contract;
 
 namespace Plugin.Fingerprint.Standard
 {
-    internal class StandardFingerprintImplementation : FingerprintImplementationBase
+    public class StandardFingerprintImplementation : AndroidFingerprintImplementationBase
     {
-        public override bool IsAvailable => CheckAvailability();
-
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken)
         {
-            if (!IsAvailable)
+            using (var cancellationSignal = new CancellationSignal())
+            using (cancellationToken.Register(() => cancellationSignal.Cancel()))
             {
-                return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
+                var callback = new FingerprintAuthenticationCallback(failedListener);
+                GetService().Authenticate(null, cancellationSignal, FingerprintAuthenticationFlags.None, callback, null);
+                return await callback.GetTask();
             }
-
-            if (authRequestConfig.UseDialog)
-            {
-                var fragment = CrossFingerprint.CreateDialogFragment();
-                return await fragment.ShowAsync(authRequestConfig, cancellationToken);
-            }
-
-            return await AuthenticateNoDialogAsync(cancellationToken, new FingerprintAuthenticationCallback());
         }
 
-        internal static async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(CancellationToken cancellationToken, FingerprintAuthenticationCallback callback)
-        {
-            var cancellationSignal = new CancellationSignal();
-            cancellationToken.Register(() =>
-            {
-                cancellationSignal.Cancel();
-            });
-
-            CrossFingerprint.GetService().Authenticate(null, cancellationSignal, FingerprintAuthenticationFlags.None, callback, null);
-
-            return await callback.GetTask();
-        }
-
-        private static bool CheckAvailability()
+        protected override bool CheckAvailability()
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
                 return false;
@@ -60,6 +41,11 @@ namespace Plugin.Fingerprint.Standard
                 return false;
 
             return true;
+        }
+
+        private static FingerprintManager GetService()
+        {
+            return (FingerprintManager)Application.Context.GetSystemService(Class.FromType(typeof(FingerprintManager)));
         }
     }
 }

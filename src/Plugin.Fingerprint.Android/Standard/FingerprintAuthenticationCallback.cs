@@ -2,15 +2,18 @@ using System.Threading.Tasks;
 using Android.Hardware.Fingerprints;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Contract;
 
 namespace Plugin.Fingerprint.Standard
 {
-    public class FingerprintAuthenticationCallback : FingerprintManager.AuthenticationCallback
+    public class FingerprintAuthenticationCallback : FingerprintManager.AuthenticationCallback, IAuthenticationCallback
     {
+        private readonly IAuthenticationFailedListener _listener;
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
 
-        public FingerprintAuthenticationCallback()
+        public FingerprintAuthenticationCallback(IAuthenticationFailedListener listener)
         {
+            _listener = listener;
             _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
         }
 
@@ -42,6 +45,12 @@ namespace Plugin.Fingerprint.Standard
             {
                 _taskCompletionSource.SetResult(result);
             }
+        }
+
+        public override void OnAuthenticationFailed()
+        {
+            base.OnAuthenticationFailed();
+            _listener?.OnFailedTry();
         }
 
         //public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)

@@ -2,18 +2,17 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using Plugin.Fingerprint.Abstractions;
-using Plugin.Fingerprint.Standard;
+using Plugin.Fingerprint.Contract;
 
 namespace Plugin.Fingerprint.Dialog
 {
-    public class FingerprintDialogFragment : DialogFragment, IDialogAuthenticationListener, Animation.IAnimationListener
+    public class FingerprintDialogFragment : DialogFragment, IAuthenticationFailedListener, Animation.IAnimationListener
     {
         private TaskCompletionSource<FingerprintAuthenticationResult> _resultTaskCompletionSource;
         private Button _cancelButton;
@@ -21,7 +20,7 @@ namespace Plugin.Fingerprint.Dialog
         private ImageView _icon;
         private bool _canceledByLifecycle;
         private CancellationTokenSource _cancelationTokenSource;
-        private FingerprintAuthenticationCallback _callback;
+        private IAndroidFingerprintImplementation _implementation;
 
         protected AuthenticationRequestConfiguration Configuration { get; private set; }
 
@@ -30,19 +29,20 @@ namespace Plugin.Fingerprint.Dialog
             base.OnCreate(savedInstanceState);
             RetainInstance = true;
             SetStyle(DialogFragmentStyle.NoTitle, 0);
-            _callback = CreateAuthenticationCallback();
         }
 
-        public async Task<FingerprintAuthenticationResult> ShowAsync(AuthenticationRequestConfiguration config, CancellationToken cancellationToken)
+        public async Task<FingerprintAuthenticationResult> ShowAsync(AuthenticationRequestConfiguration config, IAndroidFingerprintImplementation implementation, CancellationToken cancellationToken)
         {
             Configuration = config;
+            _implementation = implementation;
 
             var currentActivity = CrossFingerprint.CurrentActivity;
             Show(currentActivity.FragmentManager, "fingerprint-fragment");
 
-            cancellationToken.Register(OnExternalCancel);
-
-            return await _resultTaskCompletionSource.Task;
+            using (cancellationToken.Register(OnExternalCancel))
+            {
+                return await _resultTaskCompletionSource.Task;
+            }
         }
 
         public override void Show(FragmentManager manager, string tag)
@@ -85,12 +85,6 @@ namespace Plugin.Fingerprint.Dialog
             return view;
         }
 
-        public override void OnDismiss(IDialogInterface dialog)
-        {
-            base.OnDismiss(dialog);
-            _callback?.Dispose();
-        }
-
         public override void OnResume()
         {
             base.OnResume();
@@ -123,7 +117,7 @@ namespace Plugin.Fingerprint.Dialog
             _cancelationTokenSource = new CancellationTokenSource();
             _canceledByLifecycle = false;
 
-            var result = await StandardFingerprintImplementation.AuthenticateNoDialogAsync(_cancelationTokenSource.Token, _callback);
+            var result = await _implementation.AuthenticateNoDialogAsync(this, _cancelationTokenSource.Token);
 
             if (!_canceledByLifecycle)
             {
@@ -158,11 +152,6 @@ namespace Plugin.Fingerprint.Dialog
 
             _canceledByLifecycle = true;
             _cancelationTokenSource?.Cancel();
-        }
-
-        protected virtual FingerprintAuthenticationCallback CreateAuthenticationCallback()
-        {
-            return new DialogFingerprintAuthenticationCallback(this);
         }
 
         public virtual void OnFailedTry()

@@ -44,11 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\AndroidFingerprintImplementationBase.cs" />
+    <Compile Include="Contract\DeafAuthenticationFailedListener.cs" />
+    <Compile Include="Contract\IAndroidFingerprintImplementation.cs" />
+    <Compile Include="Contract\IAuthenticationCallback.cs" />
+    <Compile Include="Contract\IAuthenticationFailedListener.cs" />
     <Compile Include="CrossFingerprint.cs" />
-    <Compile Include="Dialog\DialogFingerprintAuthenticationCallback.cs" />
     <Compile Include="Dialog\FingerprintDialogFragment.cs" />
     <Compile Include="CrossFingerprint.Android.cs" />
-    <Compile Include="Dialog\IDialogAuthenticationListener.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
