@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Android.Animation;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
@@ -9,10 +10,11 @@ using Android.Views.Animations;
 using Android.Widget;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint.Contract;
+using Plugin.Fingerprint.Utils;
 
 namespace Plugin.Fingerprint.Dialog
 {
-    public class FingerprintDialogFragment : DialogFragment, IAuthenticationFailedListener, Animation.IAnimationListener
+    public class FingerprintDialogFragment : DialogFragment, IAuthenticationFailedListener
     {
         private TaskCompletionSource<FingerprintAuthenticationResult> _resultTaskCompletionSource;
         private Button _cancelButton;
@@ -21,6 +23,9 @@ namespace Plugin.Fingerprint.Dialog
         private bool _canceledByLifecycle;
         private CancellationTokenSource _cancelationTokenSource;
         private IAndroidFingerprintImplementation _implementation;
+
+        protected Color NegativeColor = new Color(217, 59, 59);
+        protected Color PositiveColor = new Color(90, 185, 83);
 
         protected AuthenticationRequestConfiguration Configuration { get; private set; }
 
@@ -51,7 +56,7 @@ namespace Plugin.Fingerprint.Dialog
             base.Show(manager, tag);
         }
 
-        private void SetManualResult(FingerprintAuthenticationResultStatus status)
+        private void SetManualResult(FingerprintAuthenticationResultStatus status, bool animation = true)
         {
             _canceledByLifecycle = true;
             _cancelationTokenSource?.Cancel();
@@ -59,18 +64,23 @@ namespace Plugin.Fingerprint.Dialog
             Dismiss(new FingerprintAuthenticationResult
             {
                 Status = status
-            });
+            }, animation);
         }
 
-        private void Dismiss(FingerprintAuthenticationResult result)
+        private async void Dismiss(FingerprintAuthenticationResult result, bool animation = true)
         {
+            if (animation)
+            {
+                await AnimateResultAsync(result.Status);
+            }
+
             _resultTaskCompletionSource.SetResult(result);
             Dismiss();
         }
 
         private void OnExternalCancel()
         {
-            SetManualResult(FingerprintAuthenticationResultStatus.Canceled);
+            SetManualResult(FingerprintAuthenticationResultStatus.Canceled, false);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -96,17 +106,13 @@ namespace Plugin.Fingerprint.Dialog
 
             if (_cancelButton != null)
             {
-                _cancelButton.Text = string.IsNullOrWhiteSpace(Configuration.CancelTitle) 
-                    ? Context.GetString(Android.Resource.String.Cancel)
-                    : Configuration.CancelTitle;
+                _cancelButton.Text = string.IsNullOrWhiteSpace(Configuration.CancelTitle) ? Context.GetString(Android.Resource.String.Cancel) : Configuration.CancelTitle;
                 _cancelButton.Click += OnCancel;
             }
 
             if (_fallbackButton != null)
             {
-                _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle)
-                    ? "Use Fallback"
-                    : Configuration.FallbackTitle;
+                _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
                 _fallbackButton.Click += OnFallback;
             }
             StartAuthenticationAsync();
@@ -128,7 +134,7 @@ namespace Plugin.Fingerprint.Dialog
 
         private void OnCancel(object sender, EventArgs e)
         {
-            SetManualResult(FingerprintAuthenticationResultStatus.Canceled);    
+            SetManualResult(FingerprintAuthenticationResultStatus.Canceled);
         }
 
         private void OnFallback(object sender, EventArgs e)
@@ -154,33 +160,76 @@ namespace Plugin.Fingerprint.Dialog
             _cancelationTokenSource?.Cancel();
         }
 
-        public virtual void OnFailedTry()
+        public virtual async void OnFailedTry()
         {
-            if (_icon != null)
-            {
-                var animation = new TranslateAnimation(-10, 10, 0, 0)
-                {
-                    Duration = 1000,
-                    Interpolator = new CycleInterpolator(5)
-                };
+            await AnimateFailedTryAsync();
+        }
 
-                animation.SetAnimationListener(this);
-                _icon.StartAnimation(animation);
+        private async Task AnimateResultAsync(FingerprintAuthenticationResultStatus status)
+        {
+            switch (status)
+            {
+                case FingerprintAuthenticationResultStatus.Succeeded:
+
+                    await FinalAnimationAsync(PositiveColor);
+                    break;
+                case FingerprintAuthenticationResultStatus.FallbackRequested:
+                    await FallbackAnimationAsync();
+                    break;
+                case FingerprintAuthenticationResultStatus.Unknown:
+                case FingerprintAuthenticationResultStatus.Failed:
+                case FingerprintAuthenticationResultStatus.Canceled:
+                case FingerprintAuthenticationResultStatus.UnknownError:
+                case FingerprintAuthenticationResultStatus.NotAvailable:
+                    await FinalAnimationAsync(NegativeColor);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
             }
         }
 
-        void Animation.IAnimationListener.OnAnimationEnd(Animation animation)
+        private async Task FinalAnimationAsync(Color color)
         {
+            if (_icon == null)
+                return;
+
+            _icon.SetColorFilter(color);
+            var animation = ObjectAnimator.OfPropertyValuesHolder(_icon, PropertyValuesHolder.OfFloat("scaleX", 0.7f), PropertyValuesHolder.OfFloat("scaleY", 0.7f));
+            animation.SetDuration(300);
+            animation.RepeatMode = ValueAnimatorRepeatMode.Reverse;
+            animation.RepeatCount = 1;
+            await animation.StartAsync();
+        }
+
+        private async Task AnimateFailedTryAsync()
+        {
+            if (_icon == null)
+                return;
+
+            _icon.SetColorFilter(NegativeColor);
+            var small = ObjectAnimator.OfFloat(_icon, "translationX", -10f, 10f);
+            small.SetDuration(500);
+            small.SetInterpolator(new CycleInterpolator(5));
+            await small.StartAsync();
             _icon.ClearColorFilter();
         }
 
-        void Animation.IAnimationListener.OnAnimationRepeat(Animation animation)
+        private async Task FallbackAnimationAsync()
         {
-        }
+            if (_icon == null)
+                return;
 
-        void Animation.IAnimationListener.OnAnimationStart(Animation animation)
-        {
-            _icon.SetColorFilter(Color.Red);
+            var rotate = ObjectAnimator.OfFloat(_icon, "rotationY", 0f, 180f);
+            var fade = ObjectAnimator.OfFloat(_icon, "alpha", 1f, 0f);
+            var scale = ObjectAnimator.OfPropertyValuesHolder(_icon, PropertyValuesHolder.OfFloat("scaleX", 0.4f), PropertyValuesHolder.OfFloat("scaleY", 0.4f));
+            rotate.SetDuration(200);
+            fade.SetDuration(600);
+            scale.SetDuration(600);
+
+            var animation = new AnimatorSet();
+            animation.Play(rotate).Before(scale);
+            animation.Play(fade).With(scale);
+            await animation.StartAsync();
         }
     }
 }
