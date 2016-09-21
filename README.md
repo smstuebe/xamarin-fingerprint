@@ -109,6 +109,7 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 ### Android
 #### Setup
 **Request the permission in AndroidManifest.xml**
+
 The first line is for the standard Android API and the second for Samsung devices using the Pass API.
 
 ```xml
