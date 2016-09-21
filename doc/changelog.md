@@ -2,8 +2,10 @@
 
 ### 1.3.0
 
-#### 1.3.0-beta3 (unreleased)
+#### 1.3.0-beta3
 - #18 fixed crash on iOS < 7
+- #2 support for Samsung devices
+- animations on the Android dialog
 
 #### 1.3.0-beta2
 - #13 Fallback button on Android
