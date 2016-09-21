@@ -25,18 +25,12 @@ The API is defined by the ```IFingerprint``` interface:
 /// <summary>
 /// Checks the availability of fingerprint authentication.
 /// Possible Reasons for unavailability:
+/// - Access rights not granted
 /// - Device has no sensor
 /// - OS does not support this functionality
 /// - Fingerprint is not enrolled
 /// </summary>
 bool IsAvailable { get; }
-
-/// <summary>
-/// Requests the authentication.
-/// </summary>
-/// <param name="reason">Reason for the fingerprint authentication request. Displayed to the user.</param>
-/// <returns>Authentication result</returns>
-Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason);
 
 /// <summary>
 /// Requests the authentication (cancelable).
@@ -69,7 +63,6 @@ public FingerprintAuthenticationResultStatus Status { get; set; }
 /// Reason for the unsucessful authentication.
 /// </summary>
 public string ErrorMessage { get; set; }
-
 ```
 
 ### Example
@@ -116,8 +109,11 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 ### Android
 #### Setup
 **Request the permission in AndroidManifest.xml**
+The first line is for the standard Android API and the second for Samsung devices using the Pass API.
+
 ```xml
 <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+<uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
 ```
 **Set the resolver of the current Activity**
 
@@ -128,10 +124,6 @@ We need the current activity to display the dialog. You can use the [Current Act
 CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
 ```
 #### Configuration
-You can disable the dialog on Android (e.g. show fingerprint icon within your activity).
-```csharp
-CrossFingerprint.DialogEnabled = false;
-```
 
 If you don't like the default dialog, you can easily customize it. You have to inherit from `FingerprintDialogFragment` e.g. like:
 ```csharp
