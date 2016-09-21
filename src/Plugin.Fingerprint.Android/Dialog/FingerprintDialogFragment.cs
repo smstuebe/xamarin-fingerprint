@@ -170,7 +170,6 @@ namespace Plugin.Fingerprint.Dialog
             switch (status)
             {
                 case FingerprintAuthenticationResultStatus.Succeeded:
-
                     await FinalAnimationAsync(PositiveColor);
                     break;
                 case FingerprintAuthenticationResultStatus.FallbackRequested:
