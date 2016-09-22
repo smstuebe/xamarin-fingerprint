@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.Animation;
 using Android.App;
+using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
@@ -14,7 +15,7 @@ using Plugin.Fingerprint.Utils;
 
 namespace Plugin.Fingerprint.Dialog
 {
-    public class FingerprintDialogFragment : DialogFragment, IAuthenticationFailedListener
+    public class FingerprintDialogFragment : DialogFragment, IAuthenticationFailedListener, IDialogInterfaceOnKeyListener
     {
         private TaskCompletionSource<FingerprintAuthenticationResult> _resultTaskCompletionSource;
         private Button _cancelButton;
@@ -34,6 +35,55 @@ namespace Plugin.Fingerprint.Dialog
             base.OnCreate(savedInstanceState);
             RetainInstance = true;
             SetStyle(DialogFragmentStyle.NoTitle, 0);
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            var param = Dialog.Window.Attributes;
+            param.Width = ViewGroup.LayoutParams.MatchParent;
+            param.Height = ViewGroup.LayoutParams.WrapContent;
+            Dialog.Window.Attributes = param;
+
+            if (_cancelButton != null)
+            {
+                _cancelButton.Text = string.IsNullOrWhiteSpace(Configuration.CancelTitle) ? Context.GetString(Android.Resource.String.Cancel) : Configuration.CancelTitle;
+                _cancelButton.Click += OnCancel;
+            }
+
+            if (_fallbackButton != null)
+            {
+                _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
+                _fallbackButton.Click += OnFallback;
+            }
+            StartAuthenticationAsync();
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+
+            if (_cancelButton != null)
+            {
+                _cancelButton.Click -= OnCancel;
+            }
+
+            if (_fallbackButton != null)
+            {
+                _fallbackButton.Click -= OnFallback;
+            }
+
+            _canceledByLifecycle = true;
+            _cancelationTokenSource?.Cancel();
+        }
+
+        public override Android.App.Dialog OnCreateDialog(Bundle savedInstanceState)
+        {
+            var dialog = base.OnCreateDialog(savedInstanceState);
+            dialog.SetCanceledOnTouchOutside(false);
+            dialog.SetOnKeyListener(this);
+            return dialog;
         }
 
         public async Task<FingerprintAuthenticationResult> ShowAsync(AuthenticationRequestConfiguration config, IAndroidFingerprintImplementation implementation, CancellationToken cancellationToken)
@@ -95,29 +145,6 @@ namespace Plugin.Fingerprint.Dialog
             return view;
         }
 
-        public override void OnResume()
-        {
-            base.OnResume();
-
-            var param = Dialog.Window.Attributes;
-            param.Width = ViewGroup.LayoutParams.MatchParent;
-            param.Height = ViewGroup.LayoutParams.WrapContent;
-            Dialog.Window.Attributes = param;
-
-            if (_cancelButton != null)
-            {
-                _cancelButton.Text = string.IsNullOrWhiteSpace(Configuration.CancelTitle) ? Context.GetString(Android.Resource.String.Cancel) : Configuration.CancelTitle;
-                _cancelButton.Click += OnCancel;
-            }
-
-            if (_fallbackButton != null)
-            {
-                _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
-                _fallbackButton.Click += OnFallback;
-            }
-            StartAuthenticationAsync();
-        }
-
         private async void StartAuthenticationAsync()
         {
             _cancelationTokenSource = new CancellationTokenSource();
@@ -142,22 +169,15 @@ namespace Plugin.Fingerprint.Dialog
             SetManualResult(FingerprintAuthenticationResultStatus.FallbackRequested);
         }
 
-        public override void OnPause()
+        public bool OnKey(IDialogInterface dialog, Keycode keyCode, KeyEvent e)
         {
-            base.OnPause();
-
-            if (_cancelButton != null)
+            if (keyCode == Keycode.Back && e.Action == KeyEventActions.Up)
             {
-                _cancelButton.Click -= OnCancel;
+                SetManualResult(FingerprintAuthenticationResultStatus.Canceled);
+                return true;
             }
 
-            if (_fallbackButton != null)
-            {
-                _fallbackButton.Click -= OnFallback;
-            }
-
-            _canceledByLifecycle = true;
-            _cancelationTokenSource?.Cancel();
+            return false;
         }
 
         public virtual async void OnFailedTry()
@@ -193,11 +213,11 @@ namespace Plugin.Fingerprint.Dialog
                 return;
 
             _icon.SetColorFilter(color);
-            var animation = ObjectAnimator.OfPropertyValuesHolder(_icon, PropertyValuesHolder.OfFloat("scaleX", 0.7f), PropertyValuesHolder.OfFloat("scaleY", 0.7f));
-            animation.SetDuration(300);
-            animation.RepeatMode = ValueAnimatorRepeatMode.Reverse;
-            animation.RepeatCount = 1;
-            await animation.StartAsync();
+            var press = ObjectAnimator.OfPropertyValuesHolder(_icon, PropertyValuesHolder.OfFloat("scaleX", 0.7f), PropertyValuesHolder.OfFloat("scaleY", 0.7f));
+            press.SetDuration(300);
+            press.RepeatMode = ValueAnimatorRepeatMode.Reverse;
+            press.RepeatCount = 1;
+            await press.StartAsync();
         }
 
         private async Task AnimateFailedTryAsync()
@@ -206,10 +226,10 @@ namespace Plugin.Fingerprint.Dialog
                 return;
 
             _icon.SetColorFilter(NegativeColor);
-            var small = ObjectAnimator.OfFloat(_icon, "translationX", -10f, 10f);
-            small.SetDuration(500);
-            small.SetInterpolator(new CycleInterpolator(5));
-            await small.StartAsync();
+            var shake = ObjectAnimator.OfFloat(_icon, "translationX", -10f, 10f);
+            shake.SetDuration(500);
+            shake.SetInterpolator(new CycleInterpolator(5));
+            await shake.StartAsync();
             _icon.ClearColorFilter();
         }
 
