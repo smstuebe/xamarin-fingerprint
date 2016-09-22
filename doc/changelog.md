@@ -2,6 +2,9 @@
 
 ### 1.3.0
 
+#### 1.3.0-beta4
+- Android: handling of backbutton, disabled touch to cancel
+
 #### 1.3.0-beta3
 - #18 fixed crash on iOS < 7
 - #2 support for Samsung devices
