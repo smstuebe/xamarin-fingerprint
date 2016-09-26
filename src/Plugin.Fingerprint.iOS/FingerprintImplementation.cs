@@ -86,8 +86,7 @@ namespace Plugin.Fingerprint
 
             if (_context.RespondsToSelector(new Selector("localizedCancelTitle")))
             {
-                // iOS 10!
-                // _context.LocalizedCancelTitle = authRequestConfig.CancelTitle;
+                _context.LocalizedCancelTitle = authRequestConfig.CancelTitle;
             }
         }
 
