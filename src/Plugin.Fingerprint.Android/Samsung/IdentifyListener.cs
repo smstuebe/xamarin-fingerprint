@@ -8,13 +8,13 @@ namespace Plugin.Fingerprint.Samsung
 {
     public class IdentifyListener : Java.Lang.Object, SpassFingerprint.IIdentifyListener
     {
-        private readonly Func<SpassFingerprint.IIdentifyListener, bool> _startIdentify;
+        private readonly Func<SpassFingerprint.IIdentifyListener, Task<bool>> _startIdentify;
         private readonly IAuthenticationFailedListener _failedListener;
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
         private int _retriesLeft;
-        private TaskCompletionSource<int> _completedSource;
+        //private TaskCompletionSource<int> _completedSource;
 
-        public IdentifyListener(Func<SpassFingerprint.IIdentifyListener, bool> startIdentify, IAuthenticationFailedListener failedListener)
+        public IdentifyListener(Func<SpassFingerprint.IIdentifyListener, Task<bool>> startIdentify, IAuthenticationFailedListener failedListener)
         {
             _retriesLeft = 2;
             _startIdentify = startIdentify;
@@ -22,34 +22,36 @@ namespace Plugin.Fingerprint.Samsung
             _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
         }
 
-        public Task<FingerprintAuthenticationResult> GetTask()
+        public async Task<FingerprintAuthenticationResult> GetTask()
         {
-            if (!StartIdentify())
+            if (!await StartIdentify())
             {
-                return Task.FromResult(new FingerprintAuthenticationResult
+                return new FingerprintAuthenticationResult
                 {
                     Status = FingerprintAuthenticationResultStatus.UnknownError
-                });
+                };
             }
 
-            return _taskCompletionSource.Task;
+            return await _taskCompletionSource.Task;
         }
 
-        private bool StartIdentify()
+        private async Task<bool> StartIdentify()
         {
-            _completedSource = new TaskCompletionSource<int>();
-            return _startIdentify(this);
+            // TODO: use task completion source instead of retries in SamsungFingerprintImplementation, if samsung fixes the library 
+            //_completedSource = new TaskCompletionSource<int>();
+            return await _startIdentify(this);
         }
 
         public void OnCompleted()
         {
-            _completedSource?.TrySetResult(0);
+            //_completedSource?.TrySetResult(0);
         }
 
         public async void OnFinished(SpassFingerprintStatus status)
         {
+            //_completedSource = new TaskCompletionSource<int>();
             var resultStatus = GetResultStatus(status);
-
+            
             if (resultStatus == FingerprintAuthenticationResultStatus.Failed && _retriesLeft > 0)
             {
                 _failedListener?.OnFailedTry();
@@ -58,9 +60,9 @@ namespace Plugin.Fingerprint.Samsung
                 {
                     _retriesLeft--;
 
-                    await _completedSource.Task;
-
-                    if (StartIdentify())
+                    //await _completedSource.Task;
+                
+                    if (await StartIdentify())
                         return;
                 }
             }
@@ -77,6 +79,7 @@ namespace Plugin.Fingerprint.Samsung
 
         public void OnStarted()
         {
+            // TODO: OnStarted -> OnCompleted = failed (to short touched) OMG 
         }
 
         private static FingerprintAuthenticationResultStatus GetResultStatus(SpassFingerprintStatus status)

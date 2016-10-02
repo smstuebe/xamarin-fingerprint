@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Foundation;
 using LocalAuthentication;
@@ -34,7 +35,6 @@ namespace Plugin.Fingerprint
         public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
-            cancellationToken.Register(CancelAuthentication);
             if (!IsAvailable)
             {
                 result.Status = FingerprintAuthenticationResultStatus.NotAvailable;
@@ -43,7 +43,11 @@ namespace Plugin.Fingerprint
 
             SetupContextProperties(authRequestConfig);
 
-            var resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, authRequestConfig.Reason);
+            Tuple<bool, NSError> resTuple;
+            using (cancellationToken.Register(CancelAuthentication))
+            {
+                resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, authRequestConfig.Reason);
+            }
 
             if (resTuple.Item1)
             {

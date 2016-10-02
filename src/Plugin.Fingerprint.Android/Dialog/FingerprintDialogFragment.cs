@@ -48,7 +48,7 @@ namespace Plugin.Fingerprint.Dialog
 
             if (_cancelButton != null)
             {
-                _cancelButton.Text = string.IsNullOrWhiteSpace(Configuration.CancelTitle) ? Context.GetString(Android.Resource.String.Cancel) : Configuration.CancelTitle;
+                _cancelButton.Text = string.IsNullOrWhiteSpace(Configuration.CancelTitle) ? Application.Context.GetString(Android.Resource.String.Cancel) : Configuration.CancelTitle;
                 _cancelButton.Click += OnCancel;
             }
 

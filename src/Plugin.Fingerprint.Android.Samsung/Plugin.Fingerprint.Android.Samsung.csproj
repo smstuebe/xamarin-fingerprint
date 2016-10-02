@@ -53,9 +53,9 @@
     <Folder Include="Additions\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedReferenceJar Include="..\samsung\sdk\pass-v1.2.1.jar">
+    <None Include="..\samsung\sdk\pass-v1.2.1.jar">
       <Link>Jars\pass-v1.2.1.jar</Link>
-    </EmbeddedReferenceJar>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedReferenceJar Include="..\samsung\sdk\sdk-v1.0.0.jar">
@@ -64,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <InputJar Include="Jars\pass-fake.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedReferenceJar Include="Jars\pass-v1.2.0.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <PropertyGroup>

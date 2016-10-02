@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Support.V4.Content;
 using Android.Util;
 using Com.Samsung.Android.Sdk.Pass;
 using Java.Lang;
@@ -42,19 +43,29 @@ namespace Plugin.Fingerprint.Samsung
             }
         }
 
-        private bool StartIdentify(SpassFingerprint.IIdentifyListener listener)
+        private async Task<bool> StartIdentify(SpassFingerprint.IIdentifyListener listener)
         {
-            try
+            // TODO: remove retry and delay, if samsung fixes the library 
+            for (var i = 0; i < 5; i++)
             {
-                _spassFingerprint.StartIdentify(listener);
-            }
-            catch (Exception ex)
-            {
-                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
-                return false;
+                try
+                {
+                    _spassFingerprint.StartIdentify(listener);
+                    return true;
+                }
+                catch (IllegalStateException ex)
+                {
+                    Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                    await Task.Delay(100);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                    return false;
+                }
             }
 
-            return true;
+            return false;
         }
 
         protected override bool CheckAvailability()
