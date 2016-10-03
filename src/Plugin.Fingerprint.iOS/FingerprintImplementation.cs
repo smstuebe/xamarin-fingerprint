@@ -11,36 +11,16 @@ namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        private NSError _error;
         private LAContext _context;
-
-        public override bool IsAvailable
-        {
-            get
-            {
-                if (_context == null)
-                {
-                    return false;
-                }
-
-                return _context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out _error);
-            }
-        }
 
         public FingerprintImplementation()
         {
             CreateLaContext();
         }
 
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
+        protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
-            if (!IsAvailable)
-            {
-                result.Status = FingerprintAuthenticationResultStatus.NotAvailable;
-                return result;
-            }
-
             SetupContextProperties(authRequestConfig);
 
             Tuple<bool, NSError> resTuple;
@@ -79,6 +59,28 @@ namespace Plugin.Fingerprint
 
             CreateNewContext();
             return result;
+        }
+
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        {
+            NSError error;
+
+            if (_context == null)
+                return FingerprintAvailability.NoApi;
+
+            if (_context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out error))
+                return FingerprintAvailability.Available;
+
+            switch ((LAStatus)(int)error.Code)
+            {
+                case LAStatus.TouchIDNotAvailable:
+                    return FingerprintAvailability.NoSensor;
+                case LAStatus.TouchIDNotEnrolled:
+                case LAStatus.PasscodeNotSet:
+                    return FingerprintAvailability.NoFingerprint;
+                default:
+                    return FingerprintAvailability.Unknown;
+            }
         }
 
         private void SetupContextProperties(AuthenticationRequestConfiguration authRequestConfig)

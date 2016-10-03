@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Support.V4.Content;
 using Android.Util;
 using Com.Samsung.Android.Sdk.Pass;
 using Java.Lang;
@@ -12,11 +11,12 @@ namespace Plugin.Fingerprint.Samsung
 {
     public class SamsungFingerprintImplementation : AndroidFingerprintImplementationBase
     {
-        private readonly bool _couldInitialize;
-        private readonly bool _hasFingerPrintSensor;
+        private readonly bool _hasNoApi;
+        private readonly bool _hasNoPermission;
+        private readonly bool _hasNoFingerPrintSensor;
         private readonly SpassFingerprint _spassFingerprint;
 
-        internal bool IsCompatible => _couldInitialize && _hasFingerPrintSensor;
+        internal bool IsCompatible { get; }
 
         public SamsungFingerprintImplementation()
         {
@@ -24,13 +24,19 @@ namespace Plugin.Fingerprint.Samsung
             {
                 var spass = new Spass();
                 spass.Initialize(Application.Context);
-                _couldInitialize = true;
-                _hasFingerPrintSensor = spass.IsFeatureEnabled(Spass.DeviceFingerprint);
+                _hasNoFingerPrintSensor = !spass.IsFeatureEnabled(Spass.DeviceFingerprint);
                 _spassFingerprint = new SpassFingerprint(Application.Context);
+                IsCompatible = true;
+            }
+            catch (SecurityException ex)
+            {
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                _hasNoPermission = true;
             }
             catch (Exception ex)
             {
                 Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                _hasNoApi = true;
             }
         }
 
@@ -68,12 +74,21 @@ namespace Plugin.Fingerprint.Samsung
             return false;
         }
 
-        protected override bool CheckAvailability()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
         {
-            if (!IsCompatible)
-                return false;
+            if (!_hasNoApi)
+                return FingerprintAvailability.NoApi;
 
-            return _spassFingerprint.HasRegisteredFinger;
+            if(_hasNoPermission)
+                return FingerprintAvailability.NoPermission;
+
+            if (_hasNoFingerPrintSensor)
+                return FingerprintAvailability.NoSensor;
+
+            if (!_spassFingerprint.HasRegisteredFinger)
+                return FingerprintAvailability.NoFingerprint;
+
+            return FingerprintAvailability.Available;
         }
     }
 }

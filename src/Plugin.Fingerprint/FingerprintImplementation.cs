@@ -6,14 +6,17 @@ namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        public override bool IsAvailable { get; } = false;
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        {
+            return FingerprintAvailability.NoImplementation;
+        }
 
-        public override Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
+        protected override Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             return Task.FromResult(new FingerprintAuthenticationResult
             {
                 Status = FingerprintAuthenticationResultStatus.NotAvailable,
-                ErrorMessage = "Not implemented for the current platform"
+                ErrorMessage = "Not implemented for the current platform."
             });
         }
     }

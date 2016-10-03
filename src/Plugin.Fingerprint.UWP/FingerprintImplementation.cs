@@ -8,9 +8,7 @@ namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        public override bool IsAvailable => CheckAvailability();
-
-        public override async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
+        protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
             var result = new FingerprintAuthenticationResult();
 
@@ -51,10 +49,24 @@ namespace Plugin.Fingerprint
             return result;
         }
 
-        private static bool CheckAvailability()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
         {
-            var availability = UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result;
-            return availability == UserConsentVerifierAvailability.Available;
+            var uwpAvailability = await UserConsentVerifier.CheckAvailabilityAsync();
+
+            switch (uwpAvailability)
+            {
+                case UserConsentVerifierAvailability.Available:
+                    return FingerprintAvailability.Available;
+                case UserConsentVerifierAvailability.DeviceNotPresent:
+                    return FingerprintAvailability.NoSensor;
+                case UserConsentVerifierAvailability.NotConfiguredForUser:
+                    return FingerprintAvailability.NoFingerprint;
+                case UserConsentVerifierAvailability.DisabledByPolicy:
+                    return FingerprintAvailability.NoPermission;
+                case UserConsentVerifierAvailability.DeviceBusy:
+                default:
+                    return FingerprintAvailability.Unknown;
+            }
         }
     }
 }

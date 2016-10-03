@@ -24,28 +24,28 @@ namespace Plugin.Fingerprint.Standard
             }
         }
 
-        protected override bool CheckAvailability()
-        {
-            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
-                return false;
-
-            var context = Application.Context;
-            if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseFingerprint) != Permission.Granted)
-                return false;
-
-            var fpService = (FingerprintManager)context.GetSystemService(Class.FromType(typeof(FingerprintManager)));
-            if (!fpService.IsHardwareDetected)
-                return false;
-
-            if (!fpService.HasEnrolledFingerprints)
-                return false;
-
-            return true;
-        }
-
         private static FingerprintManager GetService()
         {
             return (FingerprintManager)Application.Context.GetSystemService(Class.FromType(typeof(FingerprintManager)));
+        }
+
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+                return FingerprintAvailability.NoApi;
+
+            var context = Application.Context;
+            if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseFingerprint) != Permission.Granted)
+                return FingerprintAvailability.NoPermission;
+
+            var fpService = (FingerprintManager)context.GetSystemService(Class.FromType(typeof(FingerprintManager)));
+            if (!fpService.IsHardwareDetected)
+                return FingerprintAvailability.NoSensor;
+
+            if (!fpService.HasEnrolledFingerprints)
+                return FingerprintAvailability.NoFingerprint;
+
+            return FingerprintAvailability.Available;
         }
     }
 }
