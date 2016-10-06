@@ -110,10 +110,10 @@
     <Compile Include="..\Plugin.Fingerprint\CrossFingerprint.cs">
       <Link>CrossFingerprint.cs</Link>
     </Compile>
-    <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
+      <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FingerprintImplementation.cs" />
     <Content Include="Properties\Plugin.Fingerprint.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>

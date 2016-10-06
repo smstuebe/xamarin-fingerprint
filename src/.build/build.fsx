@@ -76,6 +76,7 @@ Target "build" (fun _ ->
 
     trace "building libraries..."
     Build("Plugin.Fingerprint", "pcl")
+    Build("Plugin.Fingerprint.NotImplemented", "null")
     Build("Plugin.Fingerprint.Android", "android")
     Build("Plugin.Fingerprint.iOS", "ios")
     Build("Plugin.Fingerprint.UWP", "uwp")

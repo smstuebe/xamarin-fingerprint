@@ -48,6 +48,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Contract\AndroidFingerprintImplementationBase.cs" />
     <Compile Include="Contract\DeafAuthenticationFailedListener.cs" />
     <Compile Include="Contract\IAndroidFingerprintImplementation.cs" />
@@ -57,9 +60,6 @@
     <Compile Include="Dialog\FingerprintDialogFragment.cs" />
     <Compile Include="CrossFingerprint.Android.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-    <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Samsung\IdentifyListener.cs" />
     <Compile Include="Samsung\SamsungFingerprintImplementation.cs" />
     <Compile Include="Standard\FingerprintAuthenticationCallback.cs" />
@@ -99,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

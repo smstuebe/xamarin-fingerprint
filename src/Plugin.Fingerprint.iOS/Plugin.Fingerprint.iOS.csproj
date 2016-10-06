@@ -37,10 +37,10 @@
     <Compile Include="..\Plugin.Fingerprint\CrossFingerprint.cs">
       <Link>CrossFingerprint.cs</Link>
     </Compile>
-    <Compile Include="FingerprintImplementation.cs" />
     <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
+      <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FingerprintImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -53,6 +53,9 @@
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>Plugin.Fingerprint.Abstractions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
