@@ -12,7 +12,7 @@ namespace Plugin.Fingerprint.Abstractions
 
         public async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
         {
-            if(await IsAvailableAsync())
+            if(!await IsAvailableAsync())
                 return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
 
             return await NativeAuthenticateAsync(authRequestConfig, cancellationToken);

@@ -76,7 +76,7 @@ namespace Plugin.Fingerprint.Samsung
 
         public override async Task<FingerprintAvailability> GetAvailabilityAsync()
         {
-            if (!_hasNoApi)
+            if (_hasNoApi)
                 return FingerprintAvailability.NoApi;
 
             if(_hasNoPermission)
