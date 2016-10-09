@@ -7,6 +7,7 @@
         FallbackRequested,
         Failed,
         Canceled,
+        TooManyAttempts,
         UnknownError,
         NotAvailable
     }

@@ -49,6 +49,9 @@ namespace Plugin.Fingerprint
                         result.Status = FingerprintAuthenticationResultStatus.FallbackRequested;
                         break;
 
+                    case LAStatus.TouchIDLockout:
+                        result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+                        break;
                     default:
                         result.Status = FingerprintAuthenticationResultStatus.UnknownError;
                         break;

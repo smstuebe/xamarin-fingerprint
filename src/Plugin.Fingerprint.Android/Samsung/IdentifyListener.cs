@@ -66,6 +66,10 @@ namespace Plugin.Fingerprint.Samsung
                         return;
                 }
             }
+            else if (resultStatus == FingerprintAuthenticationResultStatus.Failed && _retriesLeft <= 0)
+            {
+                resultStatus = FingerprintAuthenticationResultStatus.TooManyAttempts;
+            }
 
             _taskCompletionSource.TrySetResult(new FingerprintAuthenticationResult
             {

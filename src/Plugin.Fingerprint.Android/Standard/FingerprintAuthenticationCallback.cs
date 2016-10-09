@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Android.Hardware.Fingerprints;
 using Java.Lang;
@@ -35,13 +36,18 @@ namespace Plugin.Fingerprint.Standard
             base.OnAuthenticationError(errorCode, errString);
             var message = errString != null ? errString.ToString() : string.Empty;
             var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
+
+            if (errorCode == FingerprintState.ErrorLockout)
+            {
+                result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+            }
+
             SetResultSafe(result);
         }
 
         private void SetResultSafe(FingerprintAuthenticationResult result)
         {
-            if (!(_taskCompletionSource.Task.IsCanceled || _taskCompletionSource.Task.IsCompleted ||
-                  _taskCompletionSource.Task.IsFaulted))
+            if (!(_taskCompletionSource.Task.IsCanceled || _taskCompletionSource.Task.IsCompleted || _taskCompletionSource.Task.IsFaulted))
             {
                 _taskCompletionSource.SetResult(result);
             }

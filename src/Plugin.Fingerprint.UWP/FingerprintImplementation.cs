@@ -30,13 +30,13 @@ namespace Plugin.Fingerprint
                         break;
                     
                     case UserConsentVerificationResult.RetriesExhausted:
-                        result.Status = FingerprintAuthenticationResultStatus.Failed;
+                        result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
                         break;
                     case UserConsentVerificationResult.Canceled:
                         result.Status = FingerprintAuthenticationResultStatus.Canceled;
                         break;
                     default:
-                        result.Status = FingerprintAuthenticationResultStatus.NotAvailable;
+                        result.Status = FingerprintAuthenticationResultStatus.Failed;
                         break;
                 }
             }
