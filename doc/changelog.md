@@ -2,6 +2,12 @@
 
 ### 1.3.0
 
+#### 1.3.0-beta5
+- Breaking: IsAvaialable is now `IsAvailableAsync()`. `GetAvailabilityAsync()` can be used for a more detailed handling.
+- #15 Support for .NET standard
+- #21 Switched to fail early approach if PCL is referenced
+- #14 Introduced new authentication result for too many attempts
+
 #### 1.3.0-beta4
 - Android: handling of backbutton, disabled touch to cancel
 
