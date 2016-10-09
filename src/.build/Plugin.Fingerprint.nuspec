@@ -23,10 +23,18 @@
       [0.0.1]
       - initial version
     </releaseNotes>
+    <dependencies>
+      <group targetFramework="netstandard1.0">
+        <dependency id="NETStandard.Library" version="1.6.0" />
+      </group>
+      <group targetFramework="portable-net45+win8+wpa81+wp8">
+      </group>
+    </dependencies>
   </metadata>
   <files>
-    <!-- PCL -->
+    <!-- PCL / net standard -->
     <file src="pcl\Plugin.Fingerprint.*" target="lib\portable-net45+win8+wpa81+wp8" />
+    <file src="pcl\Plugin.Fingerprint.*" target="lib\netstandard1.0" />
     <!-- .NET 4.5 -->
     <file src="null\Plugin.Fingerprint.*" target="lib\net45" />
     <!-- Android -->
