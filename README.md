@@ -24,27 +24,37 @@ The API is defined by the ```IFingerprint``` interface:
 ```csharp
 /// <summary>
 /// Checks the availability of fingerprint authentication.
-/// Possible Reasons for unavailability:
-/// - Access rights not granted
-/// - Device has no sensor
-/// - OS does not support this functionality
-/// - Fingerprint is not enrolled
+/// Checks are performed in this order:
+/// 1. API supports accessing the fingerprint sensor
+/// 2. Permission for accessint the fingerprint sensor granted
+/// 3. Device has sensor
+/// 4. Fingerprint has been enrolled
+/// <see cref="FingerprintAvailability.Unknown"/> will be returned if the check failed 
+/// with some other platform specific reason.
 /// </summary>
-bool IsAvailable { get; }
+Task<FingerprintAvailability> GetAvailabilityAsync();
 
 /// <summary>
-/// Requests the authentication (cancelable).
+/// Checks if <see cref="GetAvailabilityAsync"/> returns <see cref="FingerprintAvailability.Available"/>.
 /// </summary>
-/// <see cref="AuthenticateAsync(string)"/>
-Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken);
+/// <returns><c>true</c> if Available, else <c>false</c></returns>
+Task<bool> IsAvailableAsync();
 
 /// <summary>
 /// Requests the authentication.
 /// </summary>
-/// <param name="dialogConfig">Configuration of the dialog that is displayed to the user.</param>
+/// <param name="reason">Reason for the fingerprint authentication request. Displayed to the user.</param>
 /// <param name="cancellationToken">Token used to cancel the operation.</param>
 /// <returns>Authentication result</returns>
-Task<FingerprintAuthenticationResult> AuthenticateAsync(DialogConfiguration dialogConfig, CancellationToken cancellationToken = default(CancellationToken));
+Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default(CancellationToken));
+
+/// <summary>
+/// Requests the authentication.
+/// </summary>
+/// <param name="authRequestConfig">Configuration of the dialog that is displayed to the user.</param>
+/// <param name="cancellationToken">Token used to cancel the operation.</param>
+/// <returns>Authentication result</returns>
+Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
 ```
 
 The returned ```FingerprintAuthenticationResult``` contains information about the authentication.
