@@ -50,6 +50,7 @@ let NuPack (specFile:string, publish:bool) =
         WorkingDir = BuildTargetDir
         Project = project
         Publish = publish
+        PublishUrl = "https://www.nuget.org/api/v2/package"
         }) specFile
 
 let NuPackAll (publish:bool) = 
