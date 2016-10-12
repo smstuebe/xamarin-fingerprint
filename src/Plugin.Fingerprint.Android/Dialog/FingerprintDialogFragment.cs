@@ -198,6 +198,7 @@ namespace Plugin.Fingerprint.Dialog
                 case FingerprintAuthenticationResultStatus.Unknown:
                 case FingerprintAuthenticationResultStatus.Failed:
                 case FingerprintAuthenticationResultStatus.Canceled:
+                case FingerprintAuthenticationResultStatus.TooManyAttempts:
                 case FingerprintAuthenticationResultStatus.UnknownError:
                 case FingerprintAuthenticationResultStatus.NotAvailable:
                     await FinalAnimationAsync(NegativeColor);
