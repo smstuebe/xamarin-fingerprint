@@ -38,10 +38,19 @@ namespace Plugin.Fingerprint
                 switch ((LAStatus)(int)resTuple.Item2.Code)
                 {
                     case LAStatus.AuthenticationFailed:
-                        result.Status = FingerprintAuthenticationResultStatus.Failed;
+                        var description = resTuple.Item2.Description;
+                        if (description != null && description.Contains("retry limit exceeded"))
+                        {
+                            result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+                        }
+                        else
+                        {
+                            result.Status = FingerprintAuthenticationResultStatus.Failed;
+                        }
                         break;
 
                     case LAStatus.UserCancel:
+                    case LAStatus.AppCancel:
                         result.Status = FingerprintAuthenticationResultStatus.Canceled;
                         break;
 
@@ -52,6 +61,7 @@ namespace Plugin.Fingerprint
                     case LAStatus.TouchIDLockout:
                         result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
                         break;
+
                     default:
                         result.Status = FingerprintAuthenticationResultStatus.UnknownError;
                         break;
