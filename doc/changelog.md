@@ -2,6 +2,8 @@
 
 ### 1.3.0
 
+- #28 fixed wrong authentication status on too many attempts
+
 #### 1.3.0-beta5
 - Breaking: IsAvaialable is now `IsAvailableAsync()`. `GetAvailabilityAsync()` can be used for a more detailed handling.
 - #15 Support for .NET standard

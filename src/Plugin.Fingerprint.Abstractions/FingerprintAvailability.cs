@@ -30,7 +30,7 @@
         /// </summary>
         NoFingerprint,
         /// <summary>
-        /// An unknown, platform specific error occured. Availability status could not be 
+        /// An unknown, platform specific error occurred. Availability status could not be 
         /// mapped to a <see cref="FingerprintAvailability"/>.
         /// </summary>
         Unknown
