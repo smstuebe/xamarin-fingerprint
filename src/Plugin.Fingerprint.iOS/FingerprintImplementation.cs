@@ -5,7 +5,6 @@ using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
 using Plugin.Fingerprint.Abstractions;
-using UIKit;
 
 namespace Plugin.Fingerprint
 {
@@ -130,9 +129,8 @@ namespace Plugin.Fingerprint
 
         private void CreateLaContext()
         {
-            if (!UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            if (Class.GetHandle(nameof(LAContext)) != IntPtr.Zero)
             {
-                // LAContext is not available before ios 8.
                 return;
             }
 
