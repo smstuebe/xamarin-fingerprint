@@ -101,11 +101,12 @@ namespace Plugin.Fingerprint
             {
                 _context.LocalizedFallbackTitle = authRequestConfig.FallbackTitle;
             }
-
+#if !__MAC__
             if (_context.RespondsToSelector(new Selector("localizedCancelTitle")))
             {
                 _context.LocalizedCancelTitle = authRequestConfig.CancelTitle;
             }
+#endif
         }
 
         private void CancelAuthentication()
