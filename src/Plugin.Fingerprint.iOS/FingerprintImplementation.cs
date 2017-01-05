@@ -101,7 +101,7 @@ namespace Plugin.Fingerprint
             {
                 _context.LocalizedFallbackTitle = authRequestConfig.FallbackTitle;
             }
-#if !__MAC__
+#if !__MAC__ // will be included in Cycle 9
             if (_context.RespondsToSelector(new Selector("localizedCancelTitle")))
             {
                 _context.LocalizedCancelTitle = authRequestConfig.CancelTitle;
@@ -130,12 +130,20 @@ namespace Plugin.Fingerprint
 
         private void CreateLaContext()
         {
-            if (Class.GetHandle(nameof(LAContext)) != IntPtr.Zero)
-            {
-                return;
-            }
+            if (Class.GetHandle(typeof(LAContext)) == IntPtr.Zero)
+               return;
 
-            _context = new LAContext();
+            var info = new NSProcessInfo();
+#if __MAC__
+            var minVersion = new NSOperatingSystemVersion(10, 12, 0);
+#else
+            var minVersion = new NSOperatingSystemVersion(8, 0, 0);
+#endif
+
+            if (info.IsOperatingSystemAtLeastVersion(minVersion))
+            {
+                _context = new LAContext();
+            }
         }
     }
 }
