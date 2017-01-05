@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using AppKit;
 using Foundation;
 using Plugin.Fingerprint.Abstractions;
@@ -15,6 +14,12 @@ namespace SMS.Fingerprint.Sample.Mac
 		{
 		}
 
+		public override void ViewDidLoad()
+		{
+			base.ViewDidLoad();
+
+		}
+
 		public override NSObject RepresentedObject
 		{
 			get
@@ -24,11 +29,10 @@ namespace SMS.Fingerprint.Sample.Mac
 			set
 			{
 				base.RepresentedObject = value;
-				// Update the view, if already loaded.
 			}
 		}
 
-		private async void OnAuthenticate(object sender, EventArgs e)
+		async partial void AuthenticateClicked(NSButton sender)
 		{
 			_cancel = swAutoCancel.State == NSCellStateValue.On ? new CancellationTokenSource(TimeSpan.FromSeconds(10)) : new CancellationTokenSource();
 			lblStatus.StringValue = "";
@@ -37,7 +41,7 @@ namespace SMS.Fingerprint.Sample.Mac
 			SetResult(result);
 		}
 
-		private async void OnAuthenticateLocalized(object sender, EventArgs e)
+		async partial void AuthenticateLocalizedClicked(NSButton sender)
 		{
 			_cancel = swAutoCancel.State == NSCellStateValue.On ? new CancellationTokenSource(TimeSpan.FromSeconds(10)) : new CancellationTokenSource();
 			lblStatus.StringValue = "";

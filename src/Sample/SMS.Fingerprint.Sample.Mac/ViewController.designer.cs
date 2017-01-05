@@ -23,14 +23,15 @@ namespace SMS.Fingerprint.Sample.Mac
 
 		[Outlet]
 		AppKit.NSButton swAutoCancel { get; set; }
+
+		[Action ("AuthenticateClicked:")]
+		partial void AuthenticateClicked (AppKit.NSButton sender);
+
+		[Action ("AuthenticateLocalizedClicked:")]
+		partial void AuthenticateLocalizedClicked (AppKit.NSButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (swAutoCancel != null) {
-				swAutoCancel.Dispose ();
-				swAutoCancel = null;
-			}
-
 			if (btnAuthenticate != null) {
 				btnAuthenticate.Dispose ();
 				btnAuthenticate = null;
@@ -44,6 +45,11 @@ namespace SMS.Fingerprint.Sample.Mac
 			if (lblStatus != null) {
 				lblStatus.Dispose ();
 				lblStatus = null;
+			}
+
+			if (swAutoCancel != null) {
+				swAutoCancel.Dispose ();
+				swAutoCancel = null;
 			}
 		}
 	}
