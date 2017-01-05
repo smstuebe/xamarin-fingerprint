@@ -1,8 +1,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Plugin.Fingerprint</id>
-    <version>1.4.0-rc</version>
-    <title>Xamarin Fingerprint Plugin</title>
+    <version>1.4.0-rc1</version>
+    <title>Fingerprint Plugin for Xamarin</title>
     <authors>Sven-Michael Stübe</authors>
     <owners>Sven-Michael Stübe</owners>
     <licenseUrl>https://github.com/smstuebe/xamarin-fingerprint/blob/master/LICENSE</licenseUrl>
@@ -36,6 +36,8 @@
         <dependency id="NETStandard.Library" version="1.6.0" />
       </group>
       <group targetFramework="portable-net45+win8+wpa81+wp8">
+      </group>
+      <group targetFramework="Xamarin.Mac20">
       </group>
     </dependencies>
   </metadata>
