@@ -67,13 +67,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
-      <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>Plugin.Fingerprint.Abstractions</Name>
-    </ProjectReference>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\Plugin.Fingerprint.Abstractions.Mac\Plugin.Fingerprint.Abstractions.Mac.csproj">
+      <Project>{1611b039-42b7-463f-bea4-72867a924154}</Project>
+      <Name>Plugin.Fingerprint.Abstractions.Mac</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

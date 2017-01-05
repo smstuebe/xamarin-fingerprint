@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AppKit;
 using Foundation;
+using Plugin.Fingerprint.Abstractions;
 
 namespace SMS.Fingerprint.Sample.Mac
 {
@@ -12,13 +13,6 @@ namespace SMS.Fingerprint.Sample.Mac
 
 		public ViewController(IntPtr handle) : base(handle)
 		{
-		}
-
-		public override void ViewDidLoad()
-		{
-			base.ViewDidLoad();
-
-			// Do any additional setup after loading the view.
 		}
 
 		public override NSObject RepresentedObject
@@ -40,7 +34,7 @@ namespace SMS.Fingerprint.Sample.Mac
 			lblStatus.StringValue = "";
 			var result = await Plugin.Fingerprint.CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!", _cancel.Token);
 
-			await SetResultAsync(result);
+			SetResult(result);
 		}
 
 		private async void OnAuthenticateLocalized(object sender, EventArgs e)
@@ -55,11 +49,10 @@ namespace SMS.Fingerprint.Sample.Mac
 			};
 
 			var result = await Plugin.Fingerprint.CrossFingerprint.Current.AuthenticateAsync(dialogConfig, _cancel.Token);
-
-			await SetResultAsync(result);
+			SetResult(result);
 		}
 
-		private async Task SetResultAsync(FingerprintAuthenticationResult result)
+		private void SetResult(FingerprintAuthenticationResult result)
 		{
 			if (result.Authenticated)
 			{
