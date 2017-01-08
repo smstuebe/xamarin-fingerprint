@@ -119,6 +119,10 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 
 ### Android
 #### Setup
+**Set Target SDK version**
+
+The target SDK version has to be >= 6.0. I recomment to use always the latest stable SDK version, if possible. You can set the target SDK version in your Android project properties.
+
 **Request the permission in AndroidManifest.xml**
 
 The first line is for the standard Android API and the second for Samsung devices using the Pass API.
