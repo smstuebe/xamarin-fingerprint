@@ -5,7 +5,9 @@ using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
 using Plugin.Fingerprint.Abstractions;
+#if !__MAC__
 using UIKit;
+#endif
 
 namespace Plugin.Fingerprint
 {
@@ -130,23 +132,21 @@ namespace Plugin.Fingerprint
         }
 
         private void CreateLaContext()
-        {           
-
+        {
             var info = new NSProcessInfo();
 #if __MAC__
             var minVersion = new NSOperatingSystemVersion(10, 12, 0);
-			if (!info.IsOperatingSystemAtLeastVersion(minVersion))
-				return;
+            if (!info.IsOperatingSystemAtLeastVersion(minVersion))
+                return;
 #else
-   			// IsOperatingSystemAtLeastVersion is only available since iOS8, so use CheckSystemVersion instead or plugin will crash on iOS7 and below
 			if (!UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
 				return;
 #endif
-			// Check LAContext is not available on iOS7 and below, so check LAContext after checking iOS version.
-			if (Class.GetHandle(typeof(LAContext)) == IntPtr.Zero)
-				return;
-			
-            _context = new LAContext();            
+            // Check LAContext is not available on iOS7 and below, so check LAContext after checking iOS version.
+            if (Class.GetHandle(typeof(LAContext)) == IntPtr.Zero)
+                return;
+
+            _context = new LAContext();
         }
     }
 }
