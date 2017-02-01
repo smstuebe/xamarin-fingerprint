@@ -182,5 +182,14 @@ Sending fingerprint sensor events for testing the plugin can be done with the te
 **Note for Windows users:**
 You have to enable telnet: Programs and Features > Add Windows Feature > Telnet Client
 
+## Nice to know
+
+### ProGuard
+
+If you use the plugin with Link all, Release Mode and ProGuard enabled, you may have to add the follwoing rules to your proguard.cfg.
+
+    -dontwarn com.samsung.**
+    -keep class com.samsung.** {*;}
+
 ## Contribution
 <img src="http://i.imgur.com/WFBeQuG.png" /> + <img src="http://i.imgur.com/P4Ay9tm.png" />
