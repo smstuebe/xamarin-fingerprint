@@ -13,7 +13,9 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 mac Xamarin.Mac ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
-	[1.4.1]
+      [1.4.2]
+      - #43: fixed crash when fast tapping on cancel or fallback on Android
+      [1.4.1]
       - #40: fixed crash on iOS &lt; 8.0
       [1.4.0]
       - Xamarin.Mac support
