@@ -6,6 +6,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Runtime;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
@@ -29,6 +30,14 @@ namespace Plugin.Fingerprint.Dialog
         protected Color PositiveColor = new Color(90, 185, 83);
 
         protected AuthenticationRequestConfiguration Configuration { get; private set; }
+
+        public FingerprintDialogFragment()
+        {
+        }
+
+        public FingerprintDialogFragment(IntPtr ptr, JniHandleOwnership owner) : base(ptr, owner)
+        {
+        }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,15 +73,7 @@ namespace Plugin.Fingerprint.Dialog
         {
             base.OnPause();
 
-            if (_cancelButton != null)
-            {
-                _cancelButton.Click -= OnCancel;
-            }
-
-            if (_fallbackButton != null)
-            {
-                _fallbackButton.Click -= OnFallback;
-            }
+            DetachEventHandlers();
 
             _canceledByLifecycle = true;
             _cancelationTokenSource?.Cancel();
@@ -106,6 +107,19 @@ namespace Plugin.Fingerprint.Dialog
             base.Show(manager, tag);
         }
 
+        protected void DetachEventHandlers()
+        {
+            if (_cancelButton != null)
+            {
+                _cancelButton.Click -= OnCancel;
+            }
+
+            if (_fallbackButton != null)
+            {
+                _fallbackButton.Click -= OnFallback;
+            }
+        }
+
         private void SetManualResult(FingerprintAuthenticationResultStatus status, bool animation = true)
         {
             _canceledByLifecycle = true;
@@ -119,12 +133,13 @@ namespace Plugin.Fingerprint.Dialog
 
         private async void Dismiss(FingerprintAuthenticationResult result, bool animation = true)
         {
+            DetachEventHandlers();
             if (animation)
             {
                 await AnimateResultAsync(result.Status);
             }
 
-            _resultTaskCompletionSource.SetResult(result);
+            _resultTaskCompletionSource.TrySetResult(result);
             Dismiss();
         }
 
