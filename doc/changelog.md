@@ -1,5 +1,16 @@
 ## Changelog
 
+
+###1.4.2
+- #43: fixed crash when fast tapping on cancel or fallback on Android
+
+###1.4.1
+- #40: fixed crash on iOS &lt; 8.0
+
+### 1.4.0
+- Xamarin.Mac support
+	  
+	  
 ### 1.3.0
 
 - #28 fixed wrong authentication status on too many attempts
