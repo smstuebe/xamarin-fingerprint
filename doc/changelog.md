@@ -1,6 +1,8 @@
 ## Changelog
 
 
+###1.4.3
+- #45: fixed UWP nuget packages
 ###1.4.2
 - #43: fixed crash when fast tapping on cancel or fallback on Android
 
