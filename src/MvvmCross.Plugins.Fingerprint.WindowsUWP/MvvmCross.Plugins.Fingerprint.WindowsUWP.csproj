@@ -11,7 +11,7 @@
     <AssemblyName>MvvmCross.Plugins.Fingerprint.WindowsUWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -35,6 +35,7 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -110,7 +111,7 @@
   <ItemGroup>
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\SMS.MvvmCross.Fingerprint.WindowsUWP.rd.xml" />
+    <Content Include="Properties\MvvmCross.Fingerprint.WindowsUWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvvmCross.Plugins.Fingerprint\MvvmCross.Plugins.Fingerprint.csproj">

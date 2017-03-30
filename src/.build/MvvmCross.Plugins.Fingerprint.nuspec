@@ -65,6 +65,8 @@
     <!-- UWP -->
     <file src="mvx\uwp\MvvmCross.Plugins.Fingerprint.*" target="lib\UAP10" />
     <file src="mvx\uwp\Plugin.Fingerprint.*" target="lib\UAP10" />
+    <file src="mvx\uwp\Plugin.Fingerprint\Properties\*.rd.xml" target="lib\UAP10\Plugin.Fingerprint\Properties" />
+    <file src="mvx\uwp\MvvmCross.Plugins.Fingerprint.WindowsUWP\Properties\*.rd.xml" target="lib\UAP10\MvvmCross.Plugins.Fingerprint.WindowsUWP\Properties" />
     <file src="mvx\uwp\FingerprintPluginBootstrap.cs.pp" target="content\UAP10\Bootstrap\FingerprintPluginBootstrap.cs.pp" />
   </files>
 </package>

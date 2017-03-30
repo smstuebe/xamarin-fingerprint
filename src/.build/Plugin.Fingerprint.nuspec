@@ -59,6 +59,7 @@
     <file src="mac\Plugin.Fingerprint.*" target="lib\Xamarin.Mac20" />
     <!-- UWP -->
     <file src="uwp\Plugin.Fingerprint.*" target="lib\UAP10" />
+    <file src="uwp\Plugin.Fingerprint\Properties\*.rd.xml" target="lib\UAP10\Plugin.Fingerprint\Properties" />
     <!-- Win 8 Store -->
     <file src="null\Plugin.Fingerprint.*" target="lib\netcore45" />
     <!-- Win 8.1 -->
