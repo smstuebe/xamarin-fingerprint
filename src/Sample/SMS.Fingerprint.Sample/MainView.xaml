@@ -2,19 +2,31 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SMS.Fingerprint.Sample.MainView">
-  <StackLayout Orientation="Vertical" Padding="10">
-    <StackLayout Orientation="Horizontal">
-      <StackLayout.IsVisible>
-        <OnPlatform x:TypeArguments="x:Boolean"
-          iOS="True"
-          Android="True"
-          WinPhone="False" />
-      </StackLayout.IsVisible>
-      <Switch x:Name="swAutoCancel"></Switch>
-      <Label Text="Cancel after 10sec"></Label>
+    <StackLayout>
+        <StackLayout Orientation="Vertical" Padding="10">
+            <Label Text="Fingerprint authentication only" FontSize="Medium"/>
+            <StackLayout Orientation="Horizontal">
+                <StackLayout.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean"
+                        iOS="True"
+                        Android="True"
+                        WinPhone="False" />
+                 </StackLayout.IsVisible>
+                <Switch x:Name="swAutoCancel"></Switch>
+                <Label Text="Cancel after 10sec"></Label>
+            </StackLayout>
+            <Button Text="Authenticate" Clicked="OnAuthenticate"></Button>
+            <Button Text="Authenticate localized" Clicked="OnAuthenticateLocalized"></Button>
+            <Label x:Name="lblAuthenticateStatus"></Label>
+        </StackLayout>
+        <StackLayout Orientation="Vertical" Padding="10">
+        <Label Text="Fingerprint authentication for getting secure values" FontSize="Medium"/>
+
+        <Entry x:Name="entSecureValue" Placeholder="Secure value"/>
+        <Button Text="Add value" Clicked="OnAddSecureValue"></Button>
+        <Button Text="Remove value" Clicked="OnRemoveSecureValue"></Button>
+        <Button Text="Get value" Clicked="OnGetSecureValue"></Button>
+        <Label x:Name="lblSecureValueStatus"></Label>
     </StackLayout>
-    <Button Text="Authenticate" Clicked="OnAuthenticate"></Button>
-    <Button Text="Authenticate localized" Clicked="OnAuthenticateLocalized"></Button>
-    <Label x:Name="lblStatus"></Label>
-  </StackLayout>
+    </StackLayout>
 </ContentPage>

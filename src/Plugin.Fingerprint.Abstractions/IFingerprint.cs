@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plugin.Fingerprint.Abstractions
@@ -38,5 +39,9 @@ namespace Plugin.Fingerprint.Abstractions
         /// <param name="cancellationToken">Token used to cancel the operation.</param>
         /// <returns>Authentication result</returns>
         Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
+
+        Task<SecureValueResult> SetSecureValue(string serviceId, KeyValuePair<string, string> value);
+        Task<SecureValueResult> RemoveSecureValue(string serviceId, string key);
+        Task<GetSecureValueResult> GetSecureValue(string serviceId, string key, string reason);
     }
 }

@@ -5,6 +5,8 @@ using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
 using Plugin.Fingerprint.Abstractions;
+using System.Collections.Generic;
+using Security;
 #if !__MAC__
 using UIKit;
 #endif
@@ -96,6 +98,124 @@ namespace Plugin.Fingerprint
                 default:
                     return FingerprintAvailability.Unknown;
             }
+        }
+
+        protected override Task<SecureValueResult> NativeSetSecureValue(string serviceId, KeyValuePair<string, string> value)
+        {
+#if __MAC__
+            return Task.FromResult(new SecureValueResult
+            {
+                Status = SecureValueResultStatus.NotAvailable,
+                ErrorMessage = "Not implemented for the current platform."
+            });
+#else
+            var key = value.Key.ToLower();
+            serviceId = serviceId.ToLower();           
+
+            var secureAccessControl = new SecAccessControl(
+                SecAccessible.WhenPasscodeSetThisDeviceOnly, 
+                SecAccessControlCreateFlags.UserPresence);
+
+            if (secureAccessControl == null)
+            {
+                return Task.FromResult(new SecureValueResult
+                {
+                    Status = SecureValueResultStatus.UnknownError,
+                    ErrorMessage = "Unable to create secure access control object."
+                });
+            }
+
+            var statusCode = SecKeyChain.Add(new SecRecord(SecKind.GenericPassword)
+            {
+                Service = serviceId,
+                Label = serviceId,
+                Account = key,
+                Generic = NSData.FromString(value.Value, NSStringEncoding.UTF8),
+                UseNoAuthenticationUI = true,
+                AccessControl = secureAccessControl
+            });
+
+            return Task.FromResult(new SecureValueResult
+            {
+                Status = SecureValueResultStatus.Succeeded,                
+            });
+#endif
+        }
+
+        protected override Task<SecureValueResult> NativeRemoveSecureValue(string serviceId, string key)
+        {
+#if __MAC__
+            return Task.FromResult(new SecureValueResult
+            {
+                Status = SecureValueResultStatus.NotAvailable,
+                ErrorMessage = "Not implemented for the current platform."
+            });
+#else           
+            key = key.ToLower();
+            serviceId = serviceId.ToLower();
+
+            var secureRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Service = serviceId,
+                Label = serviceId,
+                Account = key,
+            };
+
+            var statusCode = SecKeyChain.Remove(secureRecord);
+
+            if (statusCode == SecStatusCode.Success)
+            {
+                return Task.FromResult(new SecureValueResult
+                {
+                    Status = SecureValueResultStatus.Succeeded,                    
+                });
+            }
+
+            return Task.FromResult(new SecureValueResult
+            {
+                Status = SecureValueResultStatus.UnknownError,
+            });
+#endif
+        }
+
+
+        protected override Task<GetSecureValueResult> NativeGetSecureValue(string serviceId, string key, string reason)
+        {
+#if __MAC__
+            return Task.FromResult(new GetSecureValueResult
+            {
+                Status = SecureValueResultStatus.NotAvailable,
+                ErrorMessage = "Not implemented for the current platform."
+            });
+#else
+            key = key.ToLower();
+            serviceId = serviceId.ToLower();
+
+            var secureRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Service = serviceId,
+                Label = serviceId,
+                Account = key,
+                UseOperationPrompt = reason
+            };
+
+            SecStatusCode statusCode;
+            secureRecord = SecKeyChain.QueryAsRecord(secureRecord, out statusCode);
+
+            if (statusCode == SecStatusCode.Success && secureRecord != null && secureRecord.Generic != null)
+            {
+                return Task.FromResult(new GetSecureValueResult
+                {
+                    Status = SecureValueResultStatus.Succeeded,
+                    Value = NSString.FromData(secureRecord.Generic, NSStringEncoding.UTF8)
+                });
+            }
+
+            return Task.FromResult(new GetSecureValueResult
+            {
+                Status = SecureValueResultStatus.UnknownError,
+            });
+#endif
         }
 
         private void SetupContextProperties(AuthenticationRequestConfiguration authRequestConfig)
