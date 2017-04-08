@@ -52,8 +52,17 @@
     <Compile Include="..\Plugin.Fingerprint.Abstractions\FingerprintImplementationBase.cs">
       <Link>FingerprintImplementationBase.cs</Link>
     </Compile>
+    <Compile Include="..\Plugin.Fingerprint.Abstractions\GetSecureValueResult.cs">
+      <Link>GetSecureValueResult.cs</Link>
+    </Compile>
     <Compile Include="..\Plugin.Fingerprint.Abstractions\IFingerprint.cs">
       <Link>IFingerprint.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugin.Fingerprint.Abstractions\SecureValueResult.cs">
+      <Link>SecureValueResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugin.Fingerprint.Abstractions\SecureValueResultStatus.cs">
+      <Link>SecureValueResultStatus.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
