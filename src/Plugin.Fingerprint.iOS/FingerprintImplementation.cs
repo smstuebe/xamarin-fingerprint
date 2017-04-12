@@ -211,9 +211,18 @@ namespace Plugin.Fingerprint
                 });
             }
 
+            if (statusCode == SecStatusCode.UserCanceled)
+            {
+                return Task.FromResult(new GetSecureValueResult
+                {
+                    Status = SecureValueResultStatus.Cancelled,
+                });
+            }
+
             return Task.FromResult(new GetSecureValueResult
             {
                 Status = SecureValueResultStatus.UnknownError,
+                ErrorMessage = statusCode.ToString()
             });
 #endif
         }

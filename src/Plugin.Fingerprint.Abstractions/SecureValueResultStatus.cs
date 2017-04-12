@@ -3,7 +3,8 @@
     public enum SecureValueResultStatus
     {
         Unknown,
-        Succeeded,        
+        Succeeded,  
+        Cancelled,      
         UnknownError,
         NotAvailable
     }
