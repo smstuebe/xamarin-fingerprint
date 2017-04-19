@@ -1,4 +1,6 @@
-﻿namespace Plugin.Fingerprint.Abstractions
+﻿using System;
+
+namespace Plugin.Fingerprint.Abstractions
 {
     /// <summary>
     /// Configuration of the stuff presented to the user.
@@ -28,6 +30,9 @@
 
         public AuthenticationRequestConfiguration(string reason)
         {
+            if (reason == null)
+                throw new ArgumentNullException(nameof(reason));
+
             Reason = reason;
         }
     }

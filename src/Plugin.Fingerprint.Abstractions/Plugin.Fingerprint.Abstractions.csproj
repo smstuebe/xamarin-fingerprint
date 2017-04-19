@@ -39,11 +39,12 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetSecureValueRequestConfiguration.cs" />
+    <Compile Include="SecureValueRequestConfiguration.cs" />
     <Compile Include="AuthenticationRequestConfiguration.cs" />
     <Compile Include="GetSecureValueResult.cs" />
     <Compile Include="SecureValueResult.cs" />
     <Compile Include="FingerprintAuthenticationResult.cs" />
-    <Compile Include="SecureValueResultStatus.cs" />
     <Compile Include="FingerprintAuthenticationResultStatus.cs" />
     <Compile Include="FingerprintAvailability.cs" />
     <Compile Include="FingerprintImplementationBase.cs" />

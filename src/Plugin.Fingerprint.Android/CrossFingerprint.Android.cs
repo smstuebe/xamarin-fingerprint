@@ -29,6 +29,12 @@ namespace Plugin.Fingerprint
             return (FingerprintDialogFragment) Activator.CreateInstance(_dialogFragmentType);
         }
 
+        internal static FingerprintDialogFragmentv2 CreateDialogFragmentv2()
+        {
+            //_dialogFragmentType = _dialogFragmentType ?? typeof(FingerprintDialogFragmentv2);
+            return (FingerprintDialogFragmentv2)Activator.CreateInstance(typeof(FingerprintDialogFragmentv2));
+        }
+
         private static Activity GetCurrentActivity()
         {
             if (_activityResolver == null)

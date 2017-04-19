@@ -6,7 +6,7 @@
         Succeeded,
         FallbackRequested,
         Failed,
-        Canceled,
+        Cancelled,
         TooManyAttempts,
         UnknownError,
         NotAvailable
