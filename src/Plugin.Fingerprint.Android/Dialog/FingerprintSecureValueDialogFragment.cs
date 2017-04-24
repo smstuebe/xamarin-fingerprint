@@ -16,7 +16,7 @@ using Plugin.Fingerprint.Utils;
 
 namespace Plugin.Fingerprint.Dialog
 {
-    public class FingerprintDialogFragmentv2 : DialogFragment, IAuthenticationFailedListener, IDialogInterfaceOnKeyListener
+    public class FingerprintSecureValueDialogFragment : DialogFragment, IAuthenticationFailedListener, IDialogInterfaceOnKeyListener
     {
         private TaskCompletionSource<AuthenticationCallbackResult> _resultTaskCompletionSource;
         private Button _cancelButton;
@@ -30,10 +30,10 @@ namespace Plugin.Fingerprint.Dialog
 
         protected AuthenticationRequestConfiguration Configuration { get; private set; }
 
-        public FingerprintDialogFragmentv2()
+        public FingerprintSecureValueDialogFragment()
         { }
 
-        public FingerprintDialogFragmentv2(IntPtr ptr, JniHandleOwnership owner) 
+        public FingerprintSecureValueDialogFragment(IntPtr ptr, JniHandleOwnership owner) 
             : base(ptr, owner)
         { }
 

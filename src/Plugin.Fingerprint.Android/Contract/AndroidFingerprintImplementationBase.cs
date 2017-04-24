@@ -52,7 +52,7 @@ namespace Plugin.Fingerprint.Contract
                                                  new AuthenticationCallback(sourceValue, taskCompletionSource),
                                                  null);
 
-                var fragment = CrossFingerprint.CreateDialogFragmentv2();
+                var fragment = CrossFingerprint.CreateSecureValueDialogFragment();
                 var result = await fragment.ShowAsync(setSecureValueRequestConfig, taskCompletionSource, cancellationToken);
 
                 if (result.Status == FingerprintAuthenticationResultStatus.Succeeded)
@@ -137,7 +137,7 @@ namespace Plugin.Fingerprint.Contract
                                                  new AuthenticationCallback(value, taskCompletionSource),
                                                  null);
 
-                var fragment = CrossFingerprint.CreateDialogFragmentv2();
+                var fragment = CrossFingerprint.CreateSecureValueDialogFragment();
                 var result = await fragment.ShowAsync(secureValueRequestConfig, taskCompletionSource, cancellationToken);
 
                 if (result.Status == FingerprintAuthenticationResultStatus.Succeeded)

@@ -10,6 +10,7 @@ namespace Plugin.Fingerprint
     {
         private static Func<Activity> _activityResolver;
         private static Type _dialogFragmentType;
+        private static Type _secureValueFragmentType;
 
         public static Activity CurrentActivity => GetCurrentActivity();
         
@@ -22,17 +23,22 @@ namespace Plugin.Fingerprint
         {
             _dialogFragmentType = typeof (TFragment);
         }
-        
+
+        public static void SetSecureValueDialogFragmentType<TFragment>() where TFragment : FingerprintSecureValueDialogFragment
+        {
+            _secureValueFragmentType = typeof(TFragment);
+        }
+
         internal static FingerprintDialogFragment CreateDialogFragment()
         {
             _dialogFragmentType = _dialogFragmentType ?? typeof (FingerprintDialogFragment);
             return (FingerprintDialogFragment) Activator.CreateInstance(_dialogFragmentType);
         }
 
-        internal static FingerprintDialogFragmentv2 CreateDialogFragmentv2()
+        internal static FingerprintSecureValueDialogFragment CreateSecureValueDialogFragment()
         {
-            //_dialogFragmentType = _dialogFragmentType ?? typeof(FingerprintDialogFragmentv2);
-            return (FingerprintDialogFragmentv2)Activator.CreateInstance(typeof(FingerprintDialogFragmentv2));
+            _secureValueFragmentType = _secureValueFragmentType ?? typeof(FingerprintSecureValueDialogFragment);
+            return (FingerprintSecureValueDialogFragment)Activator.CreateInstance(_secureValueFragmentType);
         }
 
         private static Activity GetCurrentActivity()

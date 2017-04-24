@@ -59,7 +59,7 @@
     <Compile Include="CrossFingerprint.cs" />
     <Compile Include="Dialog\AuthenticationCallback.cs" />
     <Compile Include="Dialog\AuthenticationCallbackResult.cs" />
-    <Compile Include="Dialog\FingerprintDialogFragmentv2.cs" />
+    <Compile Include="Dialog\FingerprintSecureValueDialogFragment.cs" />
     <Compile Include="Dialog\FingerprintDialogFragment.cs" />
     <Compile Include="CrossFingerprint.Android.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
