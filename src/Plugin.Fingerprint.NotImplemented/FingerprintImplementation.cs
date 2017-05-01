@@ -21,29 +21,29 @@ namespace Plugin.Fingerprint
             });
         }
 
-        protected override Task<SecureValueResult> NativeSetSecureValue(string serviceId, KeyValuePair<string, string> value)
+        protected override Task<SecureValueResult> NativeSetSecureValue(SetSecureValueRequestConfiguration setSecureValueRequestConfig, CancellationToken cancellationToken)
         {
             return Task.FromResult(new SecureValueResult
             {
-                Status = SecureValueResultStatus.NotAvailable,
+                Status = FingerprintAuthenticationResultStatus.NotAvailable,
                 ErrorMessage = "Not implemented for the current platform."
             });
         }
 
-        protected override Task<SecureValueResult> NativeRemoveSecureValue(string serviceId, string key)
+        protected override Task<SecureValueResult> NativeRemoveSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken)
         {
             return Task.FromResult(new SecureValueResult
             {
-                Status = SecureValueResultStatus.NotAvailable,
+                Status = FingerprintAuthenticationResultStatus.NotAvailable,
                 ErrorMessage = "Not implemented for the current platform."
             });
         }
 
-        protected override Task<GetSecureValueResult> NativeGetSecureValue(string serviceId, string key, string reason)
+        protected override Task<GetSecureValueResult> NativeGetSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken)
         {
             return Task.FromResult(new GetSecureValueResult
             {
-                Status = SecureValueResultStatus.NotAvailable,
+                Status = FingerprintAuthenticationResultStatus.NotAvailable,
                 ErrorMessage = "Not implemented for the current platform."
             });
         }

@@ -5,7 +5,7 @@
         /// <summary>
         /// Status of the operation.
         /// </summary>
-        public SecureValueResultStatus Status { get; set; }
+        public FingerprintAuthenticationResultStatus Status { get; set; }
 
         /// <summary>
         /// Reason for the unsuccessful operation.

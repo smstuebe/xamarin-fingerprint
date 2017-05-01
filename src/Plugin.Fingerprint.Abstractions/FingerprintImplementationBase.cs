@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plugin.Fingerprint.Abstractions
@@ -27,53 +25,32 @@ namespace Plugin.Fingerprint.Abstractions
 
         public abstract Task<FingerprintAvailability> GetAvailabilityAsync();
         protected abstract Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken);
-        protected abstract Task<SecureValueResult> NativeSetSecureValue(string serviceId, KeyValuePair<string, string> value);
-        protected abstract Task<SecureValueResult> NativeRemoveSecureValue(string serviceId, string key);
-        protected abstract Task<GetSecureValueResult> NativeGetSecureValue(string serviceId, string key, string reason);
+        protected abstract Task<SecureValueResult> NativeSetSecureValue(SetSecureValueRequestConfiguration setSecureValueRequestConfig, CancellationToken cancellationToken);
+        protected abstract Task<SecureValueResult> NativeRemoveSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken);
+        protected abstract Task<GetSecureValueResult> NativeGetSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken);
 
-        public async Task<SecureValueResult> SetSecureValue(string serviceId, KeyValuePair<string, string> value)
-        {
-            if (serviceId == null)
-                throw new ArgumentNullException(nameof(serviceId));
-
-            if (string.IsNullOrEmpty(value.Key) || string.IsNullOrEmpty(value.Value))
-                throw new ArgumentNullException(nameof(value), "Key or value cannot be empty");            
-
+        public async Task<SecureValueResult> SetSecureValue(SetSecureValueRequestConfiguration setSecureValueRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
+        {          
             if (!await IsAvailableAsync())
-                return new SecureValueResult { Status = SecureValueResultStatus.NotAvailable };
+                return new SecureValueResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
 
-            return await NativeSetSecureValue(serviceId, value);
+            return await NativeSetSecureValue(setSecureValueRequestConfig, cancellationToken);
         }
 
-        public async Task<SecureValueResult> RemoveSecureValue(string serviceId, string key)
+        public async Task<SecureValueResult> RemoveSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (serviceId == null)
-                throw new ArgumentNullException(nameof(serviceId));
-
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));            
-
             if (!await IsAvailableAsync())
-                return new SecureValueResult { Status = SecureValueResultStatus.NotAvailable };
+                return new SecureValueResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
 
-            return await NativeRemoveSecureValue(serviceId, key);
+            return await NativeRemoveSecureValue(secureValueRequestConfig, cancellationToken);
         }
 
-        public async Task<GetSecureValueResult> GetSecureValue(string serviceId, string key, string reason)
+        public async Task<GetSecureValueResult> GetSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (serviceId == null)
-                throw new ArgumentNullException(nameof(serviceId));
-
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            if (reason == null)
-                throw new ArgumentNullException(nameof(reason));
-
             if (!await IsAvailableAsync())
-                return new GetSecureValueResult { Status = SecureValueResultStatus.NotAvailable };
+                return new GetSecureValueResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
 
-            return await NativeGetSecureValue(serviceId, key, reason);
+            return await NativeGetSecureValue(secureValueRequestConfig, cancellationToken);
         }
     }
 }

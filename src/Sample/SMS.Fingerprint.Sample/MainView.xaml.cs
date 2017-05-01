@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Plugin.Fingerprint.Abstractions;
 using Xamarin.Forms;
-using System.Collections.Generic;
 
 namespace SMS.Fingerprint.Sample
 {
@@ -58,7 +57,11 @@ namespace SMS.Fingerprint.Sample
         private async void OnAddSecureValue(object sender, EventArgs e)
         {
             var result = await Plugin.Fingerprint.CrossFingerprint.Current.SetSecureValue(
-                _serviceId, new KeyValuePair<string, string>(_secureValueKey, entSecureValue.Text));
+                new SetSecureValueRequestConfiguration(
+                    _secureValueKey,
+                    entSecureValue.Text,
+                    _serviceId,
+                    "Please authenticate with your fingerprint to continue."));
 
             lblSecureValueStatus.Text = $"{result.Status}: {result.ErrorMessage}";
         }
@@ -66,7 +69,10 @@ namespace SMS.Fingerprint.Sample
         private async void OnRemoveSecureValue(object sender, EventArgs e)
         {
             var result = await Plugin.Fingerprint.CrossFingerprint.Current.RemoveSecureValue(
-                _serviceId, _secureValueKey);
+                new SecureValueRequestConfiguration(
+                    _secureValueKey,
+                    _serviceId,
+                    "Please authenticate with your fingerprint to continue."));
 
             lblSecureValueStatus.Text = $"{result.Status}: {result.ErrorMessage}";
         }
@@ -74,9 +80,12 @@ namespace SMS.Fingerprint.Sample
         private async void OnGetSecureValue(object sender, EventArgs e)
         {
             var result = await Plugin.Fingerprint.CrossFingerprint.Current.GetSecureValue(
-               _serviceId, _secureValueKey, "Please authenticate with your fingerprint to continue.");
+                new SecureValueRequestConfiguration(
+                    _secureValueKey,
+                    _serviceId,              
+                    "Please authenticate with your fingerprint to continue."));              
 
-            lblSecureValueStatus.Text = $"{result.Status}: {result.ErrorMessage}";
+            lblSecureValueStatus.Text = $"{result.Status}: {result.Value}";
         }
     }
 }

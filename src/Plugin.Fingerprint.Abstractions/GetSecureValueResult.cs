@@ -5,7 +5,7 @@
         /// <summary>
         /// Status of the operation.
         /// </summary>
-        public SecureValueResultStatus Status { get; set; }
+        public FingerprintAuthenticationResultStatus Status { get; set; }
 
         /// <summary>
         /// The value read from the OS secure store after successful fingerprint authentication.

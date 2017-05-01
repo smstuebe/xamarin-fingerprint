@@ -55,7 +55,7 @@ namespace Plugin.Fingerprint
 
                     case LAStatus.UserCancel:
                     case LAStatus.AppCancel:
-                        result.Status = FingerprintAuthenticationResultStatus.Canceled;
+                        result.Status = FingerprintAuthenticationResultStatus.Cancelled;
                         break;
 
                     case LAStatus.UserFallback:
@@ -100,17 +100,17 @@ namespace Plugin.Fingerprint
             }
         }
 
-        protected override Task<SecureValueResult> NativeSetSecureValue(string serviceId, KeyValuePair<string, string> value)
+        protected override Task<SecureValueResult> NativeSetSecureValue(SetSecureValueRequestConfiguration setSecureValueRequestConfig, CancellationToken cancellationToken)
         {
 #if __MAC__
             return Task.FromResult(new SecureValueResult
             {
-                Status = SecureValueResultStatus.NotAvailable,
+                Status = FingerprintAuthenticationResultStatus.NotAvailable,
                 ErrorMessage = "Not implemented for the current platform."
             });
 #else
-            var key = value.Key.ToLower();
-            serviceId = serviceId.ToLower();           
+            var key = setSecureValueRequestConfig.Key.ToLower();
+            var serviceId = setSecureValueRequestConfig.ServiceId.ToLower();           
 
             var secureAccessControl = new SecAccessControl(
                 SecAccessible.WhenPasscodeSetThisDeviceOnly, 
@@ -120,7 +120,7 @@ namespace Plugin.Fingerprint
             {
                 return Task.FromResult(new SecureValueResult
                 {
-                    Status = SecureValueResultStatus.UnknownError,
+                    Status = FingerprintAuthenticationResultStatus.UnknownError,
                     ErrorMessage = "Unable to create secure access control object."
                 });
             }
@@ -130,29 +130,29 @@ namespace Plugin.Fingerprint
                 Service = serviceId,
                 Label = serviceId,
                 Account = key,
-                Generic = NSData.FromString(value.Value, NSStringEncoding.UTF8),
+                Generic = NSData.FromString(setSecureValueRequestConfig.Value, NSStringEncoding.UTF8),
                 UseNoAuthenticationUI = true,
                 AccessControl = secureAccessControl
             });
 
             return Task.FromResult(new SecureValueResult
             {
-                Status = SecureValueResultStatus.Succeeded,                
+                Status = FingerprintAuthenticationResultStatus.Succeeded,                
             });
 #endif
         }
 
-        protected override Task<SecureValueResult> NativeRemoveSecureValue(string serviceId, string key)
+        protected override Task<SecureValueResult> NativeRemoveSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken)
         {
 #if __MAC__
             return Task.FromResult(new SecureValueResult
             {
-                Status = SecureValueResultStatus.NotAvailable,
+                Status = FingerprintAuthenticationResultStatus.NotAvailable,
                 ErrorMessage = "Not implemented for the current platform."
             });
 #else           
-            key = key.ToLower();
-            serviceId = serviceId.ToLower();
+            var key = secureValueRequestConfig.Key.ToLower();
+            var serviceId = secureValueRequestConfig.ServiceId.ToLower();
 
             var secureRecord = new SecRecord(SecKind.GenericPassword)
             {
@@ -167,36 +167,36 @@ namespace Plugin.Fingerprint
             {
                 return Task.FromResult(new SecureValueResult
                 {
-                    Status = SecureValueResultStatus.Succeeded,                    
+                    Status = FingerprintAuthenticationResultStatus.Succeeded,                    
                 });
             }
 
             return Task.FromResult(new SecureValueResult
             {
-                Status = SecureValueResultStatus.UnknownError,
+                Status = FingerprintAuthenticationResultStatus.UnknownError,
             });
 #endif
         }
 
 
-        protected override Task<GetSecureValueResult> NativeGetSecureValue(string serviceId, string key, string reason)
+        protected override Task<GetSecureValueResult> NativeGetSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken)
         {
 #if __MAC__
             return Task.FromResult(new GetSecureValueResult
             {
-                Status = SecureValueResultStatus.NotAvailable,
+                Status = FingerprintAuthenticationResultStatus.NotAvailable,
                 ErrorMessage = "Not implemented for the current platform."
             });
 #else
-            key = key.ToLower();
-            serviceId = serviceId.ToLower();
+            var key = secureValueRequestConfig.Key.ToLower();
+            var serviceId = secureValueRequestConfig.ServiceId.ToLower();
 
             var secureRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Service = serviceId,
                 Label = serviceId,
                 Account = key,
-                UseOperationPrompt = reason
+                UseOperationPrompt = secureValueRequestConfig.Reason
             };
 
             SecStatusCode statusCode;
@@ -206,14 +206,23 @@ namespace Plugin.Fingerprint
             {
                 return Task.FromResult(new GetSecureValueResult
                 {
-                    Status = SecureValueResultStatus.Succeeded,
+                    Status = FingerprintAuthenticationResultStatus.Succeeded,
                     Value = NSString.FromData(secureRecord.Generic, NSStringEncoding.UTF8)
+                });
+            }
+
+            if (statusCode == SecStatusCode.UserCanceled)
+            {
+                return Task.FromResult(new GetSecureValueResult
+                {
+                    Status = FingerprintAuthenticationResultStatus.Cancelled,
                 });
             }
 
             return Task.FromResult(new GetSecureValueResult
             {
-                Status = SecureValueResultStatus.UnknownError,
+                Status = FingerprintAuthenticationResultStatus.UnknownError,
+                ErrorMessage = statusCode.ToString()
             });
 #endif
         }

@@ -40,8 +40,8 @@ namespace Plugin.Fingerprint.Abstractions
         /// <returns>Authentication result</returns>
         Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task<SecureValueResult> SetSecureValue(string serviceId, KeyValuePair<string, string> value);
-        Task<SecureValueResult> RemoveSecureValue(string serviceId, string key);
-        Task<GetSecureValueResult> GetSecureValue(string serviceId, string key, string reason);
+        Task<SecureValueResult> SetSecureValue(SetSecureValueRequestConfiguration setSecureValueRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SecureValueResult> RemoveSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
+        Task<GetSecureValueResult> GetSecureValue(SecureValueRequestConfiguration secureValueRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

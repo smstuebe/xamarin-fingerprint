@@ -99,16 +99,16 @@ namespace Plugin.Fingerprint.Samsung
                     resultStatus = FingerprintAuthenticationResultStatus.Failed;
                     break;
                 case SpassFingerprintStatus.UserCancelled:
-                    resultStatus = FingerprintAuthenticationResultStatus.Canceled;
+                    resultStatus = FingerprintAuthenticationResultStatus.Cancelled;
                     break;
                 case SpassFingerprintStatus.ButtonPressed:
-                    resultStatus = FingerprintAuthenticationResultStatus.Canceled;
+                    resultStatus = FingerprintAuthenticationResultStatus.Cancelled;
                     break;
                 case SpassFingerprintStatus.QualityFailed:
                     resultStatus = FingerprintAuthenticationResultStatus.Failed;
                     break;
                 case SpassFingerprintStatus.UserCancelledByTouchOutside:
-                    resultStatus = FingerprintAuthenticationResultStatus.Canceled;
+                    resultStatus = FingerprintAuthenticationResultStatus.Cancelled;
                     break;
                 case SpassFingerprintStatus.Failed:
                     resultStatus = FingerprintAuthenticationResultStatus.Failed;

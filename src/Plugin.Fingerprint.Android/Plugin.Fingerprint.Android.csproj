@@ -42,6 +42,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Plugin.Fingerprint\Properties\AssemblyInfo.cs">
@@ -53,6 +57,9 @@
     <Compile Include="Contract\IAuthenticationCallback.cs" />
     <Compile Include="Contract\IAuthenticationFailedListener.cs" />
     <Compile Include="CrossFingerprint.cs" />
+    <Compile Include="Dialog\AuthenticationCallback.cs" />
+    <Compile Include="Dialog\AuthenticationCallbackResult.cs" />
+    <Compile Include="Dialog\FingerprintSecureValueDialogFragment.cs" />
     <Compile Include="Dialog\FingerprintDialogFragment.cs" />
     <Compile Include="CrossFingerprint.Android.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -61,6 +68,7 @@
     <Compile Include="Standard\FingerprintAuthenticationCallback.cs" />
     <Compile Include="Standard\StandardFingerprintImplementation.cs" />
     <Compile Include="Utils\AnimatorExtensions.cs" />
+    <Compile Include="Utils\CryptoObjectHelper.cs" />
     <Compile Include="Utils\TaskAnimationListener.cs" />
   </ItemGroup>
   <ItemGroup>
