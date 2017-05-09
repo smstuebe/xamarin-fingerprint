@@ -6,8 +6,16 @@ namespace Plugin.Fingerprint
 {
     public partial class CrossFingerprint
     {
-        private static Lazy<IFingerprint> _implementation = new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
-        public static IFingerprint Current => _implementation.Value;
+        private static Lazy<IFingerprint> _implementation =
+            new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
+        public static IFingerprint Current 
+        {
+            get { return _implementation.Value;}
+            set 
+            {
+               _implementation = new Lazy<IFingerprint>(() => value);
+            }
+        }
 
         static IFingerprint CreateFingerprint()
         {

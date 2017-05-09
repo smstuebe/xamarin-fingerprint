@@ -105,6 +105,15 @@ else
 }
 ```
 
+#### mocking in unit tests
+
+```C#
+//Create mock with LigthMock (http://www.lightinject.net/)
+var mockFingerprintContext = new MockContext<IFingerprint>();
+var mockFingerprint = new CrossFingerprintMock(mockFingerprintContext);
+
+mockFingerprintContext.Current = mockFingerprint;
+```
 ### iOS
 #### Limitations
 
