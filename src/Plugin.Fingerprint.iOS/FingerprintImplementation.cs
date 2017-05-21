@@ -28,7 +28,8 @@ namespace Plugin.Fingerprint
             Tuple<bool, NSError> resTuple;
             using (cancellationToken.Register(CancelAuthentication))
             {
-                resTuple = await _context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, authRequestConfig.Reason);
+                var policy = GetPolicy(authRequestConfig.AllowAlternativeAuthentication);
+                resTuple = await _context.EvaluatePolicyAsync(policy, authRequestConfig.Reason);
             }
 
             if (resTuple.Item1)
@@ -76,14 +77,15 @@ namespace Plugin.Fingerprint
             return result;
         }
 
-        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
             NSError error;
 
             if (_context == null)
                 return FingerprintAvailability.NoApi;
 
-            if (_context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out error))
+            var policy = GetPolicy(allowAlternativeAuthentication);
+            if (_context.CanEvaluatePolicy(policy, out error))
                 return FingerprintAvailability.Available;
 
             switch ((LAStatus)(int)error.Code)
@@ -104,12 +106,18 @@ namespace Plugin.Fingerprint
             {
                 _context.LocalizedFallbackTitle = authRequestConfig.FallbackTitle;
             }
-#if !__MAC__ // will be included in Cycle 9
+
             if (_context.RespondsToSelector(new Selector("localizedCancelTitle")))
             {
                 _context.LocalizedCancelTitle = authRequestConfig.CancelTitle;
             }
-#endif
+        }
+
+        private LAPolicy GetPolicy(bool allowAlternativeAuthentication)
+        {
+            return allowAlternativeAuthentication ?
+                LAPolicy.DeviceOwnerAuthentication :
+                LAPolicy.DeviceOwnerAuthenticationWithBiometrics;
         }
 
         private void CancelAuthentication()

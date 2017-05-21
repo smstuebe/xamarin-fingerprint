@@ -2,19 +2,29 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SMS.Fingerprint.Sample.MainView">
-  <StackLayout Orientation="Vertical" Padding="10">
-    <StackLayout Orientation="Horizontal">
-      <StackLayout.IsVisible>
-        <OnPlatform x:TypeArguments="x:Boolean"
-          iOS="True"
-          Android="True"
-          WinPhone="False" />
-      </StackLayout.IsVisible>
-      <Switch x:Name="swAutoCancel"></Switch>
-      <Label Text="Cancel after 10sec"></Label>
+    <StackLayout Orientation="Vertical" Padding="10">
+        <StackLayout Orientation="Horizontal">
+            <StackLayout.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean"
+                    iOS="True"
+                    Android="True"
+                    WinPhone="False" />
+            </StackLayout.IsVisible>
+            <Switch x:Name="swAutoCancel"></Switch>
+            <Label Text="Cancel after 10sec"></Label>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <StackLayout.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean"
+                    iOS="True"
+                    Android="False"
+                    WinPhone="False" />
+            </StackLayout.IsVisible>
+            <Switch x:Name="swAllowAlternative"></Switch>
+            <Label Text="Allow alternative authentication method (Password / PIN)"></Label>
+        </StackLayout>
+        <Button Text="Authenticate" Clicked="OnAuthenticate"></Button>
+        <Button Text="Authenticate localized" Clicked="OnAuthenticateLocalized"></Button>
+        <Label x:Name="lblStatus"></Label>
     </StackLayout>
-    <Button Text="Authenticate" Clicked="OnAuthenticate"></Button>
-    <Button Text="Authenticate localized" Clicked="OnAuthenticateLocalized"></Button>
-    <Label x:Name="lblStatus"></Label>
-  </StackLayout>
 </ContentPage>

@@ -6,7 +6,7 @@ namespace Plugin.Fingerprint
 {
     internal class FingerprintImplementation : FingerprintImplementationBase
     {
-        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
             return FingerprintAvailability.NoImplementation;
         }

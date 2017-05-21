@@ -29,7 +29,7 @@ namespace Plugin.Fingerprint.Standard
             return (FingerprintManager)Application.Context.GetSystemService(Class.FromType(typeof(FingerprintManager)));
         }
 
-        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
                 return FingerprintAvailability.NoApi;

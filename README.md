@@ -33,13 +33,23 @@ The API is defined by the ```IFingerprint``` interface:
 /// <see cref="FingerprintAvailability.Unknown"/> will be returned if the check failed 
 /// with some other platform specific reason.
 /// </summary>
-Task<FingerprintAvailability> GetAvailabilityAsync();
+/// <param name="allowAlternativeAuthentication">
+/// En-/Disables the use of the PIN / Passwort as fallback.
+/// Supported Platforms: iOS, Mac
+/// Default: false
+/// </param>
+Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false);
 
 /// <summary>
 /// Checks if <see cref="GetAvailabilityAsync"/> returns <see cref="FingerprintAvailability.Available"/>.
 /// </summary>
+/// <param name="allowAlternativeAuthentication">
+/// En-/Disables the use of the PIN / Passwort as fallback.
+/// Supported Platforms: iOS, Mac
+/// Default: false
+/// </param>
 /// <returns><c>true</c> if Available, else <c>false</c></returns>
-Task<bool> IsAvailableAsync();
+Task<bool> IsAvailableAsync(bool allowAlternativeAuthentication = false);
 
 /// <summary>
 /// Requests the authentication.
@@ -118,6 +128,10 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 - custom cancel button title
 
 ### Android
+#### Limitations
+
+You can't use the alternative authentication method.
+
 #### Setup
 **Set Target SDK version**
 
@@ -158,6 +172,11 @@ And somewhere in your code set your custom dialog fragment:
 ```csharp
 CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
 ```
+
+### UWP
+#### Limitations
+
+You can't use the alternative authentication method.
 
 ## Testing on Simulators
 ### iOS
