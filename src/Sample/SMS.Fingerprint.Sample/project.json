@@ -2,9 +2,12 @@
   "supports": {},
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-    "NETStandard.Library": "1.6.0"
+    "NETStandard.Library": "1.6.0",
+    "Xamarin.Forms": "2.3.4.247"
   },
   "frameworks": {
-    "netstandard1.0": {}
+    "netstandard1.0": {
+      "imports": "portable-monoandroid10+net45+win+win81+wp8+wpa81+xamarinios10+xamarinmac20"
+    }
   }
 }
