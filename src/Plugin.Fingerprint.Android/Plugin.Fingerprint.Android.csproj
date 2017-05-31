@@ -62,6 +62,8 @@
     <Compile Include="Standard\StandardFingerprintImplementation.cs" />
     <Compile Include="Utils\AnimatorExtensions.cs" />
     <Compile Include="Utils\TaskAnimationListener.cs" />
+    <Compile Include="Contract\DeviceAuthImplementation.cs" />
+    <Compile Include="Contract\IDeviceAuthImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\FingerprintDialog.axml">
