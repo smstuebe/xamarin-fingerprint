@@ -18,9 +18,9 @@ namespace Plugin.Fingerprint.Contract
         private const string EncryptionPadding = KeyProperties.EncryptionPaddingPkcs7;
         private const string Transformation = KeyAlgorithm + "/" + BlockMode + "/" + EncryptionPadding;
 
-        private const string KeyNameSuffix = "deviceAuthKey3";
+        private const string KeyNameSuffix = "deviceAuthKey";
 
-        private readonly string _keyName;
+        private string _keyName;
         private readonly KeyStore _keyStore;
         private KeyguardManager KeyguardManager => (KeyguardManager)Activity.GetSystemService(Context.KeyguardService);
 
@@ -28,8 +28,7 @@ namespace Plugin.Fingerprint.Contract
 
         public DeviceAuthImplementation()
         {
-            var packageName = Activity.PackageName;
-            _keyName = string.Join(".", new { packageName, KeyNameSuffix });
+            _keyName = GenerateKeyName();
 
             _keyStore = KeyStore.GetInstance(KeystoreName);
             _keyStore.Load(null);
@@ -40,6 +39,16 @@ namespace Plugin.Fingerprint.Contract
         public bool IsDeviceAuthSetup()
         {
             return KeyguardManager.IsKeyguardSecure;
+        }
+
+        private string GenerateKeyName()
+        {
+            var rnd = new Random();
+            var randomNumber = rnd.Next(100);
+            var packageName = Activity.PackageName;
+
+            var keyName = string.Join(".", new[] {packageName, KeyNameSuffix, randomNumber.ToString()});
+            return keyName;
         }
 
         private IKey GetKey()
@@ -89,9 +98,11 @@ namespace Plugin.Fingerprint.Contract
             }
             catch (KeyPermanentlyInvalidatedException ex)
             {
-                // TODO KS: Fix by generating random
                 // User has changed their fingerprint and/or device auth
-                // We need a new key
+                // We need a brand new key
+                _keyName = GenerateKeyName();
+                // Authenticate again with new key
+                return await AuthenticateAsync();
             }
             catch (GeneralSecurityException ex)
             {
