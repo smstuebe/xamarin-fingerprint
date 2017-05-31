@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="Contract\AndroidFingerprintImplementationBase.cs" />
     <Compile Include="Contract\DeafAuthenticationFailedListener.cs" />
+    <Compile Include="Contract\DeviceAuthFragment.cs" />
     <Compile Include="Contract\IAndroidFingerprintImplementation.cs" />
     <Compile Include="Contract\IAuthenticationCallback.cs" />
     <Compile Include="Contract\IAuthenticationFailedListener.cs" />
