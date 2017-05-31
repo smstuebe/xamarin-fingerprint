@@ -18,7 +18,7 @@ namespace Plugin.Fingerprint.Contract
         private const string EncryptionPadding = KeyProperties.EncryptionPaddingPkcs7;
         private const string Transformation = KeyAlgorithm + "/" + BlockMode + "/" + EncryptionPadding;
 		
-        private const string KeyNameSuffix = "deviceAuthKey";
+        private const string KeyNameSuffix = "deviceAuthKey3";
 		
         private readonly string KeyName;
         private KeyStore _keyStore;
@@ -68,6 +68,8 @@ namespace Plugin.Fingerprint.Contract
 
         public async Task<FingerprintAuthenticationResult> AuthenticateAsync()
         {
+            // TODO KS: Cancellation token
+
             var result = new FingerprintAuthenticationResult();
 
             try
@@ -88,6 +90,7 @@ namespace Plugin.Fingerprint.Contract
             }
             catch(KeyPermanentlyInvalidatedException ex)
             {
+                // TODO KS: Fix by generating random
                 // User has changed their fingerprint and/or device auth
                 // We need a new key
             }
@@ -98,7 +101,7 @@ namespace Plugin.Fingerprint.Contract
                 return result;
             }
 
-            result.Status = FingerprintAuthenticationResultStatus.Succeeded;
+            result.Status = FingerprintAuthenticationResultStatus.Unknown;
             return result;
         }
 
