@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint.Contract
@@ -6,6 +7,6 @@ namespace Plugin.Fingerprint.Contract
 	public interface IDeviceAuthImplementation
 	{
 		bool IsDeviceAuthSetup();
-		Task<FingerprintAuthenticationResult> AuthenticateAsync();
+		Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration config, CancellationToken cancellationToken);
 	}
 }

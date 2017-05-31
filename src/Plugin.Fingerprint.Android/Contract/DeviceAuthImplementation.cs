@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -74,11 +75,15 @@ namespace Plugin.Fingerprint.Contract
             keyGenerator.GenerateKey();
         }
 
-        public async Task<FingerprintAuthenticationResult> AuthenticateAsync()
+        public async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration config, CancellationToken cancellationToken)
         {
-            // TODO KS: Cancellation token
-
             var result = new FingerprintAuthenticationResult();
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                result.Status = FingerprintAuthenticationResultStatus.Canceled;
+                return result;
+            }
 
             try
             {
@@ -94,7 +99,7 @@ namespace Plugin.Fingerprint.Contract
             catch (GeneralSecurityException ex) when (ex is UserNotAuthenticatedException || ex.InnerException?.Message == "Key user not authenticated")
             {
                 // User is not authenticated, let's authenticate with device credentials.
-                return await ShowAuthenticationScreenAsync();
+                return await ShowAuthenticationScreenAsync(config);
             }
             catch (KeyPermanentlyInvalidatedException ex)
             {
@@ -102,7 +107,7 @@ namespace Plugin.Fingerprint.Contract
                 // We need a brand new key
                 _keyName = GenerateKeyName();
                 // Authenticate again with new key
-                return await AuthenticateAsync();
+                return await AuthenticateAsync(config, cancellationToken);
             }
             catch (GeneralSecurityException ex)
             {
@@ -115,10 +120,10 @@ namespace Plugin.Fingerprint.Contract
             return result;
         }
 
-        private async Task<FingerprintAuthenticationResult> ShowAuthenticationScreenAsync()
+        private async Task<FingerprintAuthenticationResult> ShowAuthenticationScreenAsync(AuthenticationRequestConfiguration config)
         {
             var deviceAuthTcs = new TaskCompletionSource<FingerprintAuthenticationResultStatus>();
-            var intent = KeyguardManager.CreateConfirmDeviceCredentialIntent((string)null, (string)null);
+            var intent = KeyguardManager.CreateConfirmDeviceCredentialIntent(config.FallbackTitle, config.Reason);
             var deviceAuthFragment = new DeviceAuthFragment(intent, deviceAuthTcs);
 
             FragmentTransaction addFragTx = Activity.FragmentManager.BeginTransaction();

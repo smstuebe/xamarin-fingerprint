@@ -37,7 +37,7 @@ namespace Plugin.Fingerprint.Contract
             {
                 if (_deviceAuth.IsDeviceAuthSetup())
                 {
-                    result = await _deviceAuth.AuthenticateAsync();
+                    result = await _deviceAuth.AuthenticateAsync(authRequestConfig, cancellationToken);
                 }
                 else
                 {
