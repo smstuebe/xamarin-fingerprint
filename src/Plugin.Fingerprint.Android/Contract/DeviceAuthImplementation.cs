@@ -12,45 +12,44 @@ namespace Plugin.Fingerprint.Contract
     public class DeviceAuthImplementation : IDeviceAuthImplementation
     {
         private const string KeystoreName = "AndroidKeyStore";
-		
+
         private const string KeyAlgorithm = KeyProperties.KeyAlgorithmAes;
         private const string BlockMode = KeyProperties.BlockModeCbc;
         private const string EncryptionPadding = KeyProperties.EncryptionPaddingPkcs7;
         private const string Transformation = KeyAlgorithm + "/" + BlockMode + "/" + EncryptionPadding;
-		
+
         private const string KeyNameSuffix = "deviceAuthKey3";
-		
-        private readonly string KeyName;
-        private KeyStore _keyStore;
-        private KeyguardManager _keyguardManager => (KeyguardManager)Activity.GetSystemService(Context.KeyguardService);
+
+        private readonly string _keyName;
+        private readonly KeyStore _keyStore;
+        private KeyguardManager KeyguardManager => (KeyguardManager)Activity.GetSystemService(Context.KeyguardService);
 
         private Activity Activity => CrossFingerprint.CurrentActivity;
 
         public DeviceAuthImplementation()
         {
             var packageName = Activity.PackageName;
-            KeyName = string.Join(".", new string[] { packageName, KeyNameSuffix });
-			
+            _keyName = string.Join(".", new { packageName, KeyNameSuffix });
+
             _keyStore = KeyStore.GetInstance(KeystoreName);
-			_keyStore.Load(null);
-			
+            _keyStore.Load(null);
+
             GetKey(); // Setup device key
         }
 
         public bool IsDeviceAuthSetup()
         {
-            return _keyguardManager.IsKeyguardSecure;
+            return KeyguardManager.IsKeyguardSecure;
         }
 
-        IKey GetKey()
+        private IKey GetKey()
         {
-            IKey secretKey;
-            if (!_keyStore.IsKeyEntry(KeyName))
+            if (!_keyStore.IsKeyEntry(_keyName))
             {
                 CreateKey();
             }
 
-            secretKey = _keyStore.GetKey(KeyName, null);
+            var secretKey = _keyStore.GetKey(_keyName, null);
             return secretKey;
         }
 
@@ -58,7 +57,7 @@ namespace Plugin.Fingerprint.Contract
         {
             var keyGenerator = KeyGenerator.GetInstance(KeyProperties.KeyAlgorithmAes, KeystoreName);
 
-            keyGenerator.Init(new KeyGenParameterSpec.Builder(KeyName, KeyStorePurpose.Decrypt | KeyStorePurpose.Encrypt)
+            keyGenerator.Init(new KeyGenParameterSpec.Builder(_keyName, KeyStorePurpose.Decrypt | KeyStorePurpose.Encrypt)
                                  .SetBlockModes(KeyProperties.BlockModeCbc)
                                  .SetUserAuthenticationRequired(true)
                                  .SetEncryptionPaddings(KeyProperties.EncryptionPaddingPkcs7)
@@ -88,7 +87,7 @@ namespace Plugin.Fingerprint.Contract
                 // User is not authenticated, let's authenticate with device credentials.
                 return await ShowAuthenticationScreenAsync();
             }
-            catch(KeyPermanentlyInvalidatedException ex)
+            catch (KeyPermanentlyInvalidatedException ex)
             {
                 // TODO KS: Fix by generating random
                 // User has changed their fingerprint and/or device auth
@@ -108,7 +107,7 @@ namespace Plugin.Fingerprint.Contract
         private async Task<FingerprintAuthenticationResult> ShowAuthenticationScreenAsync()
         {
             var deviceAuthTcs = new TaskCompletionSource<FingerprintAuthenticationResultStatus>();
-            var intent = _keyguardManager.CreateConfirmDeviceCredentialIntent((string)null, (string)null);
+            var intent = KeyguardManager.CreateConfirmDeviceCredentialIntent((string)null, (string)null);
             var deviceAuthFragment = new DeviceAuthFragment(intent, deviceAuthTcs);
 
             FragmentTransaction addFragTx = Activity.FragmentManager.BeginTransaction();
@@ -121,8 +120,8 @@ namespace Plugin.Fingerprint.Contract
             removeFragTx.Remove(deviceAuthFragment);
             removeFragTx.Commit();
 
-            var result = new FingerprintAuthenticationResult 
-            { 
+            var result = new FingerprintAuthenticationResult
+            {
                 Status = status
             };
 
@@ -133,10 +132,10 @@ namespace Plugin.Fingerprint.Contract
 
     public class DeviceAuthFragment : Fragment
     {
-        static readonly int ConfirmRequestId = 1;
+        private const int ConfirmRequestId = 1;
 
-        private Intent _deviceAuthIntent;
-        TaskCompletionSource<FingerprintAuthenticationResultStatus> _deviceAuthTcs;
+        private readonly Intent _deviceAuthIntent;
+        readonly TaskCompletionSource<FingerprintAuthenticationResultStatus> _deviceAuthTcs;
 
         public DeviceAuthFragment(Intent deviceAuthIntent, TaskCompletionSource<FingerprintAuthenticationResultStatus> deviceAuthTcs)
         {

@@ -11,31 +11,31 @@ namespace Plugin.Fingerprint.Contract
     {
         private readonly DeviceAuthImplementation _deviceAuth;
 
-        public AndroidFingerprintImplementationBase()
+        protected AndroidFingerprintImplementationBase()
         {
             _deviceAuth = new DeviceAuthImplementation();
         }
 
         protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken))
         {
-            FingerprintAuthenticationResult result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
+            var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
 
             if (GetFingerprintAvailability() == FingerprintAvailability.Available)
             {
-				if (authRequestConfig.UseDialog)
-				{
-					var fragment = CrossFingerprint.CreateDialogFragment();
-					result = await fragment.ShowAsync(authRequestConfig, this, cancellationToken);
-				}
-				else
-				{
-					result = await AuthenticateNoDialogAsync(new DeafAuthenticationFailedListener(), cancellationToken);
-				}
+                if (authRequestConfig.UseDialog)
+                {
+                    var fragment = CrossFingerprint.CreateDialogFragment();
+                    result = await fragment.ShowAsync(authRequestConfig, this, cancellationToken);
+                }
+                else
+                {
+                    result = await AuthenticateNoDialogAsync(new DeafAuthenticationFailedListener(), cancellationToken);
+                }
             }
 
-            if(authRequestConfig.AllowAlternativeAuthentication && result.Status != FingerprintAuthenticationResultStatus.Succeeded)
+            if (authRequestConfig.AllowAlternativeAuthentication && result.Status != FingerprintAuthenticationResultStatus.Succeeded)
             {
-                if(_deviceAuth.IsDeviceAuthSetup())
+                if (_deviceAuth.IsDeviceAuthSetup())
                 {
                     result = await _deviceAuth.AuthenticateAsync();
                 }
@@ -52,13 +52,13 @@ namespace Plugin.Fingerprint.Contract
             return result;
         }
 
-        public async override Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
             var fingerprintAvailability = GetFingerprintAvailability();
 
             if (fingerprintAvailability != FingerprintAvailability.Available
                 && allowAlternativeAuthentication
-				&& _deviceAuth.IsDeviceAuthSetup())
+                && _deviceAuth.IsDeviceAuthSetup())
             {
                 return FingerprintAvailability.Available;
             }
