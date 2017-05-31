@@ -20,7 +20,7 @@ namespace Plugin.Fingerprint.Contract
         {
             FingerprintAuthenticationResult result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };
 
-            if (await GetAvailabilityAsync() == FingerprintAvailability.Available)
+            if (GetFingerprintAvailability() == FingerprintAvailability.Available)
             {
 				if (authRequestConfig.UseDialog)
 				{
@@ -51,6 +51,22 @@ namespace Plugin.Fingerprint.Contract
 
             return result;
         }
+
+        public async override Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
+        {
+            var fingerprintAvailability = GetFingerprintAvailability();
+
+            if (fingerprintAvailability != FingerprintAvailability.Available
+                && allowAlternativeAuthentication
+				&& _deviceAuth.IsDeviceAuthSetup())
+            {
+                return FingerprintAvailability.Available;
+            }
+
+            return fingerprintAvailability;
+        }
+
+        public abstract FingerprintAvailability GetFingerprintAvailability();
 
         public abstract Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken);
     }
