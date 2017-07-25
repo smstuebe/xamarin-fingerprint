@@ -1,0 +1,1 @@
+mobile-center test run uitest --app %1 --devices %2 --app-path "..\Test\Plugin.Fingerprint.Test.UI.Android\bin\Debug\Plugin.Fingerprint.Test.UI.Android-Signed.apk" --test-series "master" --locale "en_US" --build-dir "..\Test\Plugin.Fingerprint.Test.UI\bin\Debug"

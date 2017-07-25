@@ -85,8 +85,23 @@ namespace Plugin.Fingerprint.Samsung
             if (_hasNoFingerPrintSensor)
                 return FingerprintAvailability.NoSensor;
 
-            if (!_spassFingerprint.HasRegisteredFinger)
-                return FingerprintAvailability.NoFingerprint;
+            try
+            {
+                // On some devices, Samsung doesn't fulfill the API contract of IsFeatureEnabled.
+                // This will cause a UnsupportedOperationException when calling HasRegisteredFinger see #53, #70
+                if (!_spassFingerprint.HasRegisteredFinger)
+                    return FingerprintAvailability.NoFingerprint;
+            }
+            catch (UnsupportedOperationException ex)
+            {
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                return FingerprintAvailability.NoSensor;
+            }
+            catch (Exception ex)
+            {
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                return FingerprintAvailability.Unknown;
+            }
 
             return FingerprintAvailability.Available;
         }

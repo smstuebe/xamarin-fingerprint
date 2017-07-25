@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.4.5
+- #53, #70 fixed possible crash on some samsung devices without fingerprint sensor
+
 ### 1.4.4
 - #60 allow alternative authentication via PIN / password (iOS only)
 - allow custon fallback title on Mac
