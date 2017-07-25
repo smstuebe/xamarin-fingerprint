@@ -5,5 +5,9 @@ namespace Plugin.Fingerprint.Contract
         public void OnFailedTry()
         {
         }
+
+        public void OnHelp(FingerprintAuthenticationHelp help, string nativeHelpText)
+        {
+        }
     }
 }
