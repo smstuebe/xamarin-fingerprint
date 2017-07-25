@@ -140,7 +140,7 @@ namespace Plugin.Fingerprint.Dialog
             }
 
             _resultTaskCompletionSource.TrySetResult(result);
-            Dismiss();
+            DismissAllowingStateLoss();
         }
 
         private void OnExternalCancel()
