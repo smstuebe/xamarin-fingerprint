@@ -50,6 +50,7 @@
     <Compile Include="Contract\AndroidFingerprintImplementationBase.cs" />
     <Compile Include="Contract\DeafAuthenticationFailedListener.cs" />
     <Compile Include="Contract\DeviceAuthFragment.cs" />
+    <Compile Include="Contract\FingerprintAuthenticationHelp.cs" />
     <Compile Include="Contract\IAndroidFingerprintImplementation.cs" />
     <Compile Include="Contract\IAuthenticationCallback.cs" />
     <Compile Include="Contract\IAuthenticationFailedListener.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Standard\FingerprintAuthenticationCallback.cs" />
     <Compile Include="Standard\StandardFingerprintImplementation.cs" />
     <Compile Include="Utils\AnimatorExtensions.cs" />
+    <Compile Include="Utils\AuhenticationHelpExtension.cs" />
     <Compile Include="Utils\TaskAnimationListener.cs" />
     <Compile Include="Contract\DeviceAuthImplementation.cs" />
     <Compile Include="Contract\IDeviceAuthImplementation.cs" />

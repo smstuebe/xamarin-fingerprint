@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.4.6
+
+#### 1.4.6-beta1
+- #29 fix crash on device lock during authentication
+
 ### 1.4.5
 - #53, #70 fixed possible crash on some samsung devices without fingerprint sensor
 
