@@ -11,6 +11,10 @@ Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 
 ## Support
 
+The plugin supports the listed platforms.
+
+If you like the quality and code you can support me [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe) Thanks!
+
 | Platform  | Version |
 | ------------- | ----------- |
 | Xamarin.Android | 4.4 |
