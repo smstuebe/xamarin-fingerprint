@@ -35,6 +35,14 @@ namespace Plugin.Fingerprint.Samsung
             return await _taskCompletionSource.Task;
         }
 
+        public void CancelManually()
+        {
+            _taskCompletionSource.TrySetResult(new FingerprintAuthenticationResult
+            {
+                Status = FingerprintAuthenticationResultStatus.Canceled
+            });
+        }
+
         private async Task<bool> StartIdentify()
         {
             // TODO: use task completion source instead of retries in SamsungFingerprintImplementation, if samsung fixes the library 

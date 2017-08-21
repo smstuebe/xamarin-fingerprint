@@ -42,10 +42,26 @@ namespace Plugin.Fingerprint.Samsung
 
         public override async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken)
         {
-            using (cancellationToken.Register(() => _spassFingerprint.CancelIdentify()))
-            {
-                var identifyListener = new IdentifyListener(StartIdentify, failedListener);
+            var identifyListener = new IdentifyListener(StartIdentify, failedListener);
+
+            using (cancellationToken.Register(() => TryCancel(identifyListener)))
+            { 
                 return await identifyListener.GetTask();
+            }
+        }
+
+        private void TryCancel(IdentifyListener identifyListener)
+        {
+            try
+            {
+                _spassFingerprint.CancelIdentify();
+            }
+            catch (Exception ex)
+            {
+                // #75: should be fixed with the reordering of the base.OnPause() in the dialog, but
+                // to avoid crashes in other cases, we ignore exceptions here and return cancelled instead
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                identifyListener.CancelManually();
             }
         }
 

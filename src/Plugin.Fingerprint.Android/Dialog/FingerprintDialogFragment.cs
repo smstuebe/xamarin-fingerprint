@@ -72,12 +72,12 @@ namespace Plugin.Fingerprint.Dialog
 
         public override void OnPause()
         {
-            base.OnPause();
-
             DetachEventHandlers();
 
             _canceledByLifecycle = true;
             _cancelationTokenSource?.Cancel();
+
+            base.OnPause();
         }
 
         public override Android.App.Dialog OnCreateDialog(Bundle savedInstanceState)
