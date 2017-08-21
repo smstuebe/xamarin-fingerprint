@@ -2,6 +2,10 @@
 
 ### 1.4.6
 
+#### 1.4.6-beta2
+- #75 fix crash at onPause on Samsung devices
+- #73 display help string for recoverable errors
+
 #### 1.4.6-beta1
 - #29 fix crash on device lock during authentication
 

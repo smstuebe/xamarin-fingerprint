@@ -1,7 +1,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>MvvmCross.Plugins.Fingerprint</id>
-    <version>1.4.6-beta1</version>
+    <version>1.4.6-beta2</version>
     <title>MvvmCross Fingerprint Plugin</title>
     <authors>Sven-Michael Stübe</authors>
     <owners>Sven-Michael Stübe</owners>
@@ -13,28 +13,31 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
-        [1.4.6-beta1]
-        - #29 fix crash on device lock during authentication
-        [1.4.5]
-        - #53, #70 fixed possible crash on some samsung devices without fingerprint sensor
-        [1.4.4]
-        - #60 allow alternative authentication via PIN / password (iOS only)
-        - allow custon fallback title on Mac
-        [1.4.3]
-        - #45: fixed UWP nuget package
-        [1.4.2]
-        - #43: fixed crash when fast tapping on cancel or fallback on Android
-        [1.4.1]
-        - #40: fixed crash on iOS &lt; 8.0
-        [1.3.0]
-        - support for Samsung devices
-        - support for .NET standard
-        - support for dialog localization
-        - animations on Android
-        - bugfixes
-        [1.2.0]
-        - fixed plugin loader bug
-        - iOS: invalidate fingerprint after each authentication
+      [1.4.6-beta2]
+      - #75 fix crash at onPause on Samsung devices
+      - #73 display help string for recoverable errors
+      [1.4.6-beta1]
+      - #29 fix crash on device lock during authentication
+      [1.4.5]
+      - #53, #70 fixed possible crash on some samsung devices without fingerprint sensor
+      [1.4.4]
+      - #60 allow alternative authentication via PIN / password (iOS only)
+      - allow custon fallback title on Mac
+      [1.4.3]
+      - #45: fixed UWP nuget package
+      [1.4.2]
+      - #43: fixed crash when fast tapping on cancel or fallback on Android
+      [1.4.1]
+      - #40: fixed crash on iOS &lt; 8.0
+      [1.3.0]
+      - support for Samsung devices
+      - support for .NET standard
+      - support for dialog localization
+      - animations on Android
+      - bugfixes
+      [1.2.0]
+      - fixed plugin loader bug
+      - iOS: invalidate fingerprint after each authentication
     </releaseNotes>
     <dependencies>
       <group targetFramework="portable-net45+win8+wpa81+wp8">
