@@ -5,12 +5,12 @@ namespace Plugin.Fingerprint.Abstractions
 {
     public abstract class FingerprintImplementationBase : IFingerprint
     {
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default)
         {
             return AuthenticateAsync(new AuthenticationRequestConfiguration(reason), cancellationToken);
         }
 
-        public async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default)
         {
             if(!await IsAvailableAsync(authRequestConfig.AllowAlternativeAuthentication))
                 return new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.NotAvailable };

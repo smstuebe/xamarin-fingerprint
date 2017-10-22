@@ -38,39 +38,16 @@ namespace Plugin.Fingerprint
             }
             else
             {
-                switch ((LAStatus)(int)resTuple.Item2.Code)
+                // #79 simulators return null for any reason
+                if (resTuple.Item2 == null)
                 {
-                    case LAStatus.AuthenticationFailed:
-                        var description = resTuple.Item2.Description;
-                        if (description != null && description.Contains("retry limit exceeded"))
-                        {
-                            result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
-                        }
-                        else
-                        {
-                            result.Status = FingerprintAuthenticationResultStatus.Failed;
-                        }
-                        break;
-
-                    case LAStatus.UserCancel:
-                    case LAStatus.AppCancel:
-                        result.Status = FingerprintAuthenticationResultStatus.Canceled;
-                        break;
-
-                    case LAStatus.UserFallback:
-                        result.Status = FingerprintAuthenticationResultStatus.FallbackRequested;
-                        break;
-
-                    case LAStatus.TouchIDLockout:
-                        result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
-                        break;
-
-                    default:
-                        result.Status = FingerprintAuthenticationResultStatus.UnknownError;
-                        break;
+                    result.Status = FingerprintAuthenticationResultStatus.UnknownError;
+                    result.ErrorMessage = "";
                 }
-
-                result.ErrorMessage = resTuple.Item2.LocalizedDescription;
+                else
+                {
+                    result = GetResultFromError(resTuple.Item2);
+                }
             }
 
             CreateNewContext();
@@ -118,6 +95,47 @@ namespace Plugin.Fingerprint
             return allowAlternativeAuthentication ?
                 LAPolicy.DeviceOwnerAuthentication :
                 LAPolicy.DeviceOwnerAuthenticationWithBiometrics;
+        }
+
+        private FingerprintAuthenticationResult GetResultFromError(NSError error)
+        {
+            var result = new FingerprintAuthenticationResult();
+
+            switch ((LAStatus)(int)error.Code)
+            {
+                case LAStatus.AuthenticationFailed:
+                    var description = error.Description;
+                    if (description != null && description.Contains("retry limit exceeded"))
+                    {
+                        result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+                    }
+                    else
+                    {
+                        result.Status = FingerprintAuthenticationResultStatus.Failed;
+                    }
+                    break;
+
+                case LAStatus.UserCancel:
+                case LAStatus.AppCancel:
+                    result.Status = FingerprintAuthenticationResultStatus.Canceled;
+                    break;
+
+                case LAStatus.UserFallback:
+                    result.Status = FingerprintAuthenticationResultStatus.FallbackRequested;
+                    break;
+
+                case LAStatus.TouchIDLockout:
+                    result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+                    break;
+
+                default:
+                    result.Status = FingerprintAuthenticationResultStatus.UnknownError;
+                    break;
+            }
+
+            result.ErrorMessage = error.LocalizedDescription;
+
+            return result;
         }
 
         private void CancelAuthentication()
