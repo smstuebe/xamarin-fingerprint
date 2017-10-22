@@ -23,6 +23,39 @@ If you like the quality and code you can support me [![Donate](https://img.shiel
 | Windows UWP     | 10  |
 
 ## Usage
+### Example
+#### vanilla
+```csharp
+var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
+#### using MvvMCross
+```csharp
+var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
+
+var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
+### Xamarin University public lecture
+
+[![Xamarin University public lecture](https://img.youtube.com/vi/n8m344IxlnY/0.jpg)](https://www.youtube.com/watch?v=n8m344IxlnY)
+
 ### API
 The API is defined by the ```IFingerprint``` interface:
 
@@ -88,35 +121,6 @@ public FingerprintAuthenticationResultStatus Status { get; set; }
 /// Reason for the unsucessful authentication.
 /// </summary>
 public string ErrorMessage { get; set; }
-```
-
-### Example
-#### vanilla
-```csharp
-var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
-if (result.Authenticated)
-{
-    // do secret stuff :)
-}
-else
-{
-    // not allowed to do secret stuff :(
-}
-```
-
-#### using MvvMCross
-```csharp
-var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
-
-var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
-if (result.Authenticated)
-{
-    // do secret stuff :)
-}
-else
-{
-    // not allowed to do secret stuff :(
-}
 ```
 
 ### iOS
