@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Hardware.Fingerprints;
 using Android.OS;
+using Android.Util;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint.Contract;
@@ -38,14 +39,27 @@ namespace Plugin.Fingerprint.Standard
             if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseFingerprint) != Permission.Granted)
                 return FingerprintAvailability.NoPermission;
 
-            var fpService = (FingerprintManager)context.GetSystemService(Class.FromType(typeof(FingerprintManager)));
-            if (!fpService.IsHardwareDetected)
-                return FingerprintAvailability.NoSensor;
+            try
+            {
+                // service can be null certain devices #83
+                var fpService = GetService();
+                if (fpService == null)
+                    return FingerprintAvailability.NoApi;
 
-            if (!fpService.HasEnrolledFingerprints)
-                return FingerprintAvailability.NoFingerprint;
+                if (!fpService.IsHardwareDetected)
+                    return FingerprintAvailability.NoSensor;
 
-            return FingerprintAvailability.Available;
+                if (!fpService.HasEnrolledFingerprints)
+                    return FingerprintAvailability.NoFingerprint;
+
+                return FingerprintAvailability.Available;
+            }
+            catch(Throwable e)
+            {
+                // ServiceNotFoundException can happen on certain devices #83
+                Log.Error(nameof(StandardFingerprintImplementation), e, "Could not create Android service");
+                return FingerprintAvailability.Unknown;
+            }
         }
     }
 }

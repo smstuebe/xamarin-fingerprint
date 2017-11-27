@@ -2,6 +2,9 @@
 
 ### 1.4.6
 
+#### 1.4.6-beta3
+- #83 prevent NullRefereneceException and catch others if service is not available on Android
+
 #### 1.4.6-beta2
 - #75 fix crash at onPause on Samsung devices
 - #73 display help string for recoverable errors

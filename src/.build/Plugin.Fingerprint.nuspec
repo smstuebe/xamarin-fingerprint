@@ -13,6 +13,8 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 mac Xamarin.Mac ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
+      [1.4.6-beta3]
+      - #83 prevent NullRefereneceException and catch others if service is not available on Android
       [1.4.6-beta2]
       - #75 fix crash at onPause on Samsung devices
       - #73 display help string for recoverable errors
