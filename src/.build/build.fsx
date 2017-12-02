@@ -20,6 +20,8 @@ let NugetPath = "../.nuget/NuGet.exe"
 let NuspecFiles = ["Plugin.Fingerprint.nuspec"; "MvvmCross.Plugins.Fingerprint.nuspec"] 
 
 let Build (projectName:string, targetSubDir:string) =
+    CleanDir (".." +/ projectName +/ "bin")
+    CleanDir (".." +/ projectName +/ "obj")
     [".." +/ projectName +/ projectName + ".csproj"]
      |> MSBuildRelease (BuildTargetDir +/ targetSubDir) "Build"
      |> Log "Output: "

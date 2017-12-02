@@ -2,6 +2,9 @@
 
 ### 1.4.6
 
+#### 1.4.6-beta4
+- #84 missing resource ids should be available again 
+
 #### 1.4.6-beta3
 - #83 prevent NullRefereneceException and catch others if service is not available on Android
 

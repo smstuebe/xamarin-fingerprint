@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint", "Plugin.Fingerprint\Plugin.Fingerprint.csproj", "{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}"
 EndProject
@@ -63,6 +63,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint.Test.UI.Android", "Test\Plugin.Fingerprint.Test.UI.Android\Plugin.Fingerprint.Test.UI.Android.csproj", "{60D1AC03-BA34-4A5B-8045-7A77514A53DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.Fingerprint.Test.UI", "Test\Plugin.Fingerprint.Test.UI\Plugin.Fingerprint.Test.UI.csproj", "{C896F478-7522-49A9-9677-6DCA5BCF661E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{7674D66B-F32B-4C41-9843-FDAC66BE96E7}"
+	ProjectSection(SolutionItems) = preProject
+		..\doc\changelog.md = ..\doc\changelog.md
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1114,5 +1120,8 @@ Global
 		{F8C7D7D8-7409-4D03-BAC1-776E91406CDE} = {3015FCD9-4308-47F9-BC7B-1C060FCA31A9}
 		{60D1AC03-BA34-4A5B-8045-7A77514A53DB} = {FD133824-430B-4C99-B6F3-297BE7744FE9}
 		{C896F478-7522-49A9-9677-6DCA5BCF661E} = {FD133824-430B-4C99-B6F3-297BE7744FE9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57DF9896-F097-4EC2-A34D-0320C38402CE}
 	EndGlobalSection
 EndGlobal
