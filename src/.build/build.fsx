@@ -59,8 +59,8 @@ let NuPackAll (publish:bool) =
     NuspecFiles |> List.iter (fun file -> NuPack(file, publish))
 
 let RestorePackages() = 
-    !! "../**/packages.config"
-    |> Seq.iter (RestorePackage (fun p ->
+    !! "../**/*.sln"
+    |> Seq.iter (RestoreMSSolutionPackages (fun p ->
         { p with
             ToolPath = NugetPath
             OutputPath = "../packages"
