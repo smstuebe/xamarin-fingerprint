@@ -64,8 +64,15 @@ namespace Plugin.Fingerprint.Dialog
 
             if (_fallbackButton != null)
             {
-                _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
-                _fallbackButton.Click += OnFallback;
+                if (Configuration.AllowAlternativeAuthentication)
+                {
+                    _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
+                    _fallbackButton.Click += OnFallback;
+                }
+                else
+                {
+					_fallbackButton.Visibility = ViewStates.Gone;
+                }
             }
             StartAuthenticationAsync();
         }
