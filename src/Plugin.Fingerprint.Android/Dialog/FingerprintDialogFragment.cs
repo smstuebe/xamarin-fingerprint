@@ -153,7 +153,12 @@ namespace Plugin.Fingerprint.Dialog
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.FingerprintDialog, container);
-            view.FindViewById<TextView>(Resource.Id.fingerprint_txtReason).Text = Configuration.Reason;
+
+            var reason = view.FindViewById<TextView>(Resource.Id.fingerprint_txtReason);
+            if(reason != null && Configuration?.Reason != null)
+            {
+                reason.Text = Configuration.Reason;
+            }
 
             _helpText = view.FindViewById<TextView>(Resource.Id.fingerprint_txtHelp);
             _cancelButton = view.FindViewById<Button>(Resource.Id.fingerprint_btnCancel);
