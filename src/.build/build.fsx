@@ -4,7 +4,8 @@
 
 open System.Xml.Linq
 open System.Xml;
-open System.IO
+open System.Linq;
+open System.IO;
 open System.Text.RegularExpressions
 open Fake
 open Fake.XMLHelper;
@@ -59,7 +60,7 @@ let NuPackAll (publish:bool) =
     NuspecFiles |> List.iter (fun file -> NuPack(file, publish))
 
 let RestorePackages() = 
-    !! "../**/*.sln"
+    !! "../**/Fingerprint.sln"
     |> Seq.iter (RestoreMSSolutionPackages (fun p ->
         { p with
             ToolPath = NugetPath
@@ -128,6 +129,21 @@ Target "publish" (fun _ ->
     trace ("Creating Tag: " + tagName)
     tag RepositoryRootDir tagName
     pushTag RepositoryRootDir  "origin" tagName
+)
+
+Target "sanity-check" (fun _ ->
+    CleanDir (".."+/"sanity-check"+/"bin")
+    CleanDir (".."+/"sanity-check"+/"obj")
+    !! (".."+/"sanity-check"+/"*.sln")
+    |> Seq.iter (RestoreMSSolutionPackages (fun p ->
+        { p with
+            ToolPath = NugetPath
+            OutputPath = "../packages"
+        }))
+
+    !! (".."+/"sanity-check"+/"*.sln")    
+    |> MSBuildRelease (@"."+/"out"+/"sanity") "Build"
+    |> Log "Output: "
 )
 
 // Dependencies
