@@ -68,5 +68,18 @@ namespace Plugin.Fingerprint
                     return FingerprintAvailability.Unknown;
             }
         }
+
+        public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
+        {
+            var availability = await GetAvailabilityAsync(false);
+            if (availability == FingerprintAvailability.NoFingerprint ||
+                availability == FingerprintAvailability.NoPermission ||
+                availability == FingerprintAvailability.Available)
+            {
+                return AuthenticationType.Fingerprint;
+            }
+
+            return AuthenticationType.None;
+        }
     }
 }

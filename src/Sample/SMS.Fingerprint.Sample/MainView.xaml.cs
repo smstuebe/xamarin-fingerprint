@@ -9,10 +9,22 @@ namespace SMS.Fingerprint.Sample
     public partial class MainView : ContentPage
     {
         private CancellationTokenSource _cancel;
+        private bool _initialized;
 
         public MainView()
         {
             InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (!_initialized)
+            {
+                _initialized = true;
+                lblAuthenticationType.Text = "Auth Type: " + await Plugin.Fingerprint.CrossFingerprint.Current.GetAuthenticationTypeAsync();
+            }
         }
 
         private async void OnAuthenticate(object sender, EventArgs e)

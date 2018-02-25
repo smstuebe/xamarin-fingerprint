@@ -48,5 +48,11 @@ namespace Plugin.Fingerprint.Abstractions
         /// <param name="cancellationToken">Token used to cancel the operation.</param>
         /// <returns>Authentication result</returns>
         Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets the available authentication type.
+        /// </summary>
+        /// <returns>Authentication type</returns>
+        Task<AuthenticationType> GetAuthenticationTypeAsync();
     }
 }

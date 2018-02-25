@@ -42,6 +42,9 @@
     <Compile Include="..\Plugin.Fingerprint.Abstractions\AuthenticationRequestConfiguration.cs">
       <Link>AuthenticationRequestConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Plugin.Fingerprint.Abstractions\AuthenticationType.cs">
+      <Link>AuthenticationType.cs</Link>
+    </Compile>
     <Compile Include="..\Plugin.Fingerprint.Abstractions\FingerprintAuthenticationResult.cs">
       <Link>FingerprintAuthenticationResult.cs</Link>
     </Compile>

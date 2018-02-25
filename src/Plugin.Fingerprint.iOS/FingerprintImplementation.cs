@@ -56,25 +56,58 @@ namespace Plugin.Fingerprint
 
         public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
-            NSError error;
-
             if (_context == null)
                 return FingerprintAvailability.NoApi;
 
             var policy = GetPolicy(allowAlternativeAuthentication);
-            if (_context.CanEvaluatePolicy(policy, out error))
+            if (_context.CanEvaluatePolicy(policy, out var error))
                 return FingerprintAvailability.Available;
 
             switch ((LAStatus)(int)error.Code)
             {
-                case LAStatus.TouchIDNotAvailable:
+                case LAStatus.BiometryNotAvailable:
                     return FingerprintAvailability.NoSensor;
-                case LAStatus.TouchIDNotEnrolled:
+                case LAStatus.BiometryNotEnrolled:
                 case LAStatus.PasscodeNotSet:
                     return FingerprintAvailability.NoFingerprint;
                 default:
                     return FingerprintAvailability.Unknown;
             }
+        }
+
+        public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
+        {
+            if (_context == null)
+                return AuthenticationType.None;
+
+            // we need to call this, because it will always return none, if you don't call CanEvaluatePolicy
+            var availibility = await GetAvailabilityAsync(false);
+
+            // iOS 11+
+            if (_context.RespondsToSelector(new Selector("biometryType")))
+            {
+                switch (_context.BiometryType)
+                {
+                    case LABiometryType.None:
+                        return AuthenticationType.None;
+                    case LABiometryType.TouchId:
+                        return AuthenticationType.Fingerprint;
+                    case LABiometryType.FaceId:
+                        return AuthenticationType.Face;
+                    default:
+                        return AuthenticationType.None;
+                }
+            }
+
+            // iOS < 11
+            if (availibility == FingerprintAvailability.NoApi ||
+                availibility == FingerprintAvailability.NoSensor || 
+                availibility == FingerprintAvailability.Unknown)
+            {
+                return AuthenticationType.None;
+            }
+
+            return AuthenticationType.Fingerprint;
         }
 
         private void SetupContextProperties(AuthenticationRequestConfiguration authRequestConfig)
@@ -165,8 +198,8 @@ namespace Plugin.Fingerprint
             if (!info.IsOperatingSystemAtLeastVersion(minVersion))
                 return;
 #else
-			if (!UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
-				return;
+            if (!UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+                return;
 #endif
             // Check LAContext is not available on iOS7 and below, so check LAContext after checking iOS version.
             if (Class.GetHandle(typeof(LAContext)) == IntPtr.Zero)

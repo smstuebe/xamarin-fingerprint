@@ -24,6 +24,9 @@ namespace Plugin.Fingerprint.Abstractions
         }
 
         public abstract Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false);
+
+        public abstract Task<AuthenticationType> GetAuthenticationTypeAsync();
+
         protected abstract Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken);
     }
 }
