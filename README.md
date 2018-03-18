@@ -123,6 +123,45 @@ public FingerprintAuthenticationResultStatus Status { get; set; }
 public string ErrorMessage { get; set; }
 ```
 
+### Example
+#### vanilla
+```csharp
+var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
+#### using MvvMCross
+```csharp
+var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
+
+var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
+#### mocking in unit tests
+
+```C#
+//Create mock with LigthMock (http://www.lightinject.net/)
+var mockFingerprintContext = new MockContext<IFingerprint>();
+var mockFingerprint = new CrossFingerprintMock(mockFingerprintContext);
+
+mockFingerprintContext.Current = mockFingerprint;
+```
+
 ### iOS
 #### Limitations
 
