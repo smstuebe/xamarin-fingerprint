@@ -4,16 +4,22 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
+    /// <summary>
+    /// Cross Platform Fingerprint.
+    /// </summary>
     public partial class CrossFingerprint
     {
-        private static Lazy<IFingerprint> _implementation =
-            new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
-        public static IFingerprint Current 
+        private static Lazy<IFingerprint> _implementation = new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
+        /// Current plugin implementation to use
+        /// </summary>
+        public static IFingerprint Current
         {
-            get { return _implementation.Value;}
-            set 
+            get => _implementation.Value;
+            set
             {
-               _implementation = new Lazy<IFingerprint>(() => value);
+                _implementation = new Lazy<IFingerprint>(() => value);
             }
         }
 
@@ -26,6 +32,9 @@ namespace Plugin.Fingerprint
 #endif
         }
 
+        /// <summary>
+        /// Cleans up implementation reference.
+        /// </summary>
         public static void Dispose()
         {
             if (_implementation != null && _implementation.IsValueCreated)
