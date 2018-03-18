@@ -2,7 +2,7 @@
 
 ### 1.4.6
 - #51 allows setting the `DefaultColor` to change the color of the fingerprint icon
-- #86 android fallback button is now hidden if AllowAlternativeAuthentication is false (thnaks @fedemkr)
+- #86 android fallback button is now hidden if AllowAlternativeAuthentication is false (thanks @fedemkr)
 - #91 new API `GetAuthenticationTypeAsync` to retrieve the biometric auth type
 - CrossFingerprint is now setable for mocking during unit tests (thanks @ArtjomP)
 
