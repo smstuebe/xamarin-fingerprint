@@ -1,7 +1,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Plugin.Fingerprint</id>
-    <version>1.4.6-beta4</version>
+    <version>1.4.6</version>
     <title>Fingerprint Plugin for Xamarin</title>
     <authors>Sven-Michael Stübe</authors>
     <owners>Sven-Michael Stübe</owners>
@@ -13,14 +13,15 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 mac Xamarin.Mac ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
-      [1.4.6-beta4]
+      [1.4.6]
+      - CrossFingerprint is now setable for mocking during unit tests (thanks @ArtjomP)
+      - #51 allows setting the `DefaultColor` to change the color of the fingerprint icon
+      - #86 android fallback button is now hidden if AllowAlternativeAuthentication is false (thnaks @fedemkr)
+      - #91 new API `GetAuthenticationTypeAsync` to retrieve the biometric auth type
       - #84 missing resource ids should be available again
-      [1.4.6-beta3]
       - #83 prevent NullRefereneceException and catch others if service is not available on Android
-      [1.4.6-beta2]
       - #75 fix crash at onPause on Samsung devices
       - #73 display help string for recoverable errors
-      [1.4.6-beta1]
       - #29 fix crash on device lock during authentication
       [1.4.5]
       - #53, #70 fixed possible crash on some samsung devices without fingerprint sensor
