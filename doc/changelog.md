@@ -2,6 +2,8 @@
 
 ### 1.4.6
 
+- #86 android fallback button is now hidden if AllowAlternativeAuthentication is false
+
 #### 1.4.6-beta4
 - #84 missing resource ids should be available again 
 
