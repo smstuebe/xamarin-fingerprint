@@ -27,6 +27,7 @@ namespace Plugin.Fingerprint.Dialog
         private CancellationTokenSource _cancelationTokenSource;
         private IAndroidFingerprintImplementation _implementation;
 
+        protected Color? DefaultColor;
         protected Color NegativeColor = new Color(217, 59, 59);
         protected Color PositiveColor = new Color(90, 185, 83);
 
@@ -172,6 +173,11 @@ namespace Plugin.Fingerprint.Dialog
             _fallbackButton = view.FindViewById<Button>(Resource.Id.fingerprint_btnFallback);
             _icon = view.FindViewById<ImageView>(Resource.Id.fingerprint_imgFingerprint);
 
+            if (DefaultColor.HasValue)
+            {
+                _icon?.SetColorFilter(DefaultColor.Value);
+            }
+
             return view;
         }
 
@@ -283,7 +289,15 @@ namespace Plugin.Fingerprint.Dialog
             shake.SetDuration(500);
             shake.SetInterpolator(new CycleInterpolator(5));
             await shake.StartAsync();
-            _icon.ClearColorFilter();
+
+            if (DefaultColor.HasValue)
+            {
+                _icon?.SetColorFilter(DefaultColor.Value);
+            }
+            else
+            {
+                _icon?.ClearColorFilter();
+            }
         }
 
         private async Task FallbackAnimationAsync()
