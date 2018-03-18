@@ -42,10 +42,26 @@ namespace Plugin.Fingerprint.Samsung
 
         public override async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken)
         {
-            using (cancellationToken.Register(() => _spassFingerprint.CancelIdentify()))
-            {
-                var identifyListener = new IdentifyListener(StartIdentify, failedListener);
+            var identifyListener = new IdentifyListener(StartIdentify, failedListener);
+
+            using (cancellationToken.Register(() => TryCancel(identifyListener)))
+            { 
                 return await identifyListener.GetTask();
+            }
+        }
+
+        private void TryCancel(IdentifyListener identifyListener)
+        {
+            try
+            {
+                _spassFingerprint.CancelIdentify();
+            }
+            catch (Exception ex)
+            {
+                // #75: should be fixed with the reordering of the base.OnPause() in the dialog, but
+                // to avoid crashes in other cases, we ignore exceptions here and return cancelled instead
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                identifyListener.CancelManually();
             }
         }
 
@@ -74,7 +90,7 @@ namespace Plugin.Fingerprint.Samsung
             return false;
         }
 
-        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
             if (_hasNoApi)
                 return FingerprintAvailability.NoApi;
@@ -85,8 +101,23 @@ namespace Plugin.Fingerprint.Samsung
             if (_hasNoFingerPrintSensor)
                 return FingerprintAvailability.NoSensor;
 
-            if (!_spassFingerprint.HasRegisteredFinger)
-                return FingerprintAvailability.NoFingerprint;
+            try
+            {
+                // On some devices, Samsung doesn't fulfill the API contract of IsFeatureEnabled.
+                // This will cause a UnsupportedOperationException when calling HasRegisteredFinger see #53, #70
+                if (!_spassFingerprint.HasRegisteredFinger)
+                    return FingerprintAvailability.NoFingerprint;
+            }
+            catch (UnsupportedOperationException ex)
+            {
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                return FingerprintAvailability.NoSensor;
+            }
+            catch (Exception ex)
+            {
+                Log.Warn(nameof(SamsungFingerprintImplementation), ex);
+                return FingerprintAvailability.Unknown;
+            }
 
             return FingerprintAvailability.Available;
         }

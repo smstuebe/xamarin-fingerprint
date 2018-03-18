@@ -15,13 +15,23 @@ namespace Plugin.Fingerprint.Abstractions
         /// <see cref="FingerprintAvailability.Unknown"/> will be returned if the check failed 
         /// with some other platform specific reason.
         /// </summary>
-        Task<FingerprintAvailability> GetAvailabilityAsync();
+        /// <param name="allowAlternativeAuthentication">
+        /// En-/Disables the use of the PIN / Passwort as fallback.
+        /// Supported Platforms: iOS, Mac
+        /// Default: false
+        /// </param>
+        Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false);
 
         /// <summary>
         /// Checks if <see cref="GetAvailabilityAsync"/> returns <see cref="FingerprintAvailability.Available"/>.
         /// </summary>
+        /// <param name="allowAlternativeAuthentication">
+        /// En-/Disables the use of the PIN / Passwort as fallback.
+        /// Supported Platforms: iOS, Mac
+        /// Default: false
+        /// </param>
         /// <returns><c>true</c> if Available, else <c>false</c></returns>
-        Task<bool> IsAvailableAsync();
+        Task<bool> IsAvailableAsync(bool allowAlternativeAuthentication = false);
 
         /// <summary>
         /// Requests the authentication.
@@ -29,7 +39,7 @@ namespace Plugin.Fingerprint.Abstractions
         /// <param name="reason">Reason for the fingerprint authentication request. Displayed to the user.</param>
         /// <param name="cancellationToken">Token used to cancel the operation.</param>
         /// <returns>Authentication result</returns>
-        Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Requests the authentication.
@@ -37,6 +47,12 @@ namespace Plugin.Fingerprint.Abstractions
         /// <param name="authRequestConfig">Configuration of the dialog that is displayed to the user.</param>
         /// <param name="cancellationToken">Token used to cancel the operation.</param>
         /// <returns>Authentication result</returns>
-        Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets the available authentication type.
+        /// </summary>
+        /// <returns>Authentication type</returns>
+        Task<AuthenticationType> GetAuthenticationTypeAsync();
     }
 }

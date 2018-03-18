@@ -21,5 +21,18 @@ namespace Plugin.Fingerprint.Contract
         }
 
         public abstract Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken);
+
+        public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
+        {
+            var availability = await GetAvailabilityAsync(false);
+            if (availability == FingerprintAvailability.NoFingerprint ||
+                availability == FingerprintAvailability.NoPermission ||
+                availability == FingerprintAvailability.Available)
+            {
+                return AuthenticationType.Fingerprint;
+            }
+
+            return AuthenticationType.None;
+        }
     }
 }

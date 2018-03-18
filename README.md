@@ -11,6 +11,10 @@ Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 
 ## Support
 
+The plugin supports the listed platforms.
+
+If you like the quality and code you can support me [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe) Thanks!
+
 | Platform  | Version |
 | ------------- | ----------- |
 | Xamarin.Android | 4.4 |
@@ -19,6 +23,39 @@ Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 | Windows UWP     | 10  |
 
 ## Usage
+### Example
+#### vanilla
+```csharp
+var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
+#### using MvvMCross
+```csharp
+var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
+
+var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
+if (result.Authenticated)
+{
+    // do secret stuff :)
+}
+else
+{
+    // not allowed to do secret stuff :(
+}
+```
+
+### Xamarin University public lecture
+
+[![Xamarin University public lecture](https://img.youtube.com/vi/n8m344IxlnY/0.jpg)](https://www.youtube.com/watch?v=n8m344IxlnY)
+
 ### API
 The API is defined by the ```IFingerprint``` interface:
 
@@ -33,13 +70,23 @@ The API is defined by the ```IFingerprint``` interface:
 /// <see cref="FingerprintAvailability.Unknown"/> will be returned if the check failed 
 /// with some other platform specific reason.
 /// </summary>
-Task<FingerprintAvailability> GetAvailabilityAsync();
+/// <param name="allowAlternativeAuthentication">
+/// En-/Disables the use of the PIN / Passwort as fallback.
+/// Supported Platforms: iOS, Mac
+/// Default: false
+/// </param>
+Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false);
 
 /// <summary>
 /// Checks if <see cref="GetAvailabilityAsync"/> returns <see cref="FingerprintAvailability.Available"/>.
 /// </summary>
+/// <param name="allowAlternativeAuthentication">
+/// En-/Disables the use of the PIN / Passwort as fallback.
+/// Supported Platforms: iOS, Mac
+/// Default: false
+/// </param>
 /// <returns><c>true</c> if Available, else <c>false</c></returns>
-Task<bool> IsAvailableAsync();
+Task<bool> IsAvailableAsync(bool allowAlternativeAuthentication = false);
 
 /// <summary>
 /// Requests the authentication.
@@ -114,6 +161,7 @@ var mockFingerprint = new CrossFingerprintMock(mockFingerprintContext);
 
 mockFingerprintContext.Current = mockFingerprint;
 ```
+
 ### iOS
 #### Limitations
 
@@ -127,6 +175,10 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 - custom cancel button title
 
 ### Android
+#### Limitations
+
+You can't use the alternative authentication method.
+
 #### Setup
 **Set Target SDK version**
 
@@ -167,6 +219,11 @@ And somewhere in your code set your custom dialog fragment:
 ```csharp
 CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
 ```
+
+### UWP
+#### Limitations
+
+You can't use the alternative authentication method.
 
 ## Testing on Simulators
 ### iOS

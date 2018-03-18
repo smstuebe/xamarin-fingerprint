@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
@@ -39,6 +41,9 @@
   <ItemGroup>
     <Compile Include="..\Plugin.Fingerprint.Abstractions\AuthenticationRequestConfiguration.cs">
       <Link>AuthenticationRequestConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugin.Fingerprint.Abstractions\AuthenticationType.cs">
+      <Link>AuthenticationType.cs</Link>
     </Compile>
     <Compile Include="..\Plugin.Fingerprint.Abstractions\FingerprintAuthenticationResult.cs">
       <Link>FingerprintAuthenticationResult.cs</Link>

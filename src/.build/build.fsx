@@ -1,10 +1,11 @@
 ﻿// don't forget nuget setapikey <key> before publish ;)
-#r @"FAKE.4.48.0/tools/FakeLib.dll"
+#r @"FAKE.4.61.2/tools/FakeLib.dll"
 #r "System.Xml.Linq"
 
 open System.Xml.Linq
 open System.Xml;
-open System.IO
+open System.Linq;
+open System.IO;
 open System.Text.RegularExpressions
 open Fake
 open Fake.XMLHelper;
@@ -20,6 +21,8 @@ let NugetPath = "../.nuget/NuGet.exe"
 let NuspecFiles = ["Plugin.Fingerprint.nuspec"; "MvvmCross.Plugins.Fingerprint.nuspec"] 
 
 let Build (projectName:string, targetSubDir:string) =
+    CleanDir (".." +/ projectName +/ "bin")
+    CleanDir (".." +/ projectName +/ "obj")
     [".." +/ projectName +/ projectName + ".csproj"]
      |> MSBuildRelease (BuildTargetDir +/ targetSubDir) "Build"
      |> Log "Output: "
@@ -57,8 +60,8 @@ let NuPackAll (publish:bool) =
     NuspecFiles |> List.iter (fun file -> NuPack(file, publish))
 
 let RestorePackages() = 
-    !! "../**/packages.config"
-    |> Seq.iter (RestorePackage (fun p ->
+    !! "../**/Fingerprint.sln"
+    |> Seq.iter (RestoreMSSolutionPackages (fun p ->
         { p with
             ToolPath = NugetPath
             OutputPath = "../packages"
@@ -126,6 +129,21 @@ Target "publish" (fun _ ->
     trace ("Creating Tag: " + tagName)
     tag RepositoryRootDir tagName
     pushTag RepositoryRootDir  "origin" tagName
+)
+
+Target "sanity-check" (fun _ ->
+    CleanDir (".."+/"sanity-check"+/"bin")
+    CleanDir (".."+/"sanity-check"+/"obj")
+    !! (".."+/"sanity-check"+/"*.sln")
+    |> Seq.iter (RestoreMSSolutionPackages (fun p ->
+        { p with
+            ToolPath = NugetPath
+            OutputPath = "../packages"
+        }))
+
+    !! (".."+/"sanity-check"+/"*.sln")    
+    |> MSBuildRelease (@"."+/"out"+/"sanity") "Build"
+    |> Log "Output: "
 )
 
 // Dependencies

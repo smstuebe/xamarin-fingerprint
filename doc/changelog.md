@@ -1,17 +1,38 @@
 ## Changelog
 
+### 1.4.6
 
-###1.4.3
+#### 1.4.6-beta4
+- #84 missing resource ids should be available again 
+
+#### 1.4.6-beta3
+- #83 prevent NullRefereneceException and catch others if service is not available on Android
+
+#### 1.4.6-beta2
+- #75 fix crash at onPause on Samsung devices
+- #73 display help string for recoverable errors
+
+#### 1.4.6-beta1
+- #29 fix crash on device lock during authentication
+
+### 1.4.5
+- #53, #70 fixed possible crash on some samsung devices without fingerprint sensor
+
+### 1.4.4
+- #60 allow alternative authentication via PIN / password (iOS only)
+- allow custon fallback title on Mac
+
+### 1.4.3
 - #45: fixed UWP nuget packages
-###1.4.2
+
+### 1.4.2
 - #43: fixed crash when fast tapping on cancel or fallback on Android
 
-###1.4.1
+### 1.4.1
 - #40: fixed crash on iOS &lt; 8.0
 
 ### 1.4.0
-- Xamarin.Mac support
-	  
+- Xamarin.Mac support	  
 	  
 ### 1.3.0
 

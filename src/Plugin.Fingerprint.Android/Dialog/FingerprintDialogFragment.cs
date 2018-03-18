@@ -19,6 +19,7 @@ namespace Plugin.Fingerprint.Dialog
     public class FingerprintDialogFragment : DialogFragment, IAuthenticationFailedListener, IDialogInterfaceOnKeyListener
     {
         private TaskCompletionSource<FingerprintAuthenticationResult> _resultTaskCompletionSource;
+        private TextView _helpText;
         private Button _cancelButton;
         private Button _fallbackButton;
         private ImageView _icon;
@@ -63,20 +64,27 @@ namespace Plugin.Fingerprint.Dialog
 
             if (_fallbackButton != null)
             {
-                _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
-                _fallbackButton.Click += OnFallback;
+                if (Configuration.AllowAlternativeAuthentication)
+                {
+                    _fallbackButton.Text = string.IsNullOrWhiteSpace(Configuration.FallbackTitle) ? "Use Fallback" : Configuration.FallbackTitle;
+                    _fallbackButton.Click += OnFallback;
+                }
+                else
+                {
+					_fallbackButton.Visibility = ViewStates.Gone;
+                }
             }
             StartAuthenticationAsync();
         }
 
         public override void OnPause()
         {
-            base.OnPause();
-
             DetachEventHandlers();
 
             _canceledByLifecycle = true;
             _cancelationTokenSource?.Cancel();
+
+            base.OnPause();
         }
 
         public override Android.App.Dialog OnCreateDialog(Bundle savedInstanceState)
@@ -136,11 +144,12 @@ namespace Plugin.Fingerprint.Dialog
             DetachEventHandlers();
             if (animation)
             {
+                HideHelpText();
                 await AnimateResultAsync(result.Status);
             }
 
             _resultTaskCompletionSource.TrySetResult(result);
-            Dismiss();
+            DismissAllowingStateLoss();
         }
 
         private void OnExternalCancel()
@@ -151,8 +160,14 @@ namespace Plugin.Fingerprint.Dialog
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.FingerprintDialog, container);
-            view.FindViewById<TextView>(Resource.Id.fingerprint_txtReason).Text = Configuration.Reason;
 
+            var reason = view.FindViewById<TextView>(Resource.Id.fingerprint_txtReason);
+            if(reason != null && Configuration?.Reason != null)
+            {
+                reason.Text = Configuration.Reason;
+            }
+
+            _helpText = view.FindViewById<TextView>(Resource.Id.fingerprint_txtHelp);
             _cancelButton = view.FindViewById<Button>(Resource.Id.fingerprint_btnCancel);
             _fallbackButton = view.FindViewById<Button>(Resource.Id.fingerprint_btnFallback);
             _icon = view.FindViewById<ImageView>(Resource.Id.fingerprint_imgFingerprint);
@@ -197,7 +212,29 @@ namespace Plugin.Fingerprint.Dialog
 
         public virtual async void OnFailedTry()
         {
+            HideHelpText();
             await AnimateFailedTryAsync();
+        }
+
+        public void OnHelp(FingerprintAuthenticationHelp help, string nativeHelpText)
+        {
+            if(_helpText == null)
+                return;
+
+            var text = Configuration.HelpTexts.GetText(help, nativeHelpText);
+            if (!string.IsNullOrEmpty(text))
+            {
+                _helpText.Text = text;
+                _helpText.Visibility = ViewStates.Visible;
+            }
+        }
+
+        private void HideHelpText()
+        {
+            if (_helpText != null)
+            {
+                _helpText.Visibility = ViewStates.Gone;
+            }
         }
 
         private async Task AnimateResultAsync(FingerprintAuthenticationResultStatus status)

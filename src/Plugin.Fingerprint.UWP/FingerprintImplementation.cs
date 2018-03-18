@@ -49,7 +49,7 @@ namespace Plugin.Fingerprint
             return result;
         }
 
-        public override async Task<FingerprintAvailability> GetAvailabilityAsync()
+        public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
             var uwpAvailability = await UserConsentVerifier.CheckAvailabilityAsync();
 
@@ -67,6 +67,19 @@ namespace Plugin.Fingerprint
                 default:
                     return FingerprintAvailability.Unknown;
             }
+        }
+
+        public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
+        {
+            var availability = await GetAvailabilityAsync(false);
+            if (availability == FingerprintAvailability.NoFingerprint ||
+                availability == FingerprintAvailability.NoPermission ||
+                availability == FingerprintAvailability.Available)
+            {
+                return AuthenticationType.Fingerprint;
+            }
+
+            return AuthenticationType.None;
         }
     }
 }

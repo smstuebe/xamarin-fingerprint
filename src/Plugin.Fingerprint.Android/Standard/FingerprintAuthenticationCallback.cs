@@ -59,10 +59,10 @@ namespace Plugin.Fingerprint.Standard
             _listener?.OnFailedTry();
         }
 
-        //public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)
-        //{
-        //    base.OnAuthenticationHelp(helpCode, helpString);
-        //    _taskCompletionSource.SetResult(null);
-        //}
+        public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)
+        {
+            base.OnAuthenticationHelp(helpCode, helpString);
+            _listener?.OnHelp(FingerprintAuthenticationHelp.MovedTooFast, helpString?.ToString());
+        }
     }
 }
