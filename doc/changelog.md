@@ -1,8 +1,8 @@
 ## Changelog
 
 ### 1.4.6
-
 - #86 android fallback button is now hidden if AllowAlternativeAuthentication is false
+- #91 new API `GetAuthenticationTypeAsync` to retrieve the biometric auth type
 
 #### 1.4.6-beta4
 - #84 missing resource ids should be available again 
