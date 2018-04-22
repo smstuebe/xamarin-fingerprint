@@ -22,6 +22,39 @@ If you like the quality and code you can support me [![Donate](https://img.shiel
 | Xamarin.Mac     | 10.12 |
 | Windows UWP     | 10  |
 
+## Setup
+
+### iOS
+
+Add `NSFaceIDUsageDescription` to your Info.plist to describe the reason your app uses Face ID. (see [Documentation](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW75)). Otherwise the App will crash when you start a Face ID authentication on iOS 11.3+.
+
+```xml
+<key>NSFaceIDUsageDescription</key>
+<string>Need your face to unlock secrets!</string>
+```
+
+### Android
+**Set Target SDK version**
+
+The target SDK version has to be >= 6.0. I recomment to use always the latest stable SDK version, if possible. You can set the target SDK version in your Android project properties.
+
+**Request the permission in AndroidManifest.xml**
+
+The first line is for the standard Android API and the second for Samsung devices using the Pass API.
+
+```xml
+<uses-permission android:name="android.permission.USE_FINGERPRINT" />
+<uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+```
+**Set the resolver of the current Activity**
+
+Skip this, if you use the MvvMCross Plugin or don't use the dialog.
+
+We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/CurrentActivity) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
+```csharp
+CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+```
+
 ## Usage
 ### Example
 #### vanilla
@@ -179,27 +212,6 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 
 You can't use the alternative authentication method.
 
-#### Setup
-**Set Target SDK version**
-
-The target SDK version has to be >= 6.0. I recomment to use always the latest stable SDK version, if possible. You can set the target SDK version in your Android project properties.
-
-**Request the permission in AndroidManifest.xml**
-
-The first line is for the standard Android API and the second for Samsung devices using the Pass API.
-
-```xml
-<uses-permission android:name="android.permission.USE_FINGERPRINT" />
-<uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
-```
-**Set the resolver of the current Activity**
-
-Skip this, if you use the MvvMCross Plugin or don't use the dialog.
-
-We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/CurrentActivity) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
-```csharp
-CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
-```
 #### Configuration
 
 If you don't like the default dialog, you can easily customize it. You have to inherit from `FingerprintDialogFragment` e.g. like:
