@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.4.7
+- #101 FingerprintAuthenticationResultStatus and FingerprintAvailability now can express that the user has denied the access to the authentication method 
+
 ### 1.4.6
 - #51 allows setting the `DefaultColor` to change the color of the fingerprint icon
 - #86 android fallback button is now hidden if AllowAlternativeAuthentication is false (thanks @fedemkr)

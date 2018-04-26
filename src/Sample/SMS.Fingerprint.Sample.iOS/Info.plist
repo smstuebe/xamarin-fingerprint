@@ -50,5 +50,11 @@
 	<string>LaunchScreen</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Need your face to unlock secrets!</string>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>de</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>de</string>
+  </array>
 </dict>
 </plist>

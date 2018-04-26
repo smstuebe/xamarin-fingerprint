@@ -33,6 +33,10 @@
         /// An unknown, platform specific error occurred. Availability status could not be 
         /// mapped to a <see cref="FingerprintAvailability"/>.
         /// </summary>
-        Unknown
+        Unknown,
+        /// <summary>
+        /// User has denied the usage of the biometric authentication.
+        /// </summary>
+        Denied
     }
 }

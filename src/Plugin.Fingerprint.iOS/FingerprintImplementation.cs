@@ -66,7 +66,9 @@ namespace Plugin.Fingerprint
             switch ((LAStatus)(int)error.Code)
             {
                 case LAStatus.BiometryNotAvailable:
-                    return FingerprintAvailability.NoSensor;
+                    return IsDeniedError(error) ? 
+                        FingerprintAvailability.Denied :
+                        FingerprintAvailability.NoSensor;
                 case LAStatus.BiometryNotEnrolled:
                 case LAStatus.PasscodeNotSet:
                     return FingerprintAvailability.NoFingerprint;
@@ -161,6 +163,13 @@ namespace Plugin.Fingerprint
                     result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
                     break;
 
+                case LAStatus.BiometryNotAvailable:
+                    // this can happen if it was available, but the user didn't allow face ID
+                    result.Status = IsDeniedError(error) ? 
+                        FingerprintAuthenticationResultStatus.Denied : 
+                        FingerprintAuthenticationResultStatus.NotAvailable;
+                    break;
+
                 default:
                     result.Status = FingerprintAuthenticationResultStatus.UnknownError;
                     break;
@@ -206,6 +215,17 @@ namespace Plugin.Fingerprint
                 return;
 
             _context = new LAContext();
+        }
+
+        private bool IsDeniedError(NSError error)
+        {
+            if (!string.IsNullOrEmpty(error.Description))
+            {
+                // we might have some issues, if the error gets localized :/
+                return error.Description.ToLower().Contains("denied");
+            }
+
+            return false;
         }
     }
 }

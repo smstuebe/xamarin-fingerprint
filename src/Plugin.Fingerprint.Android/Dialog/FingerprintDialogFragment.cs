@@ -5,6 +5,7 @@ using Android.Animation;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -259,6 +260,7 @@ namespace Plugin.Fingerprint.Dialog
                 case FingerprintAuthenticationResultStatus.TooManyAttempts:
                 case FingerprintAuthenticationResultStatus.UnknownError:
                 case FingerprintAuthenticationResultStatus.NotAvailable:
+                case FingerprintAuthenticationResultStatus.Denied:
                     await FinalAnimationAsync(NegativeColor);
                     break;
                 default:
