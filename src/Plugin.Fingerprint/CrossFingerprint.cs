@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Threading;
 using Plugin.Fingerprint.Abstractions;
+#if ANDROID
+using Plugin.Fingerprint.Samsung;
+using Plugin.Fingerprint.Standard;
+#endif
 
 namespace Plugin.Fingerprint
 {
@@ -25,8 +29,15 @@ namespace Plugin.Fingerprint
 
         static IFingerprint CreateFingerprint()
         {
-#if PORTABLE
+#if NETSTANDARD1_0 || NETSTANDARD2_0
             throw NotImplementedInReferenceAssembly();
+#elif ANDROID
+            var samsungFp = new SamsungFingerprintImplementation();
+
+            if (samsungFp.IsCompatible)
+                return samsungFp;
+
+            return new StandardFingerprintImplementation();
 #else
             return new FingerprintImplementation();
 #endif

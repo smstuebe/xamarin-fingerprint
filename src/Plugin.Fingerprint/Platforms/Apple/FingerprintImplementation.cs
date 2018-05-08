@@ -5,7 +5,7 @@ using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
 using Plugin.Fingerprint.Abstractions;
-#if !__MAC__
+#if !MACOS
 using UIKit;
 #endif
 
@@ -202,7 +202,7 @@ namespace Plugin.Fingerprint
         private void CreateLaContext()
         {
             var info = new NSProcessInfo();
-#if __MAC__
+#if MACOS
             var minVersion = new NSOperatingSystemVersion(10, 12, 0);
             if (!info.IsOperatingSystemAtLeastVersion(minVersion))
                 return;

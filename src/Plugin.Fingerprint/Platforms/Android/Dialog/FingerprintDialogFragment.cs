@@ -14,6 +14,7 @@ using Android.Widget;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint.Contract;
 using Plugin.Fingerprint.Utils;
+using Plugin.Fingerprint;
 
 namespace Plugin.Fingerprint.Dialog
 {

@@ -98,13 +98,9 @@
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Fingerprint.Abstractions.Mac\Plugin.Fingerprint.Abstractions.Mac.csproj">
-      <Project>{1611b039-42b7-463f-bea4-72867a924154}</Project>
-      <Name>Plugin.Fingerprint.Abstractions.Mac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Plugin.Fingerprint.Mac\Plugin.Fingerprint.Mac.csproj">
-      <Project>{8A6BC7F4-EF58-41F5-BB87-476995C81C8F}</Project>
-      <Name>Plugin.Fingerprint.Mac</Name>
+    <ProjectReference Include="..\..\Plugin.Fingerprint\Plugin.Fingerprint.csproj">
+      <Project>{e519a552-0a87-4e3c-965a-721426e32637}</Project>
+      <Name>Plugin.Fingerprint</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

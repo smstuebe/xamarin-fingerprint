@@ -125,13 +125,9 @@
     <AndroidResource Include="Resources\drawable\xamarin_fingerprint.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
-      <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>Plugin.Fingerprint.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Plugin.Fingerprint.Android\Plugin.Fingerprint.Android.csproj">
-      <Project>{616d802d-93aa-4fb3-b7aa-dac1a38943e0}</Project>
-      <Name>Plugin.Fingerprint.Android</Name>
+    <ProjectReference Include="..\..\Plugin.Fingerprint\Plugin.Fingerprint.csproj">
+      <Project>{e519a552-0a87-4e3c-965a-721426e32637}</Project>
+      <Name>Plugin.Fingerprint</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj">
       <Name>SMS.Fingerprint.Sample</Name>

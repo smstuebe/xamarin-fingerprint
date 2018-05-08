@@ -14,7 +14,6 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj" />
     <ProjectReference Include="..\..\Plugin.Fingerprint\Plugin.Fingerprint.csproj" />
   </ItemGroup>
 </Project>

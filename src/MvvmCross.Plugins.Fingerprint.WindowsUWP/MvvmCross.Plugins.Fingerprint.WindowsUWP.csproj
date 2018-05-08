@@ -118,13 +118,9 @@
       <Project>{99af4877-02df-4dae-a524-4056bae82614}</Project>
       <Name>MvvmCross.Plugins.Fingerprint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
-      <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>Plugin.Fingerprint.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugin.Fingerprint.UWP\Plugin.Fingerprint.UWP.csproj">
-      <Project>{8d8d126d-70a4-4489-bcbf-256838df0002}</Project>
-      <Name>Plugin.Fingerprint.UWP</Name>
+    <ProjectReference Include="..\Plugin.Fingerprint\Plugin.Fingerprint.csproj">
+      <Project>{e519a552-0a87-4e3c-965a-721426e32637}</Project>
+      <Name>Plugin.Fingerprint</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
