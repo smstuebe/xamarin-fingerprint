@@ -1,8 +1,7 @@
-<Project Sdk="MSBuild.Sdk.Extras/1.4.0">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid71;uap10.0.16299;Tizen40;</TargetFrameworks>
-    
+    <TargetFrameworks>netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid71;uap10.0.16299;Tizen40;</TargetFrameworks>
     
     <LangVersion>latest</LangVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
@@ -14,7 +13,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.4.0" PrivateAssets="All" />
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
   </ItemGroup>
@@ -28,7 +26,7 @@
     <Compile Include="Platforms\Apple\**\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <DefineConstants>$(DefineConstants);IOS;</DefineConstants>
   </PropertyGroup>
   
@@ -64,6 +62,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+    <!--<TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>-->
     <DefineConstants>$(DefineConstants);WINDOWS_UWP;</DefineConstants>
   </PropertyGroup>
 

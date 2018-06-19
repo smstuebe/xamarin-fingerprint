@@ -1,11 +1,11 @@
-﻿using MvvmCross.Platform;
-using MvvmCross.Platform.Plugins;
+﻿using MvvmCross.Plugin;
 using Plugin.Fingerprint;
 
 namespace MvvmCross.Plugins.Fingerprint.WindowsUWP
 {
-    public class Plugin
-        : IMvxPlugin
+    [MvxPlugin]
+    [Preserve(AllMembers = true)]
+    public class Plugin : IMvxPlugin
     {
         public void Load()
         {

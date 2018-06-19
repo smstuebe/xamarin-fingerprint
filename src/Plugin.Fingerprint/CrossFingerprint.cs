@@ -29,7 +29,7 @@ namespace Plugin.Fingerprint
 
         static IFingerprint CreateFingerprint()
         {
-#if NETSTANDARD1_0 || NETSTANDARD2_0
+#if NETSTANDARD2_0
             throw NotImplementedInReferenceAssembly();
 #elif ANDROID
             var samsungFp = new SamsungFingerprintImplementation();

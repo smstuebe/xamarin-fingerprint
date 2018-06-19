@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
@@ -130,10 +130,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Fingerprint\Plugin.Fingerprint.csproj">
-      <Project>{e519a552-0a87-4e3c-965a-721426e32637}</Project>
-      <Name>Plugin.Fingerprint</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj">
       <Project>{02094fa7-945e-43bb-aeb9-203c2d018e86}</Project>
       <Name>SMS.Fingerprint.Sample</Name>
@@ -150,10 +146,10 @@
       <Version>1.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.3</Version>
+      <Version>6.1.5</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>2.3.5.256-pre6</Version>
+      <Version>3.0.0.561731</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
