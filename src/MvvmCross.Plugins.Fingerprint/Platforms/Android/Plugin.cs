@@ -1,4 +1,5 @@
-﻿using MvvmCross.Plugin;
+﻿using MvvmCross.Platforms.Android;
+using MvvmCross.Plugin;
 using Plugin.Fingerprint;
 
 namespace MvvmCross.Plugins.Fingerprint.Platforms.Android
@@ -9,7 +10,7 @@ namespace MvvmCross.Plugins.Fingerprint.Platforms.Android
     {
         public void Load()
         {
-            CrossFingerprint.SetCurrentActivityResolver(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
+            (CrossFingerprint.Current as FingerprintImplementation).SetCurrentActivityResolver(() => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
             Mvx.LazyConstructAndRegisterSingleton(() => CrossFingerprint.Current);
         }
     }   

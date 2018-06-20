@@ -1,0 +1,38 @@
+﻿<Project>
+  <PropertyGroup>
+    <Copyright>Copyright (c) Sven-Michael Stübe</Copyright>
+    <PackageLicenseUrl>https://github.com/smstuebe/xamarin-fingerprint/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/smstuebe/xamarin-fingerprint</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</PackageIconUrl>
+    <Authors>Sven-Michael Stübe</Authors>
+    <Owners>Sven-Michael Stübe</Owners>
+    <PackageTags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 mac Xamarin.Mac ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</PackageTags>
+    <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Version>2.0.0</Version>
+    
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
+    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' and '$(IsTestProject)' != 'true'">true</GeneratePackageOnBuild>
+    
+    <Platform>AnyCPU</Platform>
+    <DebugType>full</DebugType>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsLibraryProject>$(MSBuildProjectName.Contains('Plugin'))</IsLibraryProject>
+    <IsXamarinForms>$(MSBuildProjectName.Contains('.Forms'))</IsXamarinForms>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsLibraryProject)' == 'true'">
+    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62908-01" PrivateAssets="All"/>
+  </ItemGroup>
+</Project>

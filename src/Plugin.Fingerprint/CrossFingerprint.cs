@@ -1,62 +1,48 @@
-﻿using System;
-using System.Threading;
-using Plugin.Fingerprint.Abstractions;
-#if ANDROID
-using Plugin.Fingerprint.Samsung;
-using Plugin.Fingerprint.Standard;
-#endif
+﻿using Plugin.Fingerprint.Abstractions;
+using System;
 
 namespace Plugin.Fingerprint
 {
     /// <summary>
-    /// Cross Platform Fingerprint.
+    /// Cross Fingerprint
     /// </summary>
-    public partial class CrossFingerprint
+    public static class CrossFingerprint
     {
-        private static Lazy<IFingerprint> _implementation = new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
+        static Lazy<IFingerprint> implementation = new Lazy<IFingerprint>(() => CreateFingerprint(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
+        /// Gets if the plugin is supported on the current platform.
+        /// </summary>
+        public static bool IsSupported => implementation.Value == null ? false : true;
 
         /// <summary>
         /// Current plugin implementation to use
         /// </summary>
         public static IFingerprint Current
         {
-            get => _implementation.Value;
-            set
+            get
             {
-                _implementation = new Lazy<IFingerprint>(() => value);
+                IFingerprint ret = implementation.Value;
+                if (ret == null)
+                {
+                    throw NotImplementedInReferenceAssembly();
+                }
+                return ret;
             }
         }
 
         static IFingerprint CreateFingerprint()
         {
-#if NETSTANDARD2_0
-            throw NotImplementedInReferenceAssembly();
-#elif ANDROID
-            var samsungFp = new SamsungFingerprintImplementation();
-
-            if (samsungFp.IsCompatible)
-                return samsungFp;
-
-            return new StandardFingerprintImplementation();
+#if NETSTANDARD
+            return null;
 #else
+#pragma warning disable IDE0022 // Use expression body for methods
             return new FingerprintImplementation();
+#pragma warning restore IDE0022 // Use expression body for methods
 #endif
         }
 
-        /// <summary>
-        /// Cleans up implementation reference.
-        /// </summary>
-        public static void Dispose()
-        {
-            if (_implementation != null && _implementation.IsValueCreated)
-            {
-                _implementation = new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
-            }
-        }
-
-        private static Exception NotImplementedInReferenceAssembly()
-        {
-            return new NotImplementedException("This functionality is not implemented in the portable version of this assembly. You should reference the NuGet package from your main application project in order to reference the platform-specific implementation.");
-        }
+        internal static Exception NotImplementedInReferenceAssembly() =>
+            new NotImplementedException("This functionality is not implemented in the portable version of this assembly.  You should reference the NuGet package from your main application project in order to reference the platform-specific implementation.");
     }
 }

@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>Copyright (c) Sven-Michael Stübe</Copyright>
+    <Authors>Sven-Michael Stübe</Authors>
+    <Owners>Sven-Michael Stübe</Owners>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000</NoWarn>
+
+    <Platform>AnyCPU</Platform>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+</Project>
