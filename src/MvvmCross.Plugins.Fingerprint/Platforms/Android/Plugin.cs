@@ -1,4 +1,5 @@
-﻿using MvvmCross.Plugin;
+﻿using MvvmCross.Platforms.Android;
+using MvvmCross.Plugin;
 using Plugin.Fingerprint;
 
 namespace MvvmCross.Plugins.Fingerprint.Platforms.Android
