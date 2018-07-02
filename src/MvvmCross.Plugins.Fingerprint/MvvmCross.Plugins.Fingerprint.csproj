@@ -5,7 +5,7 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <AssemblyName>MvvmCross.Plugins.Fingerprint</AssemblyName>
     <RootNamespace>MvvmCross.Plugins.Fingerprint</RootNamespace>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <Title>MvvmCross Fingerprint Plugin</Title>
   </PropertyGroup>
 
   <ItemGroup>

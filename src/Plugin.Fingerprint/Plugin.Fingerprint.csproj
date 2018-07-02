@@ -1,16 +1,13 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
-
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid81;uap10.0.16299;Tizen40;</TargetFrameworks>
-    
+    <TargetFrameworks>netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid81;uap10.0.16299;Tizen40;</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 
+    <Title>Fingerprint Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
     <RootNamespace>Plugin.Fingerprint</RootNamespace>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
   </PropertyGroup>
-
 
   <ItemGroup>
     <Compile Include="Abstractions\*.cs" />
@@ -42,18 +39,18 @@
 
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <ProjectReference Include="..\Plugin.Fingerprint.Android.Samsung\Plugin.Fingerprint.Android.Samsung.csproj">
+    <ProjectReference Include="..\Plugin.Fingerprint.Android.Samsung\Plugin.Fingerprint.Android.Samsung.csproj" PrivateAssets="All">
       <Project>{e81f50d5-95c3-4d5a-9397-f79946912b5d}</Project>
-      <Name>Plugin.Fingerprint.Android.Samsung</Name>
     </ProjectReference>
     <Compile Include="Platforms\Android\**\*.cs" />
     <AndroidResource Include="Resources\layout\FingerprintDialog.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
-    <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources"  />
+    <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
     <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);ANDROID;</DefineConstants>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeSamsungLibrary</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <!-- UWP -->
@@ -69,4 +66,10 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) OR $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
     <Compile Include="Platforms\NotImplemented\**\*.cs" />
   </ItemGroup>
+  
+  <Target Name="IncludeSamsungLibrary">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(OutputPath)Plugin.Fingerprint.Android.Samsung.dll" />
+    </ItemGroup>
+  </Target>
 </Project>
