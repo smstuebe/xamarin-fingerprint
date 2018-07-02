@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
+    <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
@@ -46,10 +47,9 @@
       <Name>Plugin.Fingerprint.Android.Samsung</Name>
     </ProjectReference>
     <Compile Include="Platforms\Android\**\*.cs" />
-    <AndroidResource Include="Resources\layout\FingerprintDialog.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\**\*.png" />
+    <AndroidResource Include="Resources\layout\FingerprintDialog.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
+    <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources"  />
+    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">

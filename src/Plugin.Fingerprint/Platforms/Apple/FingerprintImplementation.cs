@@ -5,7 +5,7 @@ using Foundation;
 using LocalAuthentication;
 using ObjCRuntime;
 using Plugin.Fingerprint.Abstractions;
-#if !MACOS
+#if IOS
 using UIKit;
 #endif
 
