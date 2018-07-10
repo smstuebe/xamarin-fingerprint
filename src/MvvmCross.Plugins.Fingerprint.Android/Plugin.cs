@@ -1,10 +1,10 @@
-﻿using MvvmCross.Platform;
-using MvvmCross.Platform.Droid.Platform;
-using MvvmCross.Platform.Plugins;
+﻿using MvvmCross.Platforms.Android;
+using MvvmCross.Plugin;
 using Plugin.Fingerprint;
 
 namespace MvvmCross.Plugins.Fingerprint.Android
 {
+    [MvxPlugin]
     public class Plugin
         : IMvxPlugin
     {

@@ -15,7 +15,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,18 +37,14 @@
   <ItemGroup>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
-    <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MvvmCross.Platform.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="MvvmCross">
+      <HintPath>..\packages\MvvmCross.6.1.2\lib\monoandroid81\MvvmCross.dll</HintPath>
+    </Reference>
+    <Reference Include="Java.Interop" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plugin.cs" />
@@ -56,10 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MvvmCross.Plugins.Fingerprint\MvvmCross.Plugins.Fingerprint.csproj">
-      <Project>{99af4877-02df-4dae-a524-4056bae82614}</Project>
-      <Name>MvvmCross.Plugins.Fingerprint</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
       <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
       <Name>Plugin.Fingerprint.Abstractions</Name>
@@ -70,7 +62,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FingerprintPluginBootstrap.cs.pp" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
