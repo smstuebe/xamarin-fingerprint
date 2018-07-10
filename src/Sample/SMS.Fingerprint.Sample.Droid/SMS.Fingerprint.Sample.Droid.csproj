@@ -17,7 +17,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
@@ -139,6 +139,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj">
       <Name>SMS.Fingerprint.Sample</Name>
+      <Project>{02094FA7-945E-43BB-AEB9-203C2D018E86}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

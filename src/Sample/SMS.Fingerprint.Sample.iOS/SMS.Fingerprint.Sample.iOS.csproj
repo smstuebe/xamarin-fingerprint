@@ -31,8 +31,6 @@
     <MtouchFastDev>False</MtouchFastDev>
     <MtouchUseLlvm>False</MtouchUseLlvm>
     <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n />
   </PropertyGroup>
@@ -119,6 +117,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SMS.Fingerprint.Sample\SMS.Fingerprint.Sample.csproj">
       <Name>SMS.Fingerprint.Sample</Name>
+      <Project>{02094FA7-945E-43BB-AEB9-203C2D018E86}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
