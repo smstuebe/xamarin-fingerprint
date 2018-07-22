@@ -6,7 +6,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</PackageIconUrl>
     <Authors>Sven-Michael Stübe</Authors>
     <Owners>Sven-Michael Stübe</Owners>
-    <PackageTags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 mac Xamarin.Mac ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</PackageTags>
+    <PackageTags>xamarin;mvvmcross;mvvm;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
