@@ -13,7 +13,7 @@ namespace Plugin.Fingerprint
 
         private static IFingerprint CreateFingerprint()
         {
-            if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.M)
+            if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.P)
             {
                 var samsungFp = new SamsungFingerprintImplementation();
                 if (samsungFp.IsCompatible)
