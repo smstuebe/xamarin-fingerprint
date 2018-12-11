@@ -1,7 +1,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Plugin.Fingerprint</id>
-    <version>1.4.7</version>
+    <version>1.4.8</version>
     <title>Fingerprint Plugin for Xamarin</title>
     <authors>Sven-Michael Stübe</authors>
     <owners>Sven-Michael Stübe</owners>
@@ -13,6 +13,8 @@
     <tags>xamarin mvvmcross mvvm monodroid Xamarin.iOS10 mac Xamarin.Mac ios fingerprint authenticate Xamarin.Android android touchid biometric windows uwp</tags>
     <iconUrl>https://raw.githubusercontent.com/smstuebe/xamarin-fingerprint/master/doc/xamarin_fingerprint.png</iconUrl>
     <releaseNotes>
+      [1.4.8]
+      - #116 Use Android API instead of pass SDK on Samsung devices with Android 9+. (thanks @Nedlinin)
       [1.4.7]
       - #101 FingerprintAuthenticationResultStatus and FingerprintAvailability now can express that the user has denied the access to the authentication method
       [1.4.6]

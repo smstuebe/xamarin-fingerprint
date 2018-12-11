@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.4.8
+- #116 Use Android API instead of pass SDK on Samsung devices with Android 9+. (thanks @Nedlinin) 
+
 ### 1.4.7
 - #101 FingerprintAuthenticationResultStatus and FingerprintAvailability now can express that the user has denied the access to the authentication method 
 
