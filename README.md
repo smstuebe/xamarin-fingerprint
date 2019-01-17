@@ -17,7 +17,7 @@ If you like the quality and code you can support me [![Donate](https://img.shiel
 
 | Platform  | Version |
 | ------------- | ----------- |
-| Xamarin.Android | 4.4 |
+| Xamarin.Android | 6.0 |
 | Xamarin.iOS     | 8.0 |
 | Xamarin.Mac     | 10.12 |
 | Windows UWP     | 10  |
@@ -40,11 +40,8 @@ The target SDK version has to be >= 6.0. I recomment to use always the latest st
 
 **Request the permission in AndroidManifest.xml**
 
-The first line is for the standard Android API and the second for Samsung devices using the Pass API.
-
 ```xml
 <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-<uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
 ```
 **Set the resolver of the current Activity**
 
@@ -259,15 +256,6 @@ Sending fingerprint sensor events for testing the plugin can be done with the te
 
 **Note for Windows users:**
 You have to enable telnet: Programs and Features > Add Windows Feature > Telnet Client
-
-## Nice to know
-
-### ProGuard
-
-If you use the plugin with Link all, Release Mode and ProGuard enabled, you may have to add the follwoing rules to your proguard.cfg.
-
-    -dontwarn com.samsung.**
-    -keep class com.samsung.** {*;}
 
 ## Contribution
 <img src="http://i.imgur.com/WFBeQuG.png" /> + <img src="http://i.imgur.com/P4Ay9tm.png" />
