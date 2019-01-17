@@ -1,93 +1,88 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Android.Hardware.Biometrics;
-using Android.Hardware.Fingerprints;
 using Android.OS;
-using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
-using Plugin.Fingerprint.Samsung;
-using Plugin.Fingerprint.Standard;
 
 namespace Plugin.Fingerprint.Contract
 {
 
 
-    public class FingerprintAuthenticationCallback : BiometricPrompt.AuthenticationCallback
-    {
-        private readonly IAuthenticationFailedListener _listener;
-        private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
+    //public class FingerprintAuthenticationCallback : BiometricPrompt.AuthenticationCallback
+    //{
+    //    private readonly IAuthenticationFailedListener _listener;
+    //    private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
 
-        public FingerprintAuthenticationCallback(IAuthenticationFailedListener listener)
-        {
-            _listener = listener;
-            _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
-        }
+    //    public FingerprintAuthenticationCallback(IAuthenticationFailedListener listener)
+    //    {
+    //        _listener = listener;
+    //        _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
+    //    }
 
-        public Task<FingerprintAuthenticationResult> GetTask()
-        {
-            return _taskCompletionSource.Task;
-        }
+    //    public Task<FingerprintAuthenticationResult> GetTask()
+    //    {
+    //        return _taskCompletionSource.Task;
+    //    }
 
-        public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
-        {
-            base.OnAuthenticationSucceeded(result);
+    //    public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
+    //    {
+    //        base.OnAuthenticationSucceeded(result);
 
-        }
+    //    }
 
-        public override void OnAuthenticationFailed()
-        {
+    //    public override void OnAuthenticationFailed()
+    //    {
 
-        }
+    //    }
 
 
-        public override void OnAuthenticationHelp(BiometricAcquiredStatus helpCode, ICharSequence helpString)
-        {
-            base.OnAuthenticationHelp(helpCode, helpString);
-            _listener?.OnHelp(/* TODO: FingerprintAuthenticationHelp.MovedTooFast*/, helpString?.ToString());
-        }
+    //    public override void OnAuthenticationHelp(BiometricAcquiredStatus helpCode, ICharSequence helpString)
+    //    {
+    //        base.OnAuthenticationHelp(helpCode, helpString);
+    //        _listener?.OnHelp(/* TODO: FingerprintAuthenticationHelp.MovedTooFast*/, helpString?.ToString());
+    //    }
 
-        //// https://developer.android.com/reference/android/hardware/fingerprint/FingerprintManager.AuthenticationCallback.html
-        //public override void OnAuthenticationSucceeded(FingerprintManager.AuthenticationResult res)
-        //{
-        //    base.OnAuthenticationSucceeded(res);
-        //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
-        //    SetResultSafe(result);
-        //}
+    //    //// https://developer.android.com/reference/android/hardware/fingerprint/FingerprintManager.AuthenticationCallback.html
+    //    //public override void OnAuthenticationSucceeded(FingerprintManager.AuthenticationResult res)
+    //    //{
+    //    //    base.OnAuthenticationSucceeded(res);
+    //    //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
+    //    //    SetResultSafe(result);
+    //    //}
 
-        //public override void OnAuthenticationError(FingerprintState errorCode, ICharSequence errString)
-        //{
-        //    base.OnAuthenticationError(errorCode, errString);
-        //    var message = errString != null ? errString.ToString() : string.Empty;
-        //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
+    //    //public override void OnAuthenticationError(FingerprintState errorCode, ICharSequence errString)
+    //    //{
+    //    //    base.OnAuthenticationError(errorCode, errString);
+    //    //    var message = errString != null ? errString.ToString() : string.Empty;
+    //    //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
 
-        //    if (errorCode == FingerprintState.ErrorLockout)
-        //    {
-        //        result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
-        //    }
+    //    //    if (errorCode == FingerprintState.ErrorLockout)
+    //    //    {
+    //    //        result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+    //    //    }
 
-        //    SetResultSafe(result);
-        //}
+    //    //    SetResultSafe(result);
+    //    //}
 
-        private void SetResultSafe(FingerprintAuthenticationResult result)
-        {
-            if (!(_taskCompletionSource.Task.IsCanceled || _taskCompletionSource.Task.IsCompleted || _taskCompletionSource.Task.IsFaulted))
-            {
-                _taskCompletionSource.SetResult(result);
-            }
-        }
+    //    private void SetResultSafe(FingerprintAuthenticationResult result)
+    //    {
+    //        if (!(_taskCompletionSource.Task.IsCanceled || _taskCompletionSource.Task.IsCompleted || _taskCompletionSource.Task.IsFaulted))
+    //        {
+    //            _taskCompletionSource.SetResult(result);
+    //        }
+    //    }
 
-        public override void OnAuthenticationFailed()
-        {
-            base.OnAuthenticationFailed();
-            _listener?.OnFailedTry();
-        }
+    //    public override void OnAuthenticationFailed()
+    //    {
+    //        base.OnAuthenticationFailed();
+    //        _listener?.OnFailedTry();
+    //    }
 
-        //public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)
-        //{
-        //    base.OnAuthenticationHelp(helpCode, helpString);
-        //    _listener?.OnHelp(FingerprintAuthenticationHelp.MovedTooFast, helpString?.ToString());
-        //}
-    }
+    //    //public override void OnAuthenticationHelp(FingerprintState helpCode, ICharSequence helpString)
+    //    //{
+    //    //    base.OnAuthenticationHelp(helpCode, helpString);
+    //    //    _listener?.OnHelp(FingerprintAuthenticationHelp.MovedTooFast, helpString?.ToString());
+    //    //}
+    //}
 
 
     /// <summary>
@@ -104,10 +99,10 @@ namespace Plugin.Fingerprint.Contract
                 using (var cancellationSignal = new CancellationSignal())
                 using (cancellationToken.Register(() => cancellationSignal.Cancel()))
                 {
-                    var builder = new BiometricPrompt.Builder(CrossFingerprint.CurrentActivity);
-                    builder.SetDescription(authRequestConfig.Reason);
-                    BiometricPrompt.AuthenticationCallback cb = new ;
-                    builder.Build().Authenticate(cancellationSignal, CrossFingerprint.CurrentActivity.MainExecutor, cb);
+                    //var builder = new BiometricPrompt.Builder(CrossFingerprint.CurrentActivity);
+                    //builder.SetDescription(authRequestConfig.Reason);
+                    //BiometricPrompt.AuthenticationCallback cb = new ;
+                    //builder.Build().Authenticate(cancellationSignal, CrossFingerprint.CurrentActivity.MainExecutor, cb);
                 }
             }
 

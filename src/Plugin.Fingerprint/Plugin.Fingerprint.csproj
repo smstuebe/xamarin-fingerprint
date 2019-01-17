@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Compile Include="Abstractions\*.cs" />
-    <Compile Include="*.cs" />
+    <!--<Compile Include="*.cs" />-->
     <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
 
@@ -39,9 +39,6 @@
 
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <ProjectReference Include="..\Plugin.Fingerprint.Android.Samsung\Plugin.Fingerprint.Android.Samsung.csproj" PrivateAssets="All">
-      <Project>{e81f50d5-95c3-4d5a-9397-f79946912b5d}</Project>
-    </ProjectReference>
     <Compile Include="Platforms\Android\**\*.cs" />
     <AndroidResource Include="Resources\layout\FingerprintDialog.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
     <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
@@ -50,7 +47,6 @@
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);ANDROID;</DefineConstants>
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeSamsungLibrary</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <!-- UWP -->
@@ -66,10 +62,4 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) OR $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
     <Compile Include="Platforms\NotImplemented\**\*.cs" />
   </ItemGroup>
-  
-  <Target Name="IncludeSamsungLibrary">
-    <ItemGroup>
-      <BuildOutputInPackage Include="$(OutputPath)Plugin.Fingerprint.Android.Samsung.dll" />
-    </ItemGroup>
-  </Target>
 </Project>
