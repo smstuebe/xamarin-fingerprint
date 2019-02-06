@@ -11,9 +11,14 @@ Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
 
 ## Support
 
-The plugin supports the listed platforms.
+If you like the quality and code you can support me 
 
-If you like the quality and code you can support me [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe) Thanks!
+- [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe)  
+- <a href="https://www.buymeacoffee.com/HLBu62Uv8" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+Thanks!
+
+The plugin supports the listed platforms.
 
 | Platform  | Version |
 | ------------- | ----------- |
