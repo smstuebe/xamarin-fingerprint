@@ -1,8 +1,5 @@
 ﻿using System;
 using Android.App;
-using Android.Hardware.Fingerprints;
-using Java.Lang;
-using Plugin.Fingerprint.Dialog;
 
 namespace Plugin.Fingerprint
 {
@@ -18,16 +15,16 @@ namespace Plugin.Fingerprint
             _activityResolver = activityResolver;
         }
 
-        public static void SetDialogFragmentType<TFragment>() where TFragment : FingerprintDialogFragment
-        {
-            _dialogFragmentType = typeof (TFragment);
-        }
+        //public static void SetDialogFragmentType<TFragment>() where TFragment : FingerprintDialogFragment
+        //{
+        //    _dialogFragmentType = typeof (TFragment);
+        //}
         
-        internal static FingerprintDialogFragment CreateDialogFragment()
-        {
-            _dialogFragmentType = _dialogFragmentType ?? typeof (FingerprintDialogFragment);
-            return (FingerprintDialogFragment) Activator.CreateInstance(_dialogFragmentType);
-        }
+        //internal static FingerprintDialogFragment CreateDialogFragment()
+        //{
+        //    _dialogFragmentType = _dialogFragmentType ?? typeof (FingerprintDialogFragment);
+        //    return (FingerprintDialogFragment) Activator.CreateInstance(_dialogFragmentType);
+        //}
 
         private static Activity GetCurrentActivity()
         {

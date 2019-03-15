@@ -2,8 +2,7 @@
 using System.Threading;
 using Plugin.Fingerprint.Abstractions;
 #if ANDROID
-using Plugin.Fingerprint.Samsung;
-using Plugin.Fingerprint.Standard;
+using Plugin.Fingerprint.Contract;
 #endif
 
 namespace Plugin.Fingerprint
@@ -32,12 +31,7 @@ namespace Plugin.Fingerprint
 #if NETSTANDARD2_0
             throw NotImplementedInReferenceAssembly();
 #elif ANDROID
-            var samsungFp = new SamsungFingerprintImplementation();
-
-            if (samsungFp.IsCompatible)
-                return samsungFp;
-
-            return new StandardFingerprintImplementation();
+            return new BiometricAndroidFingerprintImplementation();
 #else
             return new FingerprintImplementation();
 #endif

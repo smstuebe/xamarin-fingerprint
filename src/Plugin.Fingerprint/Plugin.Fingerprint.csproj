@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Compile Include="Abstractions\*.cs" />
-    <!--<Compile Include="*.cs" />-->
+    <Compile Include="*.cs" />
     <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
 

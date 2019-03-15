@@ -14,7 +14,7 @@ namespace Plugin.Fingerprint.Standard
 {
     public class StandardFingerprintImplementation : AndroidFingerprintImplementationBase
     {
-        public override async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken)
+        public async Task<FingerprintAuthenticationResult> AuthenticateNoDialogAsync(IAuthenticationFailedListener failedListener, CancellationToken cancellationToken)
         {
             using (var cancellationSignal = new CancellationSignal())
             using (cancellationToken.Register(() => cancellationSignal.Cancel()))
@@ -38,7 +38,7 @@ namespace Plugin.Fingerprint.Standard
             var context = Application.Context;
             if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseFingerprint) != Permission.Granted)
                 return FingerprintAvailability.NoPermission;
-
+            
             try
             {
                 // service can be null certain devices #83
@@ -60,6 +60,11 @@ namespace Plugin.Fingerprint.Standard
                 Log.Error(nameof(StandardFingerprintImplementation), e, "Could not create Android service");
                 return FingerprintAvailability.Unknown;
             }
+        }
+
+        protected override Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
