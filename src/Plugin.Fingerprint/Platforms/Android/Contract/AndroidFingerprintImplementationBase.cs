@@ -43,21 +43,19 @@ namespace Plugin.Fingerprint.Contract
             SetResultSafe(faResult);
         }
 
+        public override void OnAuthenticationError(BiometricErrorCode errorCode, ICharSequence errString)
+        {
+            base.OnAuthenticationError(errorCode, errString);
+            var message = errString != null ? errString.ToString() : string.Empty;
+            var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
 
-        //public override void OnAuthenticationError(BiometricsErrorCode errorCode, ICharSequence errString)
-        //{
-        // base.OnAuthenticationError(errorCode, errString);
-        //    var message = errString != null ? errString.ToString() : string.Empty;
-        //    var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
+            if (errorCode == BiometricErrorCode.Lockout)
+            {
+                result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
+            }
 
-        //        if (errorCode == FingerprintState.ErrorLockout)
-        //        {
-        //            result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
-        //        }
-
-        //SetResultSafe(result);
-        //    // https://github.com/xamarin/xamarin-android/pull/2545
-        //}
+            SetResultSafe(result);
+        }
     }
 
 
