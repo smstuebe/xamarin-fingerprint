@@ -63,6 +63,8 @@ namespace Plugin.Fingerprint.Contract
                   .SetNegativeButton(cancel, CrossFingerprint.CurrentActivity.MainExecutor, handler)
                   .Build();
 
+                // setDeviceCredentialAllowed https://developer.android.com/training/sign-in/biometric-auth
+
                 dialog.Authenticate(cancellationSignal, CrossFingerprint.CurrentActivity.MainExecutor, handler);
                 return await handler.GetTask();
             }

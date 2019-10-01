@@ -2,7 +2,8 @@
 Xamarin and MvvmCross plugin for accessing the fingerprint sensor.
 ---------------------------------
 
-var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+var dialogConfig = new AuthenticationRequestConfiguration("My App", "Prove you have fingers!")
+var result = await CrossFingerprint.Current.AuthenticateAsync(dialogConfig);
 if (result.Authenticated)
 {
     // do secret stuff :)
