@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin.Fingerprint", "Plugin.Fingerprint\Plugin.Fingerprint.csproj", "{1B10AF0A-01C5-4282-8796-C996A398312D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B10AF0A-01C5-4282-8796-C996A398312D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B10AF0A-01C5-4282-8796-C996A398312D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B10AF0A-01C5-4282-8796-C996A398312D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B10AF0A-01C5-4282-8796-C996A398312D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A6E13A6-27DB-4E6E-8950-97AD5D1A3F8B}
+	EndGlobalSection
+EndGlobal

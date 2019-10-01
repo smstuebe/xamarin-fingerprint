@@ -1,0 +1,21 @@
+resources:
+- repo: self
+
+pool:
+  vmImage: windows-latest
+
+steps:
+  - task: MSBuild@1
+    displayName: Build and Pack
+    inputs:
+      solution: ./src/Build.sln
+      msbuildArguments: /restore /t:build /p:CreatePackage=true /p:NoPackageAnalysis=true /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)\artifacts
+      configuration: Release
+      maximumCpuCount: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)\artifacts
+      ArtifactName: artifacts
+      publishLocation: Container
+    condition: always()
