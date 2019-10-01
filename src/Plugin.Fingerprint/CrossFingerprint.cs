@@ -30,8 +30,6 @@ namespace Plugin.Fingerprint
         {
 #if NETSTANDARD2_0
             throw NotImplementedInReferenceAssembly();
-#elif ANDROID
-            return new BiometricAndroidFingerprintImplementation();
 #else
             return new FingerprintImplementation();
 #endif

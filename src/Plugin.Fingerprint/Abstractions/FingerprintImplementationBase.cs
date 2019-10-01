@@ -1,17 +1,16 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plugin.Fingerprint.Abstractions
 {
     public abstract class FingerprintImplementationBase : IFingerprint
     {
-        public Task<FingerprintAuthenticationResult> AuthenticateAsync(string reason, CancellationToken cancellationToken = default)
-        {
-            return AuthenticateAsync(new AuthenticationRequestConfiguration(reason), cancellationToken);
-        }
-
         public async Task<FingerprintAuthenticationResult> AuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default)
         {
+            if (authRequestConfig is null)
+                throw new ArgumentNullException(nameof(authRequestConfig));
+
             var availability = await GetAvailabilityAsync(authRequestConfig.AllowAlternativeAuthentication);
             if (availability != FingerprintAvailability.Available)
             {

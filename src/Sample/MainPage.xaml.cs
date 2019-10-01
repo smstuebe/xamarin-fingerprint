@@ -43,7 +43,7 @@ namespace Sample
             _cancel = swAutoCancel.IsToggled ? new CancellationTokenSource(TimeSpan.FromSeconds(10)) : new CancellationTokenSource();
             lblStatus.Text = "";
 
-            var dialogConfig = new AuthenticationRequestConfiguration(reason)
+            var dialogConfig = new AuthenticationRequestConfiguration("My App", reason)
             { // all optional
                 CancelTitle = cancel,
                 FallbackTitle = fallback,

@@ -1,6 +1,4 @@
-﻿using System;
-using Android.Provider;
-using Plugin.Fingerprint.Abstractions;
+﻿using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint.Contract;
 
 namespace Plugin.Fingerprint.Utils

@@ -6,7 +6,6 @@ namespace Plugin.Fingerprint
     public partial class CrossFingerprint
     {
         private static Func<Activity> _activityResolver;
-        private static Type _dialogFragmentType;
 
         public static Activity CurrentActivity => GetCurrentActivity();
         
@@ -14,17 +13,6 @@ namespace Plugin.Fingerprint
         {
             _activityResolver = activityResolver;
         }
-
-        //public static void SetDialogFragmentType<TFragment>() where TFragment : FingerprintDialogFragment
-        //{
-        //    _dialogFragmentType = typeof (TFragment);
-        //}
-        
-        //internal static FingerprintDialogFragment CreateDialogFragment()
-        //{
-        //    _dialogFragmentType = _dialogFragmentType ?? typeof (FingerprintDialogFragment);
-        //    return (FingerprintDialogFragment) Activator.CreateInstance(_dialogFragmentType);
-        //}
 
         private static Activity GetCurrentActivity()
         {

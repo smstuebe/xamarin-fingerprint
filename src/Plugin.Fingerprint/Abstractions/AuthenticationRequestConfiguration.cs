@@ -6,6 +6,11 @@
     public class AuthenticationRequestConfiguration
     {
         /// <summary>
+        /// Title of the authentication request.
+        /// </summary>
+        public string Title { get; }
+
+        /// <summary>
         /// Reason of the authentication request.
         /// </summary>
         public string Reason { get; }
@@ -20,12 +25,6 @@
         /// </summary>
         public string FallbackTitle { get; set; }
 
-        /// <summary>
-        /// En-/Disables the dialog. 
-        /// Supported Platforms: Android
-        /// Default: true
-        /// </summary>
-        public bool UseDialog { get; set; } = true;
 
         /// <summary>
         /// Shown when a recoverable error has been encountered during authentication. 
@@ -42,9 +41,10 @@
         /// </summary>
         public bool AllowAlternativeAuthentication { get; set; } = false;
 
-        public AuthenticationRequestConfiguration(string reason)
+        public AuthenticationRequestConfiguration(string title, string reason)
         {
             Reason = reason;
+            Title = title;
             HelpTexts = new AuthenticationHelpTexts();
         }
     }
