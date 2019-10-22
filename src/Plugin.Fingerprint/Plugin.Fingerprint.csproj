@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid9;uap10.0.16299;Tizen40;</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8</LangVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 
     <Title>Fingerprint Plugin for Xamarin</Title>
@@ -40,9 +40,17 @@
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <AndroidResource Include="Resources\layout\FingerprintDialog.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
+    <!--<AndroidResource Include="Resources\layout\FingerprintDialog.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
     <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
-    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
+    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />-->
+    <ProjectReference Include="..\AndroidX.Biometric\AndroidX.Biometric.csproj">
+      <Project>{A7506939-7402-4E6C-987B-4810ABB5BCAF}</Project>
+      <Name>AndroidX.Biometric</Name>
+    </ProjectReference>
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.0.1-preview02" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.0.2-preview02" />
+    <PackageReference Include="Xamarin.AndroidX.Annotation" Version="1.0.2-preview02" />
+    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.0.0-preview02" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">

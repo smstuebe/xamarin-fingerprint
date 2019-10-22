@@ -1,12 +1,12 @@
 using System;
-using Android;
-using Android.Content.PM;
-using Android.Hardware.Biometrics;
 using Android.OS;
 using Plugin.Fingerprint.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
+using AndroidX.Biometric;
+using AndroidX.Fragment.App;
+using Java.Util.Concurrent;
 
 namespace Plugin.Fingerprint.Contract
 {
@@ -15,9 +15,11 @@ namespace Plugin.Fingerprint.Contract
     /// </summary>
     public class FingerprintImplementation : FingerprintImplementationBase
     {
+        private readonly BiometricManager _manager;
+
         public FingerprintImplementation()
         {
-            // _manager = new BiometricManager(); // Android 10 -.-
+            _manager = BiometricManager.From(Application.Context);
         }
 
         public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
@@ -39,35 +41,76 @@ namespace Plugin.Fingerprint.Contract
                 return FingerprintAvailability.NoApi;
 
             var context = Application.Context;
-            if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseBiometric) != Permission.Granted)
-                return FingerprintAvailability.NoPermission;
+            //if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseBiometric) != Permission.Granted)
+            //    return FingerprintAvailability.NoPermission;
 
-            return FingerprintAvailability.Available;
+            var result = _manager.CanAuthenticate();
+
+            switch (result)
+            {
+                case BiometricManager.BiometricErrorNoHardware:
+                    return FingerprintAvailability.NoSensor;
+                case BiometricManager.BiometricErrorHwUnavailable:
+                    return FingerprintAvailability.Unknown;
+                case BiometricManager.BiometricErrorNoneEnrolled:
+                    return FingerprintAvailability.NoFingerprint;
+                case BiometricManager.BiometricSuccess:
+                    return FingerprintAvailability.Available;
+            }
+
+            return FingerprintAvailability.Unknown;
         }
 
         protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default)
         {
-            if(string.IsNullOrWhiteSpace(authRequestConfig.Title))
+            if (string.IsNullOrWhiteSpace(authRequestConfig.Title))
                 throw new ArgumentException("Title must not be null or empty on Android.", nameof(authRequestConfig.Title));
 
-            using (var cancellationSignal = new CancellationSignal())
-            using (cancellationToken.Register(() => cancellationSignal.Cancel()))
+            if(!(CrossFingerprint.CurrentActivity is FragmentActivity)) 
+                throw new InvalidOperationException($"Expected current activity to be '{typeof(FragmentActivity).FullName}' but was '{CrossFingerprint.CurrentActivity?.GetType().FullName}'. " +
+                                                    "You need to use AndroidX. Have you installed Xamarin.AndroidX.Migration!?");
+
+            try
             {
-                var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ? 
-                    Application.Context.GetString(Android.Resource.String.Cancel) : 
-                    authRequestConfig.CancelTitle;
-                var handler = new AuthenticationHandler();
-                var dialog = new BiometricPrompt.Builder(CrossFingerprint.CurrentActivity)
-                  .SetTitle(authRequestConfig.Title)
-                  .SetDescription(authRequestConfig.Reason)
-                  .SetNegativeButton(cancel, CrossFingerprint.CurrentActivity.MainExecutor, handler)
-                  .Build();
+                using var cancellationSignal = new CancellationSignal();
+                using (cancellationToken.Register(() => cancellationSignal.Cancel()))
+                {
+                    var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ?
+                        Application.Context.GetString(Android.Resource.String.Cancel) :
+                        authRequestConfig.CancelTitle;
 
-                // setDeviceCredentialAllowed https://developer.android.com/training/sign-in/biometric-auth
+                    var handler = new AuthenticationHandler();
+                    var builder = new BiometricPrompt.PromptInfo.Builder()
+                        .SetTitle(authRequestConfig.Title)
+                        .SetDescription(authRequestConfig.Reason);
 
-                dialog.Authenticate(cancellationSignal, CrossFingerprint.CurrentActivity.MainExecutor, handler);
-                return await handler.GetTask();
+                    if (authRequestConfig.AllowAlternativeAuthentication)
+                    {
+                        // It's not allowed to allow alternative auth & set the negative button
+                        builder = builder.SetDeviceCredentialAllowed(authRequestConfig.AllowAlternativeAuthentication);
+                    }
+                    else
+                    {
+                        builder = builder.SetNegativeButtonText(cancel);
+                    }
+
+                    var info = builder.Build();
+                    var executor = Executors.NewSingleThreadExecutor();
+                    using var dialog = new BiometricPrompt((FragmentActivity)CrossFingerprint.CurrentActivity, executor, handler);
+
+                    dialog.Authenticate(info);
+                    return await handler.GetTask();
+                }
             }
+            catch (Exception e)
+            {
+                return new FingerprintAuthenticationResult
+                {
+                    Status = FingerprintAuthenticationResultStatus.UnknownError,
+                    ErrorMessage = e.Message
+                };
+            }
+
         }
     }
 }

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Android.Content;
-using Android.Hardware.Biometrics;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
+using AndroidX.Biometric;
 
 namespace Plugin.Fingerprint.Contract
 {
@@ -35,13 +35,14 @@ namespace Plugin.Fingerprint.Contract
             SetResultSafe(faResult);
         }
 
-        public override void OnAuthenticationError(BiometricErrorCode errorCode, ICharSequence errString)
+        public override void OnAuthenticationError(int errorCode, ICharSequence errString)
         {
             base.OnAuthenticationError(errorCode, errString);
+
             var message = errString != null ? errString.ToString() : string.Empty;
             var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
 
-            if (errorCode == BiometricErrorCode.Lockout)
+            if (errorCode == BiometricPrompt.InterfaceConsts.ErrorLockout)
             {
                 result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
             }

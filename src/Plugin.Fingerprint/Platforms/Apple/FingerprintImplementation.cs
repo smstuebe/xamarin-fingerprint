@@ -20,7 +20,7 @@ namespace Plugin.Fingerprint
             CreateLaContext();
         }
 
-        protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = new CancellationToken())
+        protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken)
         {
             var result = new FingerprintAuthenticationResult();
             SetupContextProperties(authRequestConfig);
@@ -83,7 +83,7 @@ namespace Plugin.Fingerprint
                 return AuthenticationType.None;
 
             // we need to call this, because it will always return none, if you don't call CanEvaluatePolicy
-            var availibility = await GetAvailabilityAsync(false);
+            var availability = await GetAvailabilityAsync(false);
 
             // iOS 11+
             if (_context.RespondsToSelector(new Selector("biometryType")))
@@ -102,9 +102,9 @@ namespace Plugin.Fingerprint
             }
 
             // iOS < 11
-            if (availibility == FingerprintAvailability.NoApi ||
-                availibility == FingerprintAvailability.NoSensor || 
-                availibility == FingerprintAvailability.Unknown)
+            if (availability == FingerprintAvailability.NoApi ||
+                availability == FingerprintAvailability.NoSensor || 
+                availability == FingerprintAvailability.Unknown)
             {
                 return AuthenticationType.None;
             }
