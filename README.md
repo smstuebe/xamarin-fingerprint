@@ -1,6 +1,6 @@
-# <img src="doc/xamarin_fingerprint.png" width="71" height="71"/> Fingerprint plugin for Xamarin 
+# <img src="doc/xamarin_fingerprint.png" width="71" height="71"/> Biometric / Fingerprint plugin for Xamarin 
 
-Xamarin and MvvMCross plugin for accessing the fingerprint sensor.
+Xamarin and MvvMCross plugin for accessing the fingerprint or other biometric sensors.
 
 | Type  | Stable | Pre release |
 | ------------- | ----------- | ----------- |

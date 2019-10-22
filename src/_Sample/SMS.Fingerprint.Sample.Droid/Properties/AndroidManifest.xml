@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="sms.fingerprint.sample" android:installLocation="auto" android:versionCode="1" android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
-	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
-	<uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
-	<application android:label="SMS Fingerprint Sample" android:icon="@drawable/xamarin_fingerprint" />
-</manifest>
