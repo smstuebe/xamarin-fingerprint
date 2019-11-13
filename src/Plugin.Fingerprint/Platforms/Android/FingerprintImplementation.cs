@@ -3,7 +3,9 @@ using Android.OS;
 using Plugin.Fingerprint.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
+using Android;
 using Android.App;
+using Android.Content.PM;
 using AndroidX.Biometric;
 using AndroidX.Fragment.App;
 using Java.Util.Concurrent;
@@ -41,8 +43,10 @@ namespace Plugin.Fingerprint.Contract
                 return FingerprintAvailability.NoApi;
 
             var context = Application.Context;
-            //if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseBiometric) != Permission.Granted)
-            //    return FingerprintAvailability.NoPermission;
+            
+            if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseBiometric) != Permission.Granted &&
+                context.CheckCallingOrSelfPermission(Manifest.Permission.UseFingerprint) != Permission.Granted)
+                return FingerprintAvailability.NoPermission;
 
             var result = _manager.CanAuthenticate();
 
@@ -68,7 +72,7 @@ namespace Plugin.Fingerprint.Contract
 
             if(!(CrossFingerprint.CurrentActivity is FragmentActivity)) 
                 throw new InvalidOperationException($"Expected current activity to be '{typeof(FragmentActivity).FullName}' but was '{CrossFingerprint.CurrentActivity?.GetType().FullName}'. " +
-                                                    "You need to use AndroidX. Have you installed Xamarin.AndroidX.Migration!?");
+                                                    "You need to use AndroidX. Have you installed Xamarin.AndroidX.Migration in your Android App project!?");
 
             try
             {
