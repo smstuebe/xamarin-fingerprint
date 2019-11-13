@@ -1,10 +1,25 @@
 resources:
 - repo: self
 
+trigger:
+  branches:
+    include:
+      - master
+      - '2.0.0'
+
+variables: 
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+
 pool:
   vmImage: windows-latest
 
 steps:
+  - task: CacheBeta@0
+    displayName: Cache NuGet packages
+    inputs:
+      key: nuget | ./src/Plugin.Fingerprint/packages.lock.json
+      path: $(NUGET_PACKAGES)  
+
   - task: MSBuild@1
     displayName: Build and Pack
     inputs:

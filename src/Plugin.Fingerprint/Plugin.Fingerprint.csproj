@@ -7,6 +7,7 @@
     <Title>Fingerprint Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
     <RootNamespace>Plugin.Fingerprint</RootNamespace>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
