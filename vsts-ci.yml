@@ -21,10 +21,18 @@ steps:
       path: $(NUGET_PACKAGES)  
 
   - task: MSBuild@1
-    displayName: Build and Pack
+    displayName: Build
     inputs:
       solution: ./src/Build.sln
-      msbuildArguments: /restore /t:build /p:CreatePackage=true /p:NoPackageAnalysis=true /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)\artifacts
+      msbuildArguments: /restore /t:build
+      configuration: Release
+      maximumCpuCount: true
+
+  - task: MSBuild@1
+    displayName: Package
+    inputs:
+      solution: ./src/Build.sln
+      msbuildArguments: /t:build /p:CreatePackage=true /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)\artifacts
       configuration: Release
       maximumCpuCount: true
 
