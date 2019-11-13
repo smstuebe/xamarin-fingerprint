@@ -13,6 +13,10 @@
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
     <None Include="readme.txt" pack="true" PackagePath="." />
+    <None Include="bin\Release\monoandroid9\90\AndroidX.Biometric.*">
+      <PackagePath>lib\monoandroid90\</PackagePath>
+      <Pack>true</Pack>
+    </None>
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
@@ -27,7 +31,7 @@
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <DefineConstants>$(DefineConstants);IOS;</DefineConstants>
   </PropertyGroup>
-  
+
   <!-- macOS -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
     <Compile Include="Platforms\Apple\**\*.cs" />
@@ -40,10 +44,7 @@
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <!--<AndroidResource Include="Resources\layout\FingerprintDialog.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
-    <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
-    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />-->
-    <ProjectReference Include="..\AndroidX.Biometric\AndroidX.Biometric.csproj">
+    <ProjectReference Include="..\AndroidX.Biometric\AndroidX.Biometric.csproj" PrivateAssets="all">
       <Project>{A7506939-7402-4E6C-987B-4810ABB5BCAF}</Project>
       <Name>AndroidX.Biometric</Name>
     </ProjectReference>
