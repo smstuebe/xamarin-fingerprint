@@ -23,7 +23,7 @@ namespace SMS.Fingerprint.Sample.Droid
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
 
             // uncomment this line to use custom dialog
-            //CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
+            CrossFingerprint.SetDialogFragmentType<ZetagikCustomFingerprintDialogFragment>();
         }
 
         public override void OnTerminate()
