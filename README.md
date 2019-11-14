@@ -267,12 +267,18 @@ You have to enable telnet: Programs and Features > Add Windows Feature > Telnet 
 
 ## Nice to know
 
-### ProGuard
+### Android code shrinker (Proguard & r8)
 
-If you use the plugin with Link all, Release Mode and ProGuard enabled, you may have to add the follwoing rules to your proguard.cfg.
+If you use the plugin with Link all, Release Mode and ProGuard/r8 enabled, you may have to do the following:
 
+1. Create a `proguard.cfg` file in your android project and add the following:
+```
     -dontwarn com.samsung.**
     -keep class com.samsung.** {*;}
+```
+2. Include it to your project
+3. Properties > Build Action > ProguardConfiguration
+
 
 ## Contribution
 <img src="http://i.imgur.com/WFBeQuG.png" /> + <img src="http://i.imgur.com/P4Ay9tm.png" />
