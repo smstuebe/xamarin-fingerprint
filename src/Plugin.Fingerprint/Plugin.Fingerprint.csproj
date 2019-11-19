@@ -14,10 +14,6 @@
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
     <None Include="readme.txt" pack="true" PackagePath="." />
-    <None Include="bin\Release\monoandroid9\90\AndroidX.Biometric.*">
-      <PackagePath>lib\monoandroid90\</PackagePath>
-      <Pack>true</Pack>
-    </None>
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
@@ -45,14 +41,7 @@
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <ProjectReference Include="..\AndroidX.Biometric\AndroidX.Biometric.csproj" PrivateAssets="all">
-      <Project>{A7506939-7402-4E6C-987B-4810ABB5BCAF}</Project>
-      <Name>AndroidX.Biometric</Name>
-    </ProjectReference>
-    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.0.1-preview02" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.0.2-preview02" />
-    <PackageReference Include="Xamarin.AndroidX.Annotation" Version="1.0.2-preview02" />
-    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.0.0-preview02" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.0.0-preview03" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">

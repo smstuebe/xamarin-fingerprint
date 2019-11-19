@@ -50,6 +50,11 @@ namespace Plugin.Fingerprint.Contract
             SetResultSafe(result);
         }
 
+        public override void OnAuthenticationFailed()
+        {
+            base.OnAuthenticationFailed();
+        }
+
         public void OnClick(IDialogInterface dialog, int which)
         {
             var faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Canceled };

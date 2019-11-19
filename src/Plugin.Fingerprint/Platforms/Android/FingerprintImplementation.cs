@@ -76,7 +76,7 @@ namespace Plugin.Fingerprint.Contract
 
             try
             {
-                using var cancellationSignal = new CancellationSignal();
+                using(var cancellationSignal = new CancellationSignal())
                 using (cancellationToken.Register(() => cancellationSignal.Cancel()))
                 {
                     var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ?

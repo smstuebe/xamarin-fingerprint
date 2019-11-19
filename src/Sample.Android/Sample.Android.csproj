@@ -52,6 +52,9 @@
     <PackageReference Include="Xamarin.AndroidX.AppCompat">
       <Version>1.0.2-preview02</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Biometric">
+      <Version>1.0.0-preview03</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Core">
       <Version>1.0.1-preview02</Version>
     </PackageReference>
