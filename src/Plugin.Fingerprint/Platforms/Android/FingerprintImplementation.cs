@@ -76,32 +76,30 @@ namespace Plugin.Fingerprint.Contract
 
             try
             {
-                using(var cancellationSignal = new CancellationSignal())
-                using (cancellationToken.Register(() => cancellationSignal.Cancel()))
+                var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ?
+                    Application.Context.GetString(Android.Resource.String.Cancel) :
+                    authRequestConfig.CancelTitle;
+
+                var handler = new AuthenticationHandler();
+                var builder = new BiometricPrompt.PromptInfo.Builder()
+                    .SetTitle(authRequestConfig.Title)
+                    .SetDescription(authRequestConfig.Reason);
+
+                if (authRequestConfig.AllowAlternativeAuthentication)
                 {
-                    var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ?
-                        Application.Context.GetString(Android.Resource.String.Cancel) :
-                        authRequestConfig.CancelTitle;
+                    // It's not allowed to allow alternative auth & set the negative button
+                    builder = builder.SetDeviceCredentialAllowed(authRequestConfig.AllowAlternativeAuthentication);
+                }
+                else
+                {
+                    builder = builder.SetNegativeButtonText(cancel);
+                }
+                var info = builder.Build();
+                var executor = Executors.NewSingleThreadExecutor();
 
-                    var handler = new AuthenticationHandler();
-                    var builder = new BiometricPrompt.PromptInfo.Builder()
-                        .SetTitle(authRequestConfig.Title)
-                        .SetDescription(authRequestConfig.Reason);
-
-                    if (authRequestConfig.AllowAlternativeAuthentication)
-                    {
-                        // It's not allowed to allow alternative auth & set the negative button
-                        builder = builder.SetDeviceCredentialAllowed(authRequestConfig.AllowAlternativeAuthentication);
-                    }
-                    else
-                    {
-                        builder = builder.SetNegativeButtonText(cancel);
-                    }
-
-                    var info = builder.Build();
-                    var executor = Executors.NewSingleThreadExecutor();
-                    using var dialog = new BiometricPrompt((FragmentActivity)CrossFingerprint.CurrentActivity, executor, handler);
-
+                using var dialog = new BiometricPrompt((FragmentActivity)CrossFingerprint.CurrentActivity, executor, handler);
+                await using (cancellationToken.Register(() => dialog.CancelAuthentication()))
+                {
                     dialog.Authenticate(info);
                     return await handler.GetTask();
                 }
