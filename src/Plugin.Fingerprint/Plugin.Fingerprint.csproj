@@ -4,7 +4,7 @@
     <LangVersion>8</LangVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 
-    <Title>Fingerprint Plugin for Xamarin</Title>
+    <Title>Fingerprint / Face ID / Biometric Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
     <RootNamespace>Plugin.Fingerprint</RootNamespace>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
