@@ -5,7 +5,7 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <AssemblyName>MvvmCross.Plugins.Fingerprint</AssemblyName>
     <RootNamespace>MvvmCross.Plugins.Fingerprint</RootNamespace>
-    <Title>MvvmCross Fingerprint Plugin</Title>
+    <Title>Fingerprint / Face ID / Biometric Plugin for MvvmCross</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,45 +16,4 @@
     <PackageReference Include="MvvmCross" Version="6.0.0" />
     <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-    <Compile Include="netstandard\*.cs" />
-  </ItemGroup>
-
-  <!-- iOS -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <Compile Include="Platforms\Apple\**\*.cs" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <DefineConstants>$(DefineConstants);IOS;</DefineConstants>
-  </PropertyGroup>
-
-  <!-- macOS -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
-    <Compile Include="Platforms\Apple\**\*.cs" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
-    <DefineConstants>$(DefineConstants);MACOS;</DefineConstants>
-  </PropertyGroup>
-
-  <!-- Android -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <Compile Include="Platforms\Android\**\*.cs" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <DefineConstants>$(DefineConstants);ANDROID;</DefineConstants>
-  </PropertyGroup>
-
-  <!-- UWP -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <Compile Include="Platforms\UWP\**\*.cs" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <!--<TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>-->
-    <DefineConstants>$(DefineConstants);WINDOWS_UWP;</DefineConstants>
-  </PropertyGroup>
 </Project>
