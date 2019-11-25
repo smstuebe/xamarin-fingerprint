@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Plugin.Fingerprint.Abstractions;
+#if ANDROID
+using Plugin.Fingerprint.Contract;
+#endif
 
 namespace Plugin.Fingerprint
 {
@@ -25,7 +28,7 @@ namespace Plugin.Fingerprint
 
         static IFingerprint CreateFingerprint()
         {
-#if PORTABLE
+#if NETSTANDARD2_0
             throw NotImplementedInReferenceAssembly();
 #else
             return new FingerprintImplementation();

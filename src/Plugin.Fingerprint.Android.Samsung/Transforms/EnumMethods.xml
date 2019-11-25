@@ -1,5 +1,0 @@
-﻿<enum-method-mappings>
-  <mapping jni-interface="com/samsung/android/sdk/pass/SpassFingerprint$IdentifyListener">
-    <method jni-name="onFinished" parameter="p0" clr-enum-type="Com.Samsung.Android.Sdk.Pass.SpassFingerprintStatus" />
-  </mapping>
-</enum-method-mappings>

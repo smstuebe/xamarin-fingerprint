@@ -1,61 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4AB8BA07-FC70-4F51-9E52-26A5942BAD80}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Plugin.Fingerprint</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid9;uap10.0.16299;Tizen40;</TargetFrameworks>
+    <LangVersion>8</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+    <Title>Fingerprint / Face ID / Biometric Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <RootNamespace>Plugin.Fingerprint</RootNamespace>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Plugin.Fingerprint.XML</DocumentationFile>
+
+  <ItemGroup>
+    <Compile Include="Abstractions\*.cs" />
+    <Compile Include="*.cs" />
+    <None Include="readme.txt" pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
+    <Compile Include="netstandard\*.cs" />
+  </ItemGroup>
+
+  <!-- iOS -->
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+    <Compile Include="Platforms\Apple\**\*.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+    <DefineConstants>$(DefineConstants);IOS;</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Plugin.Fingerprint.XML</DocumentationFile>
+
+  <!-- macOS -->
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
+    <Compile Include="Platforms\Apple\**\*.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
+    <DefineConstants>$(DefineConstants);MACOS;</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Plugin.Fingerprint.Abstractions\Plugin.Fingerprint.Abstractions.csproj">
-      <Project>{9e635804-0422-40bb-8f5c-303853a9ce3d}</Project>
-      <Name>Plugin.Fingerprint.Abstractions</Name>
-    </ProjectReference>
+
+  <!-- Android -->
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <Compile Include="Platforms\Android\**\*.cs" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.0.0-preview03" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CrossFingerprint.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <DefineConstants>$(DefineConstants);ANDROID;</DefineConstants>
+  </PropertyGroup>
+
+  <!-- UWP -->
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+    <Compile Include="Platforms\UWP\**\*.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+    <!--<TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>-->
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP;</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) OR $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
+    <Compile Include="Platforms\NotImplemented\**\*.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
