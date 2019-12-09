@@ -13,11 +13,11 @@ pool:
   vmImage: windows-latest
 
 steps:
-  - task: CacheBeta@0
-    displayName: Cache NuGet packages
-    inputs:
-      key: nuget | ./src/Plugin.Fingerprint/packages.lock.json
-      path: $(NUGET_PACKAGES)
+  # - task: CacheBeta@0
+  #   displayName: Cache NuGet packages
+  #   inputs:
+  #     key: nuget | ./src/Plugin.Fingerprint/packages.lock.json
+  #     path: $(NUGET_PACKAGES)
 
   - task: MSBuild@1
     displayName: Build & Package
