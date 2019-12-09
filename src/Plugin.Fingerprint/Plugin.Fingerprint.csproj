@@ -41,7 +41,7 @@
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.0.0-preview03" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.0.0-preview06" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
