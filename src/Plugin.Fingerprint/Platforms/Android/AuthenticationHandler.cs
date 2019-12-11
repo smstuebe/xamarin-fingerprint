@@ -4,7 +4,7 @@ using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
 using AndroidX.Biometric;
 
-namespace Plugin.Fingerprint.Contract
+namespace Plugin.Fingerprint
 {
     public class AuthenticationHandler : BiometricPrompt.AuthenticationCallback, IDialogInterfaceOnClickListener
     {

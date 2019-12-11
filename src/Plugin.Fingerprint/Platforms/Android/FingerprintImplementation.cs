@@ -10,10 +10,10 @@ using AndroidX.Biometric;
 using AndroidX.Fragment.App;
 using Java.Util.Concurrent;
 
-namespace Plugin.Fingerprint.Contract
+namespace Plugin.Fingerprint
 {
     /// <summary>
-    /// Base implementation for the Android implementations.
+    /// Android fingerprint implementations.
     /// </summary>
     public class FingerprintImplementation : FingerprintImplementationBase
     {
@@ -70,7 +70,7 @@ namespace Plugin.Fingerprint.Contract
             if (string.IsNullOrWhiteSpace(authRequestConfig.Title))
                 throw new ArgumentException("Title must not be null or empty on Android.", nameof(authRequestConfig.Title));
 
-            if(!(CrossFingerprint.CurrentActivity is FragmentActivity)) 
+            if (!(CrossFingerprint.CurrentActivity is FragmentActivity)) 
                 throw new InvalidOperationException($"Expected current activity to be '{typeof(FragmentActivity).FullName}' but was '{CrossFingerprint.CurrentActivity?.GetType().FullName}'. " +
                                                     "You need to use AndroidX. Have you installed Xamarin.AndroidX.Migration in your Android App project!?");
 
