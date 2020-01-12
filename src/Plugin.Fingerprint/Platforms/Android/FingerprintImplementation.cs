@@ -83,6 +83,7 @@ namespace Plugin.Fingerprint
                 var handler = new AuthenticationHandler();
                 var builder = new BiometricPrompt.PromptInfo.Builder()
                     .SetTitle(authRequestConfig.Title)
+                    //.SetConfirmationRequired(false)
                     .SetDescription(authRequestConfig.Reason);
 
                 if (authRequestConfig.AllowAlternativeAuthentication)
