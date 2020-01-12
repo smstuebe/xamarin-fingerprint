@@ -3,7 +3,7 @@
     <Copyright>Copyright (c) Sven-Michael Stübe</Copyright> 
     <Authors>Sven-Michael Stübe</Authors>
     <Owners>Sven-Michael Stübe</Owners>
-    <Version>2.0.0-alpha.5</Version>
+    <Version>2.0.0-alpha.6</Version>
     
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
