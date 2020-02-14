@@ -14,7 +14,6 @@ Xamarin and MvvMCross plugin for accessing the fingerprint or other biometric se
 If you like the quality and code you can support me 
 
 - [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe)  
-- <a href="https://www.buymeacoffee.com/HLBu62Uv8" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 Thanks!
 
@@ -227,34 +226,6 @@ You can't create a custom dialog. The standard iOS Dialog will be shown.
 ##### iOS 10+ only
 
 - custom cancel button title
-
-### Android
-
-#### Limitations
-
-You can't use the alternative authentication method.
-
-#### Configuration
-
-If you don't like the default dialog, you can easily customize it. You have to inherit from `FingerprintDialogFragment` e.g. like:
-
-```csharp
-public class MyCustomDialogFragment : FingerprintDialogFragment
-{
-    public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        var view = base.OnCreateView(inflater, container, savedInstanceState);
-        view.Background = new ColorDrawable(Color.Magenta); // make it fancyyyy :D
-        return view;
-    }
-}
-```
-
-And somewhere in your code set your custom dialog fragment:
-
-```csharp
-CrossFingerprint.SetDialogFragmentType<MyCustomDialogFragment>();
-```
 
 ### UWP
 

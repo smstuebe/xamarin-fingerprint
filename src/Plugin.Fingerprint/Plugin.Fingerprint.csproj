@@ -7,7 +7,6 @@
     <Title>Fingerprint / Face ID / Biometric Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
     <RootNamespace>Plugin.Fingerprint</RootNamespace>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,7 +40,7 @@
   <!-- Android -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.0.0-rc1" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.0.0" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">

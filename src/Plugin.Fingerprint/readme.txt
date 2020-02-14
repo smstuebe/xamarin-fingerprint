@@ -3,7 +3,7 @@ Xamarin and MvvmCross plugin for authenticating a user via fingerprint, face id 
 ---------------------------------
 
 How to setup:
-Read carefully (especially the Android X part)! https://github.com/smstuebe/xamarin-fingerprint/tree/2.0.0
+Read carefully (especially the Android X part)! https://github.com/smstuebe/xamarin-fingerprint
 
 Star on Github at: https://github.com/smstuebe/xamarin-fingerprint
 
