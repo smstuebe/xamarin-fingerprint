@@ -15,5 +15,6 @@
     </ProjectReference>
     <PackageReference Include="MvvmCross" Version="6.0.0" />
     <None Include="readme.txt" pack="true" PackagePath="." />
+    <None Include="..\..\doc\xamarin_fingerprint.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>

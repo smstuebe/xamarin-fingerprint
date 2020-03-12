@@ -64,8 +64,6 @@ namespace Plugin.Fingerprint
             {
                 return FingerprintAvailability.NoFallback;
             }
-
-            return FingerprintAvailability.Unknown;
         }
 
         private FingerprintAvailability GetBiometricAvailability()
