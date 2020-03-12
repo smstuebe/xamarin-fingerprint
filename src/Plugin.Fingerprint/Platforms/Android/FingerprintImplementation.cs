@@ -42,8 +42,36 @@ namespace Plugin.Fingerprint
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
                 return FingerprintAvailability.NoApi;
 
+
+            var biometricAvailability = GetBiometricAvailability();
+            if (biometricAvailability == FingerprintAvailability.Available || !allowAlternativeAuthentication)
+                return biometricAvailability;
+
             var context = Application.Context;
-            
+
+            try
+            {
+                KeyguardManager manager =
+                    (KeyguardManager) context.GetSystemService(Android.Content.Context.KeyguardService);
+                if (manager.IsDeviceSecure)
+                {
+                    return FingerprintAvailability.Available;
+                }
+
+                return FingerprintAvailability.NoFallback;
+            }
+            catch
+            {
+                return FingerprintAvailability.NoFallback;
+            }
+
+            return FingerprintAvailability.Unknown;
+        }
+
+        private FingerprintAvailability GetBiometricAvailability()
+        {
+            var context = Application.Context;
+
             if (context.CheckCallingOrSelfPermission(Manifest.Permission.UseBiometric) != Permission.Granted &&
                 context.CheckCallingOrSelfPermission(Manifest.Permission.UseFingerprint) != Permission.Granted)
                 return FingerprintAvailability.NoPermission;

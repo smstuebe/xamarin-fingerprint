@@ -30,6 +30,10 @@
         /// </summary>
         NoFingerprint,
         /// <summary>
+        /// Fallback has not been set up.
+        /// </summary>
+        NoFallback,
+        /// <summary>
         /// An unknown, platform specific error occurred. Availability status could not be 
         /// mapped to a <see cref="FingerprintAvailability"/>.
         /// </summary>

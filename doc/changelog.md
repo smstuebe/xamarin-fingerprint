@@ -1,5 +1,12 @@
 ## Changelog
 
+### 2.1.0
+
+- new enum member FingerprintAvailability.NoFallback for CheckAvailabilityAsync()
+- Android: CheckAvailabilityAsync(true) returns Available if Biometric is not available, but fallback is available.
+- iOS: CheckAvailabilityAsync(true) FingerprintAvailability.NoFallback instead of FingerprintAvailability.NoFingerprint if no passcode is set.
+- IsAvailableAsync changed accordingly
+
 ### 2.0.0
 
 - .netstandard 2.0

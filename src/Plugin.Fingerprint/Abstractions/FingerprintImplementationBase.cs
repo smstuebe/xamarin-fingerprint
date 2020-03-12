@@ -18,7 +18,7 @@ namespace Plugin.Fingerprint.Abstractions
                     FingerprintAuthenticationResultStatus.Denied :
                     FingerprintAuthenticationResultStatus.NotAvailable;
 
-                return new FingerprintAuthenticationResult { Status = status };
+                return new FingerprintAuthenticationResult { Status = status, ErrorMessage = availability.ToString() };
             }
 
             return await NativeAuthenticateAsync(authRequestConfig, cancellationToken);

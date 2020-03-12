@@ -70,8 +70,9 @@ namespace Plugin.Fingerprint
                         FingerprintAvailability.Denied :
                         FingerprintAvailability.NoSensor;
                 case LAStatus.BiometryNotEnrolled:
-                case LAStatus.PasscodeNotSet:
                     return FingerprintAvailability.NoFingerprint;
+                case LAStatus.PasscodeNotSet:
+                    return FingerprintAvailability.NoFallback;
                 default:
                     return FingerprintAvailability.Unknown;
             }
