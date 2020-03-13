@@ -1,6 +1,6 @@
 ## Changelog
 
-### 2.1.0
+### 2.1.1
 
 - new enum member FingerprintAvailability.NoFallback for CheckAvailabilityAsync()
 - Android: CheckAvailabilityAsync(true) returns Available if Biometric is not available, but fallback is available.
