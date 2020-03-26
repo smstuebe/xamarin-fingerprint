@@ -3,33 +3,39 @@
     <Copyright>Copyright (c) Sven-Michael Stübe</Copyright> 
     <Authors>Sven-Michael Stübe</Authors>
     <Owners>Sven-Michael Stübe</Owners>
-    <Version>2.1.2-beta.1</Version>
+    <Version>2.1.2-beta.4</Version>
     
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
     
-    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
-    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
     <Platform>AnyCPU</Platform>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <DebugType>full</DebugType>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
 
     <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
     <PackageProjectUrl>https://github.com/smstuebe/xamarin-fingerprint</PackageProjectUrl>
-    <PackageIcon>xamarin_fingerprint.png</PackageIcon>
+    <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint/blob/master/doc/changelog.md</PackageReleaseNotes>
+    <PackageIcon Condition=" $(MSBuildProjectName.Contains('Plugin')) ">xamarin_fingerprint.png</PackageIcon>
 
     <PackageTags>xamarin;mvvmcross;mvvm;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp;face id;unlock</PackageTags>    
     <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint/blob/master/doc/changelog.md</PackageReleaseNotes>
     <PackageDescription>Authenticate a user via fingerprint, face id or any other biometic / local authentication method from a cross platform API.</PackageDescription>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>portable</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+        
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup> 
 </Project>
