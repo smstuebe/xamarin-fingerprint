@@ -3,7 +3,7 @@
     <Copyright>Copyright (c) Sven-Michael Stübe</Copyright> 
     <Authors>Sven-Michael Stübe</Authors>
     <Owners>Sven-Michael Stübe</Owners>
-    <Version>2.1.1</Version>
+    <Version>2.1.2-beta.1</Version>
     
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
@@ -13,6 +13,8 @@
     <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     
     <Platform>AnyCPU</Platform>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
