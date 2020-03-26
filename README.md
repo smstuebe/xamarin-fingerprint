@@ -11,9 +11,9 @@ Xamarin and MvvMCross plugin for accessing the fingerprint or other biometric se
 
 ## Support
 
-If you like the quality and code you can support me 
+If you like the quality and code you can support me
 
-- [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe)  
+- [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat-square)](https://www.paypal.me/smstuebe)
 
 Thanks!
 
@@ -70,7 +70,8 @@ CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.A
 #### vanilla
 
 ```csharp
-var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+var request = new AuthenticationRequestConfiguration ("Prove you have fingers!", "Because without it you can't have access");
+var result = await CrossFingerprint.Current.AuthenticateAsync(request);
 if (result.Authenticated)
 {
     // do secret stuff :)
@@ -86,7 +87,8 @@ else
 ```csharp
 var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
 
-var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
+var request = new AuthenticationRequestConfiguration ("Prove you have mvx fingers!", "Because without it you can't have access");
+var result = await fpService.AuthenticateAsync(request);
 if (result.Authenticated)
 {
     // do secret stuff :)
@@ -175,7 +177,8 @@ public string ErrorMessage { get; set; }
 #### vanilla
 
 ```csharp
-var result = await CrossFingerprint.Current.AuthenticateAsync("Prove you have fingers!");
+var request = new AuthenticationRequestConfiguration ("Prove you have fingers!", "Because without it you can't have access");
+var result = await CrossFingerprint.Current.AuthenticateAsync(request);
 if (result.Authenticated)
 {
     // do secret stuff :)
@@ -191,7 +194,8 @@ else
 ```csharp
 var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
 
-var result = await fpService.AuthenticateAsync("Prove you have mvx fingers!");
+var request = new AuthenticationRequestConfiguration ("Prove you have mvx fingers!", "Because without it you can't have access");
+var result = await fpService.AuthenticateAsync(request);
 if (result.Authenticated)
 {
     // do secret stuff :)
@@ -267,13 +271,14 @@ You have to enable telnet: Programs and Features > Add Windows Feature > Telnet 
 If you use the plugin with Link all, Release Mode and ProGuard/r8 enabled, you may have to do the following:
 
 1. Create a `proguard.cfg` file in your android project and add the following:
+
 ```
     -dontwarn com.samsung.**
     -keep class com.samsung.** {*;}
 ```
+
 2. Include it to your project
 3. Properties > Build Action > ProguardConfiguration
-
 
 ## Contribution
 
