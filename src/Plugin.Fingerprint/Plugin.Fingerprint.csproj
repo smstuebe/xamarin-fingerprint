@@ -10,11 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
     <None Include="readme.txt" pack="true" PackagePath="." />
-    <None Include="..\..\doc\xamarin_fingerprint.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">

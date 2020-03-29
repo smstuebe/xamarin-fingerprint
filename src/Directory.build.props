@@ -1,9 +1,12 @@
 ﻿<Project>
   <PropertyGroup>
+    <IsPackageProject>$(MSBuildProjectName.Contains('Plugin'))</IsPackageProject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(IsPackageProject) ">
     <Copyright>Copyright (c) Sven-Michael Stübe</Copyright> 
     <Authors>Sven-Michael Stübe</Authors>
     <Owners>Sven-Michael Stübe</Owners>
-    <Version>2.1.2-beta.4</Version>
+    <Version>2.1.2-beta.7</Version>
     
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
@@ -22,9 +25,10 @@
     <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint/blob/master/doc/changelog.md</PackageReleaseNotes>
     <PackageIcon Condition=" $(MSBuildProjectName.Contains('Plugin')) ">xamarin_fingerprint.png</PackageIcon>
 
-    <PackageTags>xamarin;mvvmcross;mvvm;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp;face id;unlock</PackageTags>    
-    <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint/blob/master/doc/changelog.md</PackageReleaseNotes>
+    <PackageTags>xamarin;mvvmcross;mvvm;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp;face id;unlock</PackageTags>
     <PackageDescription>Authenticate a user via fingerprint, face id or any other biometic / local authentication method from a cross platform API.</PackageDescription>
+    <Deterministic>true</Deterministic>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -38,4 +42,9 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
   </PropertyGroup> 
+
+  <ItemGroup Condition=" $(IsPackageProject) ">
+    <None Include="..\..\doc\xamarin_fingerprint.png" Pack="true" PackagePath="\"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
 </Project>
