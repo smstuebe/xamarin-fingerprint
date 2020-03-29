@@ -23,7 +23,7 @@ steps:
     displayName: Build & Package
     inputs:
       solution: ./src/Build.sln
-      msbuildArguments: /restore /t:build /p:CreatePackage=true /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)\artifacts
+      msbuildArguments: /restore /t:build /p:CreatePackage=true /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)\artifacts
       configuration: Release
       maximumCpuCount: true
 
