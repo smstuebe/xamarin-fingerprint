@@ -57,7 +57,7 @@ Since version 2, this plugin uses Android X. You have to install Xamarin.Android
 
 Skip this, if you use the MvvMCross Plugin or don't use the dialog.
 
-We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/CurrentActivity) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
+We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/CurrentActivityPlugin) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
 
 ```csharp
 CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
