@@ -18,12 +18,17 @@
 
     <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
 
+    <!-- Sourcelink -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
     <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-
+  
     <PackageProjectUrl>https://github.com/smstuebe/xamarin-fingerprint</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint/blob/master/doc/changelog.md</PackageReleaseNotes>
-    <PackageIcon Condition=" $(MSBuildProjectName.Contains('Plugin')) ">xamarin_fingerprint.png</PackageIcon>
+    <PackageIcon>xamarin_fingerprint.png</PackageIcon>
 
     <PackageTags>xamarin;mvvmcross;mvvm;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp;face id;unlock</PackageTags>
     <PackageDescription>Authenticate a user via fingerprint, face id or any other biometic / local authentication method from a cross platform API.</PackageDescription>
@@ -34,14 +39,14 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
         
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
-  </PropertyGroup> 
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
 
   <ItemGroup Condition=" $(IsPackageProject) ">
     <None Include="..\..\doc\xamarin_fingerprint.png" Pack="true" PackagePath="\"/>
