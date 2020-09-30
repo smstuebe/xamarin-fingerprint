@@ -47,7 +47,8 @@ namespace Sample
             { // all optional
                 CancelTitle = cancel,
                 FallbackTitle = fallback,
-                AllowAlternativeAuthentication = swAllowAlternative.IsToggled
+                AllowAlternativeAuthentication = swAllowAlternative.IsToggled,
+                ConfirmationRequired = swConfirmationRequired.IsToggled
             };
 
             // optional

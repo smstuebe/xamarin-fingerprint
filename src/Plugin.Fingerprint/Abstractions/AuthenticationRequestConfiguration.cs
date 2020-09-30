@@ -25,21 +25,32 @@
         /// </summary>
         public string FallbackTitle { get; set; }
 
-
         /// <summary>
         /// Shown when a recoverable error has been encountered during authentication. 
         /// The help strings are provided to give the user guidance for what went wrong.
         /// If a string is null or empty, the string provided by Android is shown.
-        /// Supported Platforms: Android (when UseDialog is true)
+        /// 
+        /// Supported Platforms: Android
         /// </summary>
         public AuthenticationHelpTexts HelpTexts { get; }
 
         /// <summary>
-        /// En-/Disables the use of the PIN / Passwort as fallback.
-        /// Supported Platforms: iOS, Mac
+        /// En-/Disables the use of the PIN / Password as fallback.
+        /// 
+        /// Supported Platforms: Android, iOS, Mac
         /// Default: false
         /// </summary>
         public bool AllowAlternativeAuthentication { get; set; } = false;
+
+        /// <summary>
+        /// Sets a hint to the system for whether to require user confirmation after authentication.
+        /// For example, implicit modalities like face and iris are passive, meaning they don't require an explicit user action to complete authentication.
+        /// If set to true, these modalities should require the user to take some action (e.g. press a button) before AuthenticateAsync() returns.
+        ///
+        /// Supported Platforms: Android
+        /// Default: true
+        /// </summary>
+        public bool ConfirmationRequired { get; set; } = true;
 
         public AuthenticationRequestConfiguration(string title, string reason)
         {

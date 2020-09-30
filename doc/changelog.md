@@ -1,5 +1,11 @@
 ## Changelog
 
+### 2.1.2
+
+- sourcelink support
+- #192 Added ConfirmationRequired option to AuthenticationRequestConfiguration (Android only)
+- updated Xamarin.AndroidX.Biometric to 1.0.1.6
+
 ### 2.1.1
 
 - new enum member FingerprintAvailability.NoFallback for CheckAvailabilityAsync()

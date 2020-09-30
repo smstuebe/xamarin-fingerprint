@@ -51,8 +51,7 @@ namespace Plugin.Fingerprint
 
             try
             {
-                KeyguardManager manager =
-                    (KeyguardManager) context.GetSystemService(Android.Content.Context.KeyguardService);
+                var manager = (KeyguardManager) context.GetSystemService(Android.Content.Context.KeyguardService);
                 if (manager.IsDeviceSecure)
                 {
                     return FingerprintAvailability.Available;
@@ -109,7 +108,7 @@ namespace Plugin.Fingerprint
                 var handler = new AuthenticationHandler();
                 var builder = new BiometricPrompt.PromptInfo.Builder()
                     .SetTitle(authRequestConfig.Title)
-                    //.SetConfirmationRequired(false)
+                    .SetConfirmationRequired(authRequestConfig.ConfirmationRequired)
                     .SetDescription(authRequestConfig.Reason);
 
                 if (authRequestConfig.AllowAlternativeAuthentication)
