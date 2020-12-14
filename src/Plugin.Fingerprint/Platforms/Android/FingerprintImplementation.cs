@@ -9,6 +9,8 @@ using Android.Content.PM;
 using AndroidX.Biometric;
 using AndroidX.Fragment.App;
 using Java.Util.Concurrent;
+using AndroidX.Lifecycle;
+using Android.Runtime;
 
 namespace Plugin.Fingerprint
 {
@@ -18,6 +20,8 @@ namespace Plugin.Fingerprint
     public class FingerprintImplementation : FingerprintImplementationBase
     {
         private readonly BiometricManager _manager;
+        private ILifecycleObserver lastLifecycleObserver = null;
+        private Lifecycle lastLifecycle = null;
 
         public FingerprintImplementation()
         {
@@ -101,6 +105,13 @@ namespace Plugin.Fingerprint
 
             try
             {
+                if (lastLifecycleObserver != null && lastLifecycle != null)
+                {
+                    lastLifecycle.RemoveObserver(lastLifecycleObserver);
+                    lastLifecycleObserver = null;
+                    lastLifecycle = null;
+                }
+
                 var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ?
                     Application.Context.GetString(Android.Resource.String.Cancel) :
                     authRequestConfig.CancelTitle;
@@ -124,6 +135,14 @@ namespace Plugin.Fingerprint
                 var executor = Executors.NewSingleThreadExecutor();
 
                 using var dialog = new BiometricPrompt((FragmentActivity)CrossFingerprint.CurrentActivity, executor, handler);
+
+                lastLifecycle = ((FragmentActivity)CrossFingerprint.CurrentActivity).Lifecycle;
+
+                var bioPromptClass = Java.Lang.Class.FromType(typeof(BiometricPrompt));
+                var fieldLivecycle = bioPromptClass.GetDeclaredField("mLifecycleObserver");
+                fieldLivecycle.Accessible = true;
+                lastLifecycleObserver = fieldLivecycle.Get(dialog).JavaCast<ILifecycleObserver>();
+
                 await using (cancellationToken.Register(() => dialog.CancelAuthentication()))
                 {
                     dialog.Authenticate(info);
