@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2.1.3
+
+- #200 fixed hang on second consecutive fallback authentication (thx @albertruff)
+- updated Xamarin.AndroidX.Biometric to 1.0.1.7
+
 ### 2.1.2
 
 - sourcelink support
