@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Android.OS;
 using Plugin.Fingerprint.Abstractions;
 using System.Threading;
@@ -6,11 +7,11 @@ using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content.PM;
+using Android.Runtime;
 using AndroidX.Biometric;
 using AndroidX.Fragment.App;
-using Java.Util.Concurrent;
 using AndroidX.Lifecycle;
-using Android.Runtime;
+using Java.Util.Concurrent;
 
 namespace Plugin.Fingerprint
 {
@@ -20,8 +21,6 @@ namespace Plugin.Fingerprint
     public class FingerprintImplementation : FingerprintImplementationBase
     {
         private readonly BiometricManager _manager;
-        private ILifecycleObserver lastLifecycleObserver = null;
-        private Lifecycle lastLifecycle = null;
 
         public FingerprintImplementation()
         {
@@ -55,7 +54,7 @@ namespace Plugin.Fingerprint
 
             try
             {
-                var manager = (KeyguardManager) context.GetSystemService(Android.Content.Context.KeyguardService);
+                var manager = (KeyguardManager)context.GetSystemService(Android.Content.Context.KeyguardService);
                 if (manager.IsDeviceSecure)
                 {
                     return FingerprintAvailability.Available;
@@ -94,24 +93,17 @@ namespace Plugin.Fingerprint
             return FingerprintAvailability.Unknown;
         }
 
-        protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken = default)
+        protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(authRequestConfig.Title))
                 throw new ArgumentException("Title must not be null or empty on Android.", nameof(authRequestConfig.Title));
 
-            if (!(CrossFingerprint.CurrentActivity is FragmentActivity)) 
+            if (!(CrossFingerprint.CurrentActivity is FragmentActivity))
                 throw new InvalidOperationException($"Expected current activity to be '{typeof(FragmentActivity).FullName}' but was '{CrossFingerprint.CurrentActivity?.GetType().FullName}'. " +
                                                     "You need to use AndroidX. Have you installed Xamarin.AndroidX.Migration in your Android App project!?");
 
             try
             {
-                if (lastLifecycleObserver != null && lastLifecycle != null)
-                {
-                    lastLifecycle.RemoveObserver(lastLifecycleObserver);
-                    lastLifecycleObserver = null;
-                    lastLifecycle = null;
-                }
-
                 var cancel = string.IsNullOrWhiteSpace(authRequestConfig.CancelTitle) ?
                     Application.Context.GetString(Android.Resource.String.Cancel) :
                     authRequestConfig.CancelTitle;
@@ -134,19 +126,17 @@ namespace Plugin.Fingerprint
                 var info = builder.Build();
                 var executor = Executors.NewSingleThreadExecutor();
 
-                using var dialog = new BiometricPrompt((FragmentActivity)CrossFingerprint.CurrentActivity, executor, handler);
 
-                lastLifecycle = ((FragmentActivity)CrossFingerprint.CurrentActivity).Lifecycle;
-
-                var bioPromptClass = Java.Lang.Class.FromType(typeof(BiometricPrompt));
-                var fieldLivecycle = bioPromptClass.GetDeclaredField("mLifecycleObserver");
-                fieldLivecycle.Accessible = true;
-                lastLifecycleObserver = fieldLivecycle.Get(dialog).JavaCast<ILifecycleObserver>();
-
+                var activity = (FragmentActivity)CrossFingerprint.CurrentActivity;
+                using var dialog = new BiometricPrompt(activity, executor, handler);
                 await using (cancellationToken.Register(() => dialog.CancelAuthentication()))
                 {
                     dialog.Authenticate(info);
-                    return await handler.GetTask();
+                    var result = await handler.GetTask();
+
+                    TryReleaseLifecycleObserver(activity, dialog);
+
+                    return result;
                 }
             }
             catch (Exception e)
@@ -157,7 +147,31 @@ namespace Plugin.Fingerprint
                     ErrorMessage = e.Message
                 };
             }
+        }
 
+        /// <summary>
+        /// Removes the lifecycle observer that is set by the BiometricPrompt from the lifecycleOwner.
+        /// See: https://stackoverflow.com/a/59637670/1489968
+        /// TODO: The new implementation of BiometricPrompt doesn't use this mechanism anymore. Recheck this code after Xamarin.AndroidX.Biometric has been updated.
+        /// </summary>
+        /// <param name="lifecycleOwner">Lifecycle owner where the observer was added.</param>
+        /// <param name="dialog">Used BiometricPrompt</param>
+        private static void TryReleaseLifecycleObserver(ILifecycleOwner lifecycleOwner, BiometricPrompt dialog)
+        {
+            var promptClass = Java.Lang.Class.FromType(dialog.GetType());
+            var lifecycleObserverField = promptClass.GetDeclaredField("mLifecycleObserver");
+
+            if (lifecycleObserverField is null)
+                return;
+
+            lifecycleObserverField.Accessible = true;
+            var lastLifecycleObserver = lifecycleObserverField.Get(dialog).JavaCast<ILifecycleObserver>();
+            var lifecycle = lifecycleOwner.Lifecycle;
+
+            if (lastLifecycleObserver is null || lifecycle is null)
+                return;
+
+            lifecycle.RemoveObserver(lastLifecycleObserver);
         }
     }
 }
