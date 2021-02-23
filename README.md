@@ -111,7 +111,7 @@ mockFingerprintContext.Current = mockFingerprint;
 
 ### Detailed Tutorial by @jfversluis
 
-Secure Your Xamarin App with Fingerprint or Face Recognition
+Youtube: Secure Your Xamarin App with Fingerprint or Face Recognition (click thumbnail)
 
 [![Secure Your Xamarin App with Fingerprint or Face Recognition](https://img.youtube.com/vi/k-eg3gcSMSU/0.jpg)](https://www.youtube.com/watch?v=k-eg3gcSMSU)
 
