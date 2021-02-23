@@ -99,9 +99,21 @@ else
 }
 ```
 
-### Xamarin University public lecture
+#### mocking in unit tests
 
-[![Xamarin University public lecture](https://img.youtube.com/vi/n8m344IxlnY/0.jpg)](https://www.youtube.com/watch?v=n8m344IxlnY)
+```C#
+//Create mock with LigthMock (http://www.lightinject.net/)
+var mockFingerprintContext = new MockContext<IFingerprint>();
+var mockFingerprint = new CrossFingerprintMock(mockFingerprintContext);
+
+mockFingerprintContext.Current = mockFingerprint;
+```
+
+### Detailed Tutorial by @jfversluis
+
+Secure Your Xamarin App with Fingerprint or Face Recognition
+
+[![Secure Your Xamarin App with Fingerprint or Face Recognition](https://img.youtube.com/vi/k-eg3gcSMSU/0.jpg)](https://www.youtube.com/watch?v=k-eg3gcSMSU)
 
 ### API
 
@@ -170,50 +182,6 @@ public FingerprintAuthenticationResultStatus Status { get; set; }
 /// Reason for the unsucessful authentication.
 /// </summary>
 public string ErrorMessage { get; set; }
-```
-
-### Example
-
-#### vanilla
-
-```csharp
-var request = new AuthenticationRequestConfiguration ("Prove you have fingers!", "Because without it you can't have access");
-var result = await CrossFingerprint.Current.AuthenticateAsync(request);
-if (result.Authenticated)
-{
-    // do secret stuff :)
-}
-else
-{
-    // not allowed to do secret stuff :(
-}
-```
-
-#### using MvvMCross
-
-```csharp
-var fpService = Mvx.Resolve<IFingerprint>(); // or use dependency injection and inject IFingerprint
-
-var request = new AuthenticationRequestConfiguration ("Prove you have mvx fingers!", "Because without it you can't have access");
-var result = await fpService.AuthenticateAsync(request);
-if (result.Authenticated)
-{
-    // do secret stuff :)
-}
-else
-{
-    // not allowed to do secret stuff :(
-}
-```
-
-#### mocking in unit tests
-
-```C#
-//Create mock with LigthMock (http://www.lightinject.net/)
-var mockFingerprintContext = new MockContext<IFingerprint>();
-var mockFingerprint = new CrossFingerprintMock(mockFingerprintContext);
-
-mockFingerprintContext.Current = mockFingerprint;
 ```
 
 ### iOS
