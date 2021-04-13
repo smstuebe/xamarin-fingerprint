@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2.1.4
+
+- #203, #205 fixed mLifecycleObserver related crash on some devices (thx @Seuleuzeuh)
+- updated Xamarin.AndroidX.Biometric to 1.1.0
+
 ### 2.1.3
 
 - #200 fixed hang on second consecutive fallback authentication (thx @albertruff)
