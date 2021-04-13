@@ -12,6 +12,7 @@ using AndroidX.Biometric;
 using AndroidX.Fragment.App;
 using AndroidX.Lifecycle;
 using Java.Util.Concurrent;
+using System.Linq;
 
 namespace Plugin.Fingerprint
 {
@@ -159,7 +160,8 @@ namespace Plugin.Fingerprint
         private static void TryReleaseLifecycleObserver(ILifecycleOwner lifecycleOwner, BiometricPrompt dialog)
         {
             var promptClass = Java.Lang.Class.FromType(dialog.GetType());
-            var lifecycleObserverField = promptClass.GetDeclaredField("mLifecycleObserver");
+            var fields = promptClass.GetDeclaredFields();
+            var lifecycleObserverField = fields?.FirstOrDefault(f => f.Name == "mLifecycleObserver");
 
             if (lifecycleObserverField is null)
                 return;
