@@ -18,6 +18,13 @@ steps:
   #   inputs:
   #     key: nuget | ./src/Plugin.Fingerprint/packages.lock.json
   #     path: $(NUGET_PACKAGES)
+  
+  - task: DotNetCoreCLI@2
+    displayName: Restore Packages
+    inputs:
+      command: 'restore'
+      projects: './src/Build.sln'
+      feedsToUse: 'select'
 
   - task: MSBuild@1
     displayName: Build & Package
