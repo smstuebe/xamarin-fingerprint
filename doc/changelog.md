@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2.1.5
+
+- #212 Android authentication result is now `Cancelled` instead of `Failed` if the user presses a button to dismiss the dialog.
+
 ### 2.1.4
 
 - #203, #205 fixed mLifecycleObserver related crash on some devices (thx @Seuleuzeuh)

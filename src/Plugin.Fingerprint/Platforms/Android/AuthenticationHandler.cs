@@ -42,10 +42,13 @@ namespace Plugin.Fingerprint
             var message = errString != null ? errString.ToString() : string.Empty;
             var result = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Failed, ErrorMessage = message };
 
-            if (errorCode == BiometricPrompt.ErrorLockout)
+            result.Status = errorCode switch
             {
-                result.Status = FingerprintAuthenticationResultStatus.TooManyAttempts;
-            }
+                BiometricPrompt.ErrorLockout => FingerprintAuthenticationResultStatus.TooManyAttempts,
+                BiometricPrompt.ErrorUserCanceled => FingerprintAuthenticationResultStatus.Canceled,
+                BiometricPrompt.ErrorNegativeButton => FingerprintAuthenticationResultStatus.Canceled,
+                _ => FingerprintAuthenticationResultStatus.Failed
+            };
 
             SetResultSafe(result);
         }
