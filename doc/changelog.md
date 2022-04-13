@@ -1,5 +1,9 @@
 ## Changelog
 
+### 3.0.0
+
+- Support for MAUI
+
 ### 2.1.5
 
 - #212 Android authentication result is now `Cancelled` instead of `Failed` if the user presses a button to dismiss the dialog.

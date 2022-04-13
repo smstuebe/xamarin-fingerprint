@@ -1,18 +1,15 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid90;uap10.0.19041;Tizen40;</TargetFrameworks>
-    <LangVersion>8</LangVersion>
+    <TargetFrameworks>netstandard2.0;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid12.0;uap10.0.19041;Tizen40;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-windows10.0.19041</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-
     <Title>Fingerprint / Face ID / Biometric Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
-    <RootNamespace>Plugin.Fingerprint</RootNamespace>
+    <RootNamespace>Plugin.Fingerprint</RootNamespace>	
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
-    <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
@@ -20,44 +17,44 @@
   </ItemGroup>
 
   <!-- iOS -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) OR $(TargetFramework.Contains('-ios')) ">
     <Compile Include="Platforms\Apple\**\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) OR $(TargetFramework.Contains('-ios')) ">
     <DefineConstants>$(DefineConstants);IOS;</DefineConstants>
   </PropertyGroup>
 
   <!-- macOS -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) OR $(TargetFramework.Contains('-mac')) ">
     <Compile Include="Platforms\Apple\**\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) OR $(TargetFramework.Contains('-mac')) ">
     <DefineConstants>$(DefineConstants);MACOS;</DefineConstants>
   </PropertyGroup>
 
   <!-- Android -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.Contains('-android')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.9" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.Contains('-android')) ">
     <DefineConstants>$(DefineConstants);ANDROID;</DefineConstants>
   </PropertyGroup>
 
   <!-- UWP -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) OR $(TargetFramework.Contains('-windows')) ">
     <Compile Include="Platforms\UWP\**\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) OR $(TargetFramework.Contains('-windows')) ">
     <!--<TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>-->
     <DefineConstants>$(DefineConstants);WINDOWS_UWP;</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) OR $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
     <Compile Include="Platforms\NotImplemented\**\*.cs" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
     <Copyright>Copyright (c) Sven-Michael Stübe</Copyright> 
     <Authors>Sven-Michael Stübe</Authors>
     <Owners>Sven-Michael Stübe</Owners>
-    <Version>2.1.5</Version>
+    <Version>3.0.0-beta.1</Version>
     
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/smstuebe/xamarin-fingerprint</RepositoryUrl>
@@ -17,6 +17,8 @@
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
 
     <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
+
+	<PackageReadmeFile>readme.md</PackageReadmeFile>
 
     <!-- Sourcelink -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -30,7 +32,7 @@
     <PackageReleaseNotes>https://github.com/smstuebe/xamarin-fingerprint/blob/master/doc/changelog.md</PackageReleaseNotes>
     <PackageIcon>xamarin_fingerprint.png</PackageIcon>
 
-    <PackageTags>xamarin;mvvmcross;mvvm;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp;face id;unlock</PackageTags>
+    <PackageTags>xamarin;mvvmcross;mvvm;maui;monodroid;Xamarin.iOS10;mac;Xamarin.Mac;ios;fingerprint;authenticate;Xamarin.Android;android;touchid;biometric;windows;uwp;face id;unlock</PackageTags>
     <PackageDescription>Authenticate a user via fingerprint, face id or any other biometic / local authentication method from a cross platform API.</PackageDescription>
     <Deterministic>true</Deterministic>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -50,6 +52,7 @@
 
   <ItemGroup Condition=" $(IsPackageProject) ">
     <None Include="..\..\doc\xamarin_fingerprint.png" Pack="true" PackagePath="\"/>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	<None Include="readme.md" Pack="true" PackagePath="\"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 </Project>

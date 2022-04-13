@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiSample.MainPage">
+    <StackLayout Orientation="Vertical" Padding="10">
+        <Label x:Name="lblAuthenticationType"></Label>
+        <StackLayout Orientation="Horizontal">
+            <StackLayout.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Android">True</On>
+                    <On Platform="iOS">True</On>
+                </OnPlatform>
+            </StackLayout.IsVisible>
+            <Switch x:Name="swAutoCancel"></Switch>
+            <Label Text="Cancel after 10sec" VerticalOptions="Center"></Label>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <StackLayout.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Android">True</On>
+                    <On Platform="iOS">True</On>
+                </OnPlatform>
+            </StackLayout.IsVisible>
+            <Switch x:Name="swAllowAlternative"></Switch>
+            <Label Text="Allow alternative authentication method (Password / PIN)" VerticalOptions="Center"></Label>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <StackLayout.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Android">True</On>
+                    <On Platform="iOS">False</On>
+                </OnPlatform>
+            </StackLayout.IsVisible>
+            <Switch x:Name="swConfirmationRequired" IsToggled="True"></Switch>
+            <Label Text="Require Confirmation" VerticalOptions="Center"></Label>
+        </StackLayout>
+        <Button Text="Authenticate" Clicked="OnAuthenticate" Margin="0,0,0,5"></Button>
+        <Button Text="Authenticate localized" Clicked="OnAuthenticateLocalized"></Button>
+        <Label x:Name="lblStatus"></Label>
+    </StackLayout>
+</ContentPage>

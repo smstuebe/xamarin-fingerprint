@@ -50,17 +50,30 @@ Since version 2, this plugin uses Android X. You have to install Xamarin.Android
 **Request the permission in AndroidManifest.xml**
 
 ```xml
+<uses-permission android:name="android.permission.USE_BIOMETRIC" />
+<!-- only if you target android below level 28 -->
 <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 ```
 
 **Set the resolver of the current Activity**
 
-Skip this, if you use the MvvMCross Plugin or don't use the dialog.
+Skip this, if you use the MvvMCross Plugin.
 
-We need the current activity to display the dialog. You can use the [Current Activity Plugin](https://github.com/jamesmontemagno/CurrentActivityPlugin) from James Montemagno or implement your own functionality to retrieve the current activity. See Sample App for details.
+For a simple Maui or Xamarin.Forms App you can add the resolver in your MainActivity like
 
 ```csharp
-CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+protected override void OnCreate(Bundle savedInstanceState)
+{
+    base.OnCreate(savedInstanceState);
+
+    CrossFingerprint.SetCurrentActivityResolver(() => this);
+}
+```
+
+If you have a more sophisticated Activity structure, you can use [Xamarin Essentials](https://docs.microsoft.com/en-us/dotnet/api/xamarin.essentials.platform.currentactivity?view=xamarin-essentials-android) or implement your own functionality to retrieve the current activity.
+
+```csharp
+CrossFingerprint.SetCurrentActivityResolver(() => Platform.CurrentActivity);
 ```
 
 ## Usage
@@ -187,8 +200,6 @@ public string ErrorMessage { get; set; }
 ### iOS
 
 #### Limitations
-
-You can't create a custom dialog. The standard iOS Dialog will be shown.
 
 ##### iOS 9+ only
 
