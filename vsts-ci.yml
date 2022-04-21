@@ -10,7 +10,7 @@ variables:
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
 
 pool:
-  vmImage: windows-latest
+  vmImage: windows-2022
 
 steps:
   # - task: CacheBeta@0
@@ -18,6 +18,10 @@ steps:
   #   inputs:
   #     key: nuget | ./src/Plugin.Fingerprint/packages.lock.json
   #     path: $(NUGET_PACKAGES)
+
+  - task: CmdLine@2
+    inputs:
+      script: 'dotnet workload install maui'
   
   - task: DotNetCoreCLI@2
     displayName: Restore Packages
