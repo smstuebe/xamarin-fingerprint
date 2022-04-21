@@ -20,6 +20,7 @@ steps:
   #     path: $(NUGET_PACKAGES)
 
   - task: CmdLine@2
+    displayName: Install Maui Workload
     inputs:
       script: 'dotnet workload install maui'
   

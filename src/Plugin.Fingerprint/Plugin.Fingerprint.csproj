@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid12.0;uap10.0.19041;Tizen40;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;Xamarin.Mac20;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid10.0;MonoAndroid12.0;uap10.0.19041;Tizen40;net48;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-windows10.0.19041</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Title>Fingerprint / Face ID / Biometric Plugin for Xamarin</Title>
     <AssemblyName>Plugin.Fingerprint</AssemblyName>
@@ -10,10 +10,6 @@
   <ItemGroup>
     <Compile Include="Abstractions\*.cs" />
     <Compile Include="*.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-    <Compile Include="netstandard\*.cs" />
   </ItemGroup>
 
   <!-- iOS -->
@@ -35,9 +31,14 @@
   </PropertyGroup>
 
   <!-- Android -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.Contains('-android')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid12')) OR $(TargetFramework.Contains('-android')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
     <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid10')) ">
+	<Compile Include="Platforms\Android\**\*.cs" />
+	<PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.Contains('-android')) ">
@@ -54,7 +55,7 @@
     <DefineConstants>$(DefineConstants);WINDOWS_UWP;</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) OR $(TargetFramework.StartsWith('Xamarin.TVOS')) OR $(TargetFramework.StartsWith('Xamarin.WatchOS')) OR $(TargetFramework.StartsWith('Tizen')) ">
     <Compile Include="Platforms\NotImplemented\**\*.cs" />
   </ItemGroup>
 </Project>
