@@ -4,7 +4,7 @@ resources:
 trigger:
   branches:
     include:
-      - master
+      - '*'
 
 variables: 
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
