@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 using Foundation;
@@ -11,6 +12,11 @@ using UIKit;
 
 namespace Plugin.Fingerprint
 {
+#if NET6_0_IOS
+    [SupportedOSPlatform("ios10.0")]
+#elif NET6_0_MACCATALYST
+    [SupportedOSPlatform("maccatalyst10.0")]
+#endif
     internal class FingerprintImplementation : FingerprintImplementationBase
     {
         private LAContext _context;
@@ -87,7 +93,13 @@ namespace Plugin.Fingerprint
             var availability = await GetAvailabilityAsync(false);
 
             // iOS 11+
+#if NET6_0_IOS
+            if (_context.RespondsToSelector(new Selector("biometryType")) && OperatingSystem.IsIOSVersionAtLeast(11))
+#elif NET6_0_MACCATALYST
+            if (_context.RespondsToSelector(new Selector("biometryType")) && OperatingSystem.IsMacCatalystVersionAtLeast(11))
+#else
             if (_context.RespondsToSelector(new Selector("biometryType")))
+#endif
             {
                 switch (_context.BiometryType)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using Plugin.Fingerprint.Abstractions;
 #if ANDROID
@@ -12,11 +13,25 @@ namespace Plugin.Fingerprint
     /// </summary>
     public partial class CrossFingerprint
     {
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#elif NET6_0_IOS
+        [SupportedOSPlatform("ios10.0")]
+#elif NET6_0_MACCATALYST
+        [SupportedOSPlatform("maccatalyst10.0")]
+#endif
         private static Lazy<IFingerprint> _implementation = new Lazy<IFingerprint>(CreateFingerprint, LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// Current plugin implementation to use
         /// </summary>
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#elif NET6_0_IOS
+        [SupportedOSPlatform("ios10.0")]
+#elif NET6_0_MACCATALYST
+        [SupportedOSPlatform("maccatalyst10.0")]
+#endif
         public static IFingerprint Current
         {
             get => _implementation.Value;
@@ -26,6 +41,13 @@ namespace Plugin.Fingerprint
             }
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#elif NET6_0_IOS
+        [SupportedOSPlatform("ios10.0")]
+#elif NET6_0_MACCATALYST
+        [SupportedOSPlatform("maccatalyst10.0")]
+#endif
         static IFingerprint CreateFingerprint()
         {
 #if NETSTANDARD2_0

@@ -13,12 +13,16 @@ using AndroidX.Fragment.App;
 using AndroidX.Lifecycle;
 using Java.Util.Concurrent;
 using System.Linq;
+using System.Runtime.Versioning;
 
 namespace Plugin.Fingerprint
 {
     /// <summary>
     /// Android fingerprint implementations.
     /// </summary>
+#if NET6_0_ANDROID
+    [SupportedOSPlatform("android23.0")]
+#endif
     public class FingerprintImplementation : FingerprintImplementationBase
     {
         private readonly BiometricManager _manager;
@@ -41,11 +45,17 @@ namespace Plugin.Fingerprint
             return AuthenticationType.None;
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#endif
         public override async Task<FingerprintAvailability> GetAvailabilityAsync(bool allowAlternativeAuthentication = false)
         {
+#if NET6_0_ANDROID
+            if (!OperatingSystem.IsAndroidVersionAtLeast(6))
+#else
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+#endif
                 return FingerprintAvailability.NoApi;
-
 
             var biometricAvailability = GetBiometricAvailability();
             if (biometricAvailability == FingerprintAvailability.Available || !allowAlternativeAuthentication)
@@ -69,6 +79,9 @@ namespace Plugin.Fingerprint
             }
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#endif
         private FingerprintAvailability GetBiometricAvailability()
         {
             var context = Application.Context;
@@ -94,6 +107,9 @@ namespace Plugin.Fingerprint
             return FingerprintAvailability.Unknown;
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#endif
         protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(authRequestConfig.Title))
@@ -157,6 +173,9 @@ namespace Plugin.Fingerprint
         /// </summary>
         /// <param name="lifecycleOwner">Lifecycle owner where the observer was added.</param>
         /// <param name="dialog">Used BiometricPrompt</param>
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android23.0")]
+#endif
         private static void TryReleaseLifecycleObserver(ILifecycleOwner lifecycleOwner, BiometricPrompt dialog)
         {
             var promptClass = Java.Lang.Class.FromType(dialog.GetType());

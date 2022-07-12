@@ -1,8 +1,15 @@
-﻿namespace Plugin.Fingerprint.Abstractions
+﻿using System.Runtime.Versioning;
+
+namespace Plugin.Fingerprint.Abstractions
 {
     /// <summary>
     /// Indicates if a fingerprint authentication can be performed.
     /// </summary>
+#if NET6_0_ANDROID || NET6_0_IOS || NET6_0_MACCATALYST
+    [SupportedOSPlatform("android")]
+    [SupportedOSPlatform("ios")]
+    [SupportedOSPlatform("maccatalyst")]
+#endif
     public enum FingerprintAvailability
     {
         /// <summary>

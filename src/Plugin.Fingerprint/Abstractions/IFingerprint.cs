@@ -1,8 +1,16 @@
-﻿using System.Threading;
+﻿using System.Runtime.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Plugin.Fingerprint.Abstractions
 {
+#if NET6_0_ANDROID
+    [SupportedOSPlatform("android")]
+#elif NET6_0_IOS
+    [SupportedOSPlatform("ios")]
+#elif NET6_0_MACCATALYST
+    [SupportedOSPlatform("maccatalyst")]
+#endif
     public interface IFingerprint
     {
         /// <summary>
