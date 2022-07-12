@@ -1,8 +1,17 @@
-﻿namespace Plugin.Fingerprint.Abstractions
+﻿using System.Runtime.Versioning;
+
+namespace Plugin.Fingerprint.Abstractions
 {
     /// <summary>
     /// Indicates the result status of an authentication.
     /// </summary>
+#if NET6_0_ANDROID
+    [SupportedOSPlatform("android")]
+#elif NET6_0_IOS
+    [SupportedOSPlatform("ios")]
+#elif NET6_0_MACCATALYST
+    [SupportedOSPlatform("maccatalyst")]
+#endif
     public enum FingerprintAuthenticationResultStatus
     {
         /// <summary>

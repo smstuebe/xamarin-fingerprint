@@ -3,9 +3,13 @@ using Android.Content;
 using Java.Lang;
 using Plugin.Fingerprint.Abstractions;
 using AndroidX.Biometric;
+using System.Runtime.Versioning;
 
 namespace Plugin.Fingerprint
 {
+#if NET6_0_ANDROID
+    [SupportedOSPlatform("android")]
+#endif
     public class AuthenticationHandler : BiometricPrompt.AuthenticationCallback, IDialogInterfaceOnClickListener
     {
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
@@ -28,6 +32,9 @@ namespace Plugin.Fingerprint
             }
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android21.0")]
+#endif
         public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
         {
             base.OnAuthenticationSucceeded(result);
@@ -35,6 +42,9 @@ namespace Plugin.Fingerprint
             SetResultSafe(faResult);
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android21.0")]
+#endif
         public override void OnAuthenticationError(int errorCode, ICharSequence errString)
         {
             base.OnAuthenticationError(errorCode, errString);
@@ -53,6 +63,9 @@ namespace Plugin.Fingerprint
             SetResultSafe(result);
         }
 
+#if NET6_0_ANDROID
+        [SupportedOSPlatform("android21.0")]
+#endif
         public override void OnAuthenticationFailed()
         {
             base.OnAuthenticationFailed();
