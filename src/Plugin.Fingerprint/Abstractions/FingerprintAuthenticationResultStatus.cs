@@ -40,6 +40,10 @@
         /// </summary>
         NotAvailable,
         /// <summary>
+        /// Error validating cipher.
+        /// </summary>
+        InvalidCipher,
+        /// <summary>
         /// User has denied the usage of the biometric authentication.
         /// </summary>
         Denied
