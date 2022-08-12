@@ -23,13 +23,17 @@ namespace Plugin.Fingerprint
     {
         private readonly BiometricManager _manager;
         private readonly CryptoObjectHelper _cryptoObjectHelper;
-        private readonly byte[] _cipherSecretBytes;
 
         public FingerprintImplementation()
         {
             _manager = BiometricManager.From(Application.Context);
-            _cryptoObjectHelper = new CryptoObjectHelper(Application.Context.PackageName.ToLower() + "_plugin_fingerprint_authentication_key");
-            //_cipherSecretBytes = new byte[] { 11, 2, 77, 62, 32, 15, 6, 8, 8, 242, 121, 21, 100, 4, 51, 83, 95, 45, 33, 122 };
+
+            if (CrossFingerprint.CryptoSettings == null)
+            {
+                CrossFingerprint.CryptoSettings = new CryptoSettings();
+            }
+
+            _cryptoObjectHelper = new CryptoObjectHelper(CrossFingerprint.CryptoSettings.CryptoKeyName);
         }
 
         public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
@@ -113,7 +117,7 @@ namespace Plugin.Fingerprint
                     Application.Context.GetString(Android.Resource.String.Cancel) :
                     authRequestConfig.CancelTitle;
 
-                var handler = new AuthenticationHandler(_cipherSecretBytes);
+                var handler = new AuthenticationHandler(CrossFingerprint.CryptoSettings.CipherSecretBytes);
                 var builder = new BiometricPrompt.PromptInfo.Builder()
                     .SetTitle(authRequestConfig.Title)
                     .SetConfirmationRequired(authRequestConfig.ConfirmationRequired)
