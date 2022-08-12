@@ -8,10 +8,8 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
 {
     internal class CryptoObjectHelper
     {
-        private readonly KeyStore keystore;
-
         // Fixed Android KeyStore Name
-        static readonly string KeyStoreName = "AndroidKeyStore";
+        private static readonly string KeyStoreName = "AndroidKeyStore";
 
         /*
          * Algorithm Setup - Based on
@@ -19,13 +17,14 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
          * https://developer.android.com/training/sign-in/biometric-auth
          * https://docs.microsoft.com/en-us/xamarin/android/platform/fingerprint-authentication/creating-a-cryptoobject
          */
+        private static readonly string KeyAlgorithm = KeyProperties.KeyAlgorithmAes;
+        private static readonly string BlockMode = KeyProperties.BlockModeCbc;
+        private static readonly string EncryptionPadding = KeyProperties.EncryptionPaddingPkcs7;
+        private static readonly string Transfomration = $"{KeyAlgorithm}/{BlockMode}/{EncryptionPadding}";
 
-        static readonly string KeyAlgorithm = KeyProperties.KeyAlgorithmAes;
-        static readonly string BlockMode = KeyProperties.BlockModeCbc;
-        static readonly string EncryptionPadding = KeyProperties.EncryptionPaddingPkcs7;
-        static readonly string Transfomration = $"{KeyAlgorithm}/{BlockMode}/{EncryptionPadding}";
+        private readonly KeyStore _keystore;
 
-        public string KeyName { get; private set; }
+        public string KeyName { get; }
 
         public CryptoObjectHelper(string keyName)
         {
@@ -34,20 +33,20 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
                 throw new ArgumentException($"{nameof(keyName)} can't be empty or null");
             }
 
-            this.KeyName = keyName;
-            this.keystore = KeyStore.GetInstance(KeyStoreName);
-            this.keystore.Load(null);
+            KeyName = keyName;
+            _keystore = KeyStore.GetInstance(KeyStoreName);
+            _keystore.Load(null);
         }
 
         public BiometricPrompt.CryptoObject BuildCryptoObject()
         {
-            var cipher = this.CreateCipher();
+            var cipher = CreateCipher();
             return new BiometricPrompt.CryptoObject(cipher);
         }
 
         private Cipher CreateCipher(int retries = 3)
         {
-            var key = this.GetKey();
+            var key = GetKey();
             var cipher = Cipher.GetInstance(Transfomration);
 
             try
@@ -56,13 +55,13 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
             }
             catch (KeyPermanentlyInvalidatedException)
             {
-                this.keystore.DeleteEntry(this.KeyName);
+                _keystore.DeleteEntry(KeyName);
                 if (retries > 0)
                 {
                     // Microsoft Docs doesn't overwrite the cipher.
                     // Without the implementation of GetInstance its hard to say if it doesn't need to be overwritten.
                     // So this is a just in case
-                    cipher = this.CreateCipher(--retries);
+                    cipher = CreateCipher(--retries);
                 }
                 else
                 {
@@ -75,18 +74,18 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
 
         private IKey GetKey()
         {
-            if (!this.keystore.IsKeyEntry(this.KeyName))
+            if (!_keystore.IsKeyEntry(KeyName))
             {
-                this.CreateNewKey();
+                CreateNewKey();
             }
 
-            return this.keystore.GetKey(this.KeyName, null);
+            return _keystore.GetKey(KeyName, null);
         }
 
         private void CreateNewKey()
         {
             var keyGen = KeyGenerator.GetInstance(KeyAlgorithm, KeyStoreName);
-            var keyGenSpec = new KeyGenParameterSpec.Builder(this.KeyName, KeyStorePurpose.Encrypt | KeyStorePurpose.Decrypt)
+            var keyGenSpec = new KeyGenParameterSpec.Builder(KeyName, KeyStorePurpose.Encrypt | KeyStorePurpose.Decrypt)
                                     .SetBlockModes(BlockMode)
                                     .SetEncryptionPaddings(EncryptionPadding)
                                     .SetUserAuthenticationRequired(true)
