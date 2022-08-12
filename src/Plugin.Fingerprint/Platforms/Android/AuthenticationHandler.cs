@@ -1,18 +1,22 @@
+using System;
 using System.Threading.Tasks;
 using Android.Content;
-using Java.Lang;
-using Plugin.Fingerprint.Abstractions;
 using AndroidX.Biometric;
+using Java.Lang;
+using Javax.Crypto;
+using Plugin.Fingerprint.Abstractions;
 
 namespace Plugin.Fingerprint
 {
     public class AuthenticationHandler : BiometricPrompt.AuthenticationCallback, IDialogInterfaceOnClickListener
     {
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
+        private readonly byte[] _cipherSecretBytes;
 
-        public AuthenticationHandler()
+        public AuthenticationHandler(byte[] cipherSecretBytes)
         {
             _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
+            _cipherSecretBytes = cipherSecretBytes;
         }
 
         public Task<FingerprintAuthenticationResult> GetTask()
@@ -30,7 +34,43 @@ namespace Plugin.Fingerprint
 
         public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
         {
-            base.OnAuthenticationSucceeded(result);
+            var cipher = result.CryptoObject.Cipher;
+            if (cipher != null)
+            {
+                var errorMsg = string.Empty;
+                try
+                {
+                    // Ensuring encryption
+                    byte[] cipherFinalResult = _cipherSecretBytes == null
+                                                    ? cipher.DoFinal()
+                                                    : cipher.DoFinal(_cipherSecretBytes);
+
+                    // Everything is fine
+                }
+                catch (BadPaddingException bpe)
+                {
+                    errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{bpe.Message}";
+                }
+                catch (IllegalBlockSizeException ibse)
+                {
+                    errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{ibse.Message}";
+                }
+
+
+                if (!string.IsNullOrEmpty(errorMsg))
+                {
+                    // Can't really trust the results.
+                    var errorResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = errorMsg };
+                    SetResultSafe(errorResult);
+
+                    return;
+                }
+            }
+            else
+            {
+                base.OnAuthenticationSucceeded(result);
+            }
+
             var faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
             SetResultSafe(faResult);
         }

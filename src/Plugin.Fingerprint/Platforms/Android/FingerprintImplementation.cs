@@ -1,18 +1,18 @@
 using System;
-using System.Collections.Generic;
-using Android.OS;
-using Plugin.Fingerprint.Abstractions;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using Android.Runtime;
 using AndroidX.Biometric;
 using AndroidX.Fragment.App;
 using AndroidX.Lifecycle;
 using Java.Util.Concurrent;
-using System.Linq;
+using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Platforms.Android.Utils;
 
 namespace Plugin.Fingerprint
 {
@@ -22,10 +22,14 @@ namespace Plugin.Fingerprint
     public class FingerprintImplementation : FingerprintImplementationBase
     {
         private readonly BiometricManager _manager;
+        private readonly CryptoObjectHelper _cryptoObjectHelper;
+        private readonly byte[] _cipherSecretBytes;
 
         public FingerprintImplementation()
         {
             _manager = BiometricManager.From(Application.Context);
+            _cryptoObjectHelper = new CryptoObjectHelper(Application.Context.PackageName.ToLower() + "_plugin_fingerprint_authentication_key");
+            //_cipherSecretBytes = new byte[] { 11, 2, 77, 62, 32, 15, 6, 8, 8, 242, 121, 21, 100, 4, 51, 83, 95, 45, 33, 122 };
         }
 
         public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
@@ -109,7 +113,7 @@ namespace Plugin.Fingerprint
                     Application.Context.GetString(Android.Resource.String.Cancel) :
                     authRequestConfig.CancelTitle;
 
-                var handler = new AuthenticationHandler();
+                var handler = new AuthenticationHandler(_cipherSecretBytes);
                 var builder = new BiometricPrompt.PromptInfo.Builder()
                     .SetTitle(authRequestConfig.Title)
                     .SetConfirmationRequired(authRequestConfig.ConfirmationRequired)
@@ -132,7 +136,7 @@ namespace Plugin.Fingerprint
                 using var dialog = new BiometricPrompt(activity, executor, handler);
                 await using (cancellationToken.Register(() => dialog.CancelAuthentication()))
                 {
-                    dialog.Authenticate(info);
+                    dialog.Authenticate(info, _cryptoObjectHelper.BuildCryptoObject());
                     var result = await handler.GetTask();
 
                     TryReleaseLifecycleObserver(activity, dialog);
