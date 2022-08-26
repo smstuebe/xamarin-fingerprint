@@ -17,6 +17,7 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
          * https://developer.android.com/training/sign-in/biometric-auth
          * https://docs.microsoft.com/en-us/xamarin/android/platform/fingerprint-authentication/creating-a-cryptoobject
          */
+        private static readonly int KeySize = 256;
         private static readonly string KeyAlgorithm = KeyProperties.KeyAlgorithmAes;
         private static readonly string BlockMode = KeyProperties.BlockModeCbc;
         private static readonly string EncryptionPadding = KeyProperties.EncryptionPaddingPkcs7;
@@ -88,6 +89,7 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
             var keyGenSpec = new KeyGenParameterSpec.Builder(KeyName, KeyStorePurpose.Encrypt | KeyStorePurpose.Decrypt)
                                     .SetBlockModes(BlockMode)
                                     .SetEncryptionPaddings(EncryptionPadding)
+                                    .SetKeySize(KeySize)
                                     .SetUserAuthenticationRequired(true)
                                     .Build();
             keyGen.Init(keyGenSpec);
