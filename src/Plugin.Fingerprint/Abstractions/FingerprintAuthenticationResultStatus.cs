@@ -44,6 +44,10 @@
         /// </summary>
         InvalidCipher,
         /// <summary>
+        /// Error the CryptoObject was null while enforced.
+        /// </summary>
+        MissingCryptoObject,
+        /// <summary>
         /// User has denied the usage of the biometric authentication.
         /// </summary>
         Denied
