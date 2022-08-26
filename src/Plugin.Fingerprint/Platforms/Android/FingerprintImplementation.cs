@@ -117,7 +117,8 @@ namespace Plugin.Fingerprint
                     Application.Context.GetString(Android.Resource.String.Cancel) :
                     authRequestConfig.CancelTitle;
 
-                var handler = new AuthenticationHandler(CrossFingerprint.CryptoSettings.CipherSecretBytes);
+                var cryptoObject = _cryptoObjectHelper.BuildCryptoObject();
+                var handler = new AuthenticationHandler(CrossFingerprint.CryptoSettings, (resultCryptoObject) => resultCryptoObject.Cipher == cryptoObject.Cipher);
                 var builder = new BiometricPrompt.PromptInfo.Builder()
                     .SetTitle(authRequestConfig.Title)
                     .SetConfirmationRequired(authRequestConfig.ConfirmationRequired)
@@ -132,6 +133,7 @@ namespace Plugin.Fingerprint
                 {
                     builder = builder.SetNegativeButtonText(cancel);
                 }
+
                 var info = builder.Build();
                 var executor = Executors.NewSingleThreadExecutor();
 
@@ -140,7 +142,7 @@ namespace Plugin.Fingerprint
                 using var dialog = new BiometricPrompt(activity, executor, handler);
                 await using (cancellationToken.Register(() => dialog.CancelAuthentication()))
                 {
-                    dialog.Authenticate(info, _cryptoObjectHelper.BuildCryptoObject());
+                    dialog.Authenticate(info, cryptoObject);
                     var result = await handler.GetTask();
 
                     TryReleaseLifecycleObserver(activity, dialog);

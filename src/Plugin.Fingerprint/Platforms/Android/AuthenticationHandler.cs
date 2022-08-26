@@ -5,18 +5,22 @@ using AndroidX.Biometric;
 using Java.Lang;
 using Javax.Crypto;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Platforms.Android.Utils;
+using static AndroidX.Biometric.BiometricPrompt;
 
 namespace Plugin.Fingerprint
 {
     public class AuthenticationHandler : BiometricPrompt.AuthenticationCallback, IDialogInterfaceOnClickListener
     {
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
-        private readonly byte[] _cipherSecretBytes;
+        private readonly CryptoSettings _cryptoSettings;
+        private readonly Func<CryptoObject, bool> _validatedCipherFunc;
 
-        public AuthenticationHandler(byte[] cipherSecretBytes)
+        public AuthenticationHandler(CryptoSettings cryptoSettings, Func<CryptoObject, bool> validatedCipherFunc)
         {
             _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
-            _cipherSecretBytes = cipherSecretBytes;
+            _cryptoSettings = cryptoSettings;
+            _validatedCipherFunc = validatedCipherFunc;
         }
 
         public Task<FingerprintAuthenticationResult> GetTask()
@@ -34,44 +38,52 @@ namespace Plugin.Fingerprint
 
         public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
         {
-            var cipher = result.CryptoObject.Cipher;
-            if (cipher != null)
+            base.OnAuthenticationSucceeded(result);
+
+            var faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
+            if (result.CryptoObject == null && _cryptoSettings.EnforceCryptoObject)
+            {
+                faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.MissingCryptoObject, ErrorMessage = $"CryptoObject is enforced but was empty" };
+            }
+            else if (result.CryptoObject != null && _cryptoSettings.ValidatedCipher && !_validatedCipherFunc(result.CryptoObject))
+            {
+                faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = $"Cipher changed since Authentication call. Maybe it was manipulated" };
+            }
+            else if (result.CryptoObject != null)
             {
                 var errorMsg = string.Empty;
-                try
+                if (result.CryptoObject.Cipher != null)
                 {
-                    // Ensuring encryption
-                    byte[] cipherFinalResult = _cipherSecretBytes == null
-                                                    ? cipher.DoFinal()
-                                                    : cipher.DoFinal(_cipherSecretBytes);
-
-                    // Everything is fine
+                    var cipher = result.CryptoObject.Cipher;
+                    try
+                    {
+                        // Ensuring encryption
+                        byte[] cipherFinalResult = _cryptoSettings.CipherSecretBytes == null
+                                                        ? cipher.DoFinal()
+                                                        : cipher.DoFinal(_cryptoSettings.CipherSecretBytes);
+                        // Everything is fine
+                    }
+                    catch (BadPaddingException bpe)
+                    {
+                        errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{bpe.Message}";
+                    }
+                    catch (IllegalBlockSizeException ibse)
+                    {
+                        errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{ibse.Message}";
+                    }
                 }
-                catch (BadPaddingException bpe)
+                else
                 {
-                    errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{bpe.Message}";
+                    errorMsg = $"CryptoObject was given but Cipher was missing!";
                 }
-                catch (IllegalBlockSizeException ibse)
-                {
-                    errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{ibse.Message}";
-                }
-
 
                 if (!string.IsNullOrEmpty(errorMsg))
                 {
                     // Can't really trust the results.
-                    var errorResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = errorMsg };
-                    SetResultSafe(errorResult);
-
-                    return;
+                    faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = errorMsg };
                 }
             }
-            else
-            {
-                base.OnAuthenticationSucceeded(result);
-            }
 
-            var faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
             SetResultSafe(faResult);
         }
 
