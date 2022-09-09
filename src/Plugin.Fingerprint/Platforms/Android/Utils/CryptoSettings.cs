@@ -9,16 +9,6 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
         public byte[] CipherSecretBytes { get; }
 
         /// <summary>
-        /// When disabled, manipulating the CryptoObject when verifying the result would valid and return a successful authorization 
-        /// </summary>
-        public bool EnforceCryptoObject { get; set; } = true;
-
-        /// <summary>
-        /// Validate the resulting Cipher to the provided one. CryptoObject can be changed as long as we result in the same valid cipher
-        /// </summary>
-        public bool ValidatedCipher { get; set; } = true;
-
-        /// <summary>
         /// Data used for en-/decryption of authentication data
         /// </summary>
         /// <param name="cryptoKeyName">Key Name under which the key gets stored. Should be unique to the app</param>
@@ -37,6 +27,11 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
         public CryptoSettings(string cryptoKeyName)
         {
             this.CryptoKeyName = cryptoKeyName;
+
+            var r = new Java.Security.SecureRandom();
+            var secret = new byte[128];
+            r.NextBytes(secret);
+            this.CipherSecretBytes = secret;
         }
 
         /// <summary>
