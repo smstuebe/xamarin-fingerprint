@@ -91,6 +91,7 @@ namespace Plugin.Fingerprint.Platforms.Android.Utils
                                     .SetEncryptionPaddings(EncryptionPadding)
                                     .SetKeySize(KeySize)
                                     .SetUserAuthenticationRequired(true)
+                                    .SetInvalidatedByBiometricEnrollment(true)
                                     .Build();
             keyGen.Init(keyGenSpec);
             keyGen.GenerateKey();
