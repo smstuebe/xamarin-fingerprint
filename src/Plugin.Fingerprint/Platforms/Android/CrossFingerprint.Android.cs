@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.App;
+using Plugin.Fingerprint.Platforms.Android.Utils;
 
 namespace Plugin.Fingerprint
 {
@@ -8,7 +9,9 @@ namespace Plugin.Fingerprint
         private static Func<Activity> _activityResolver;
 
         public static Activity CurrentActivity => GetCurrentActivity();
-        
+
+        public static CryptoSettings CryptoSettings { get; set; }
+
         public static void SetCurrentActivityResolver(Func<Activity> activityResolver)
         {
             _activityResolver = activityResolver;

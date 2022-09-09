@@ -1,18 +1,27 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.Content;
-using Java.Lang;
-using Plugin.Fingerprint.Abstractions;
 using AndroidX.Biometric;
+using Java.Lang;
+using Javax.Crypto;
+using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Platforms.Android.Utils;
+using static AndroidX.Biometric.BiometricPrompt;
 
 namespace Plugin.Fingerprint
 {
     public class AuthenticationHandler : BiometricPrompt.AuthenticationCallback, IDialogInterfaceOnClickListener
     {
         private readonly TaskCompletionSource<FingerprintAuthenticationResult> _taskCompletionSource;
+        private readonly CryptoSettings _cryptoSettings;
+        private readonly Func<CryptoObject, bool> _validatedCipherFunc;
 
-        public AuthenticationHandler()
+        public AuthenticationHandler(CryptoSettings cryptoSettings, Func<CryptoObject, bool> validatedCipherFunc)
         {
             _taskCompletionSource = new TaskCompletionSource<FingerprintAuthenticationResult>();
+            _cryptoSettings = cryptoSettings;
+            _validatedCipherFunc = validatedCipherFunc;
         }
 
         public Task<FingerprintAuthenticationResult> GetTask()
@@ -31,7 +40,67 @@ namespace Plugin.Fingerprint
         public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
         {
             base.OnAuthenticationSucceeded(result);
+
             var faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
+            if (result.CryptoObject == null)
+            {
+                faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.MissingCryptoObject, ErrorMessage = $"CryptoObject was empty" };
+            }
+            else if (!_validatedCipherFunc(result.CryptoObject))
+            {
+                faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = $"Cipher changed since Authentication call. Maybe it was manipulated" };
+            }
+            else
+            {
+                var errorMsg = string.Empty;
+                if (result.CryptoObject.Cipher != null)
+                {
+                    var cipher = result.CryptoObject.Cipher;
+                    try
+                    {
+                        // Ensuring encryption works (Authenticated & Valid)
+                        var cipherFinalResult = cipher.DoFinal(_cryptoSettings.CipherSecretBytes);
+
+                        if (cipherFinalResult == null)
+                        {
+                            errorMsg = "DoFinal(..) was manipulated! Result was null";
+                        }
+                        else if (_cryptoSettings.CipherSecretBytes.SequenceEqual(cipherFinalResult))
+                        {
+                            errorMsg = "DoFinal(..) was manipulated! Result matches Secret";
+                        }
+
+                        try
+                        {
+                            cipherFinalResult = cipher.DoFinal(_cryptoSettings.CipherSecretBytes);
+                            errorMsg = "Exceptions getting catched. This could mean manipulation";
+                        }
+                        catch (IllegalStateException)
+                        {
+                            // Everything looks valid and works as expected
+                        }
+                    }
+                    catch (BadPaddingException bpe)
+                    {
+                        errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{bpe.Message}";
+                    }
+                    catch (IllegalBlockSizeException ibse)
+                    {
+                        errorMsg = $"Failed to encrypt the data with the generated key.{Environment.NewLine}{ibse.Message}";
+                    }
+                }
+                else
+                {
+                    errorMsg = $"CryptoObject was given but Cipher was missing!";
+                }
+
+                if (!string.IsNullOrEmpty(errorMsg))
+                {
+                    // Can't really trust the results.
+                    faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = errorMsg };
+                }
+            }
+
             SetResultSafe(faResult);
         }
 

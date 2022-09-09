@@ -1,18 +1,18 @@
 using System;
-using System.Collections.Generic;
-using Android.OS;
-using Plugin.Fingerprint.Abstractions;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using Android.Runtime;
 using AndroidX.Biometric;
 using AndroidX.Fragment.App;
 using AndroidX.Lifecycle;
 using Java.Util.Concurrent;
-using System.Linq;
+using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint.Platforms.Android.Utils;
 
 namespace Plugin.Fingerprint
 {
@@ -22,10 +22,18 @@ namespace Plugin.Fingerprint
     public class FingerprintImplementation : FingerprintImplementationBase
     {
         private readonly BiometricManager _manager;
+        private readonly CryptoObjectHelper _cryptoObjectHelper;
 
         public FingerprintImplementation()
         {
             _manager = BiometricManager.From(Application.Context);
+
+            if (CrossFingerprint.CryptoSettings == null)
+            {
+                CrossFingerprint.CryptoSettings = new CryptoSettings();
+            }
+
+            _cryptoObjectHelper = new CryptoObjectHelper(CrossFingerprint.CryptoSettings.CryptoKeyName);
         }
 
         public override async Task<AuthenticationType> GetAuthenticationTypeAsync()
@@ -109,7 +117,8 @@ namespace Plugin.Fingerprint
                     Application.Context.GetString(Android.Resource.String.Cancel) :
                     authRequestConfig.CancelTitle;
 
-                var handler = new AuthenticationHandler();
+                var cryptoObject = _cryptoObjectHelper.BuildCryptoObject();
+                var handler = new AuthenticationHandler(CrossFingerprint.CryptoSettings, (resultCryptoObject) => resultCryptoObject.Cipher == cryptoObject.Cipher);
                 var builder = new BiometricPrompt.PromptInfo.Builder()
                     .SetTitle(authRequestConfig.Title)
                     .SetConfirmationRequired(authRequestConfig.ConfirmationRequired)
@@ -124,6 +133,7 @@ namespace Plugin.Fingerprint
                 {
                     builder = builder.SetNegativeButtonText(cancel);
                 }
+
                 var info = builder.Build();
                 var executor = Executors.NewSingleThreadExecutor();
 
@@ -132,7 +142,7 @@ namespace Plugin.Fingerprint
                 using var dialog = new BiometricPrompt(activity, executor, handler);
                 await using (cancellationToken.Register(() => dialog.CancelAuthentication()))
                 {
-                    dialog.Authenticate(info);
+                    dialog.Authenticate(info, cryptoObject);
                     var result = await handler.GetTask();
 
                     TryReleaseLifecycleObserver(activity, dialog);
