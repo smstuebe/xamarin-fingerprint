@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.Content;
 using AndroidX.Biometric;
@@ -41,15 +42,15 @@ namespace Plugin.Fingerprint
             base.OnAuthenticationSucceeded(result);
 
             var faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.Succeeded };
-            if (result.CryptoObject == null && _cryptoSettings.EnforceCryptoObject)
+            if (result.CryptoObject == null)
             {
-                faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.MissingCryptoObject, ErrorMessage = $"CryptoObject is enforced but was empty" };
+                faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.MissingCryptoObject, ErrorMessage = $"CryptoObject was empty" };
             }
-            else if (result.CryptoObject != null && _cryptoSettings.ValidatedCipher && !_validatedCipherFunc(result.CryptoObject))
+            else if (!_validatedCipherFunc(result.CryptoObject))
             {
                 faResult = new FingerprintAuthenticationResult { Status = FingerprintAuthenticationResultStatus.InvalidCipher, ErrorMessage = $"Cipher changed since Authentication call. Maybe it was manipulated" };
             }
-            else if (result.CryptoObject != null)
+            else
             {
                 var errorMsg = string.Empty;
                 if (result.CryptoObject.Cipher != null)
@@ -57,11 +58,27 @@ namespace Plugin.Fingerprint
                     var cipher = result.CryptoObject.Cipher;
                     try
                     {
-                        // Ensuring encryption
-                        byte[] cipherFinalResult = _cryptoSettings.CipherSecretBytes == null
-                                                        ? cipher.DoFinal()
-                                                        : cipher.DoFinal(_cryptoSettings.CipherSecretBytes);
-                        // Everything is fine
+                        // Ensuring encryption works (Authenticated & Valid)
+                        var cipherFinalResult = cipher.DoFinal(_cryptoSettings.CipherSecretBytes);
+
+                        if (cipherFinalResult == null)
+                        {
+                            errorMsg = "DoFinal(..) was manipulated! Result was null";
+                        }
+                        else if (_cryptoSettings.CipherSecretBytes.SequenceEqual(cipherFinalResult))
+                        {
+                            errorMsg = "DoFinal(..) was manipulated! Result matches Secret";
+                        }
+
+                        try
+                        {
+                            cipherFinalResult = cipher.DoFinal(_cryptoSettings.CipherSecretBytes);
+                            errorMsg = "Exceptions getting catched. This could mean manipulation";
+                        }
+                        catch (IllegalStateException)
+                        {
+                            // Everything looks valid and works as expected
+                        }
                     }
                     catch (BadPaddingException bpe)
                     {
