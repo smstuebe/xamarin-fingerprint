@@ -1,6 +1,19 @@
 ﻿namespace Plugin.Fingerprint.Abstractions
 {
     /// <summary>
+    /// Enumeration that optionally filters out authenticator methods to use.
+    /// You can filter by strong or weak authentication methods on Android.
+    /// 
+    /// This is currently only used on Android.
+    /// </summary>
+    [System.Flags]
+    public enum AuthenticatorStrength
+    {
+        WEAK = 1,
+        STRONG = 2,
+    }
+
+    /// <summary>
     /// Configuration of the stuff presented to the user.
     /// </summary>
     public class AuthenticationRequestConfiguration
@@ -51,6 +64,12 @@
         /// Default: true
         /// </summary>
         public bool ConfirmationRequired { get; set; } = true;
+
+        /// <summary>
+        /// If set only allows certain authenticators to be used during authentication.
+        /// Can be set to AuthenticatorStrength.STRONG to use only fingerprint, if the face unlocking is configured to be WEAK, but this really depends on the phone manufacturers.
+        /// </summary>
+        public AuthenticatorStrength AuthenticatorStrength { get; set; } = AuthenticatorStrength.STRONG | AuthenticatorStrength.WEAK;
 
         public AuthenticationRequestConfiguration(string title, string reason)
         {

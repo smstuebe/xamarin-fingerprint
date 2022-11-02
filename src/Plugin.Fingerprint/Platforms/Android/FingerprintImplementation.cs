@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Android.OS;
 using Plugin.Fingerprint.Abstractions;
 using System.Threading;
@@ -13,6 +12,7 @@ using AndroidX.Fragment.App;
 using AndroidX.Lifecycle;
 using Java.Util.Concurrent;
 using System.Linq;
+using static AndroidX.Biometric.BiometricManager;
 
 namespace Plugin.Fingerprint
 {
@@ -94,6 +94,28 @@ namespace Plugin.Fingerprint
             return FingerprintAvailability.Unknown;
         }
 
+        private int getAllowedAuthenticators(AuthenticationRequestConfiguration authRequestConfig)
+        {
+            int flags = 0;
+            // weak includes both STRONG and WEAK, but better check for them individually anyway
+            if (authRequestConfig.AuthenticatorStrength.HasFlag(AuthenticatorStrength.WEAK))
+            {
+                flags |= Authenticators.BiometricWeak;
+            }
+            if (authRequestConfig.AuthenticatorStrength.HasFlag(AuthenticatorStrength.STRONG))
+            {
+                flags |= Authenticators.BiometricStrong;
+            }
+            // check for device credentials here as well
+            if (authRequestConfig.AllowAlternativeAuthentication)
+            {
+                flags |= Authenticators.DeviceCredential;
+            }
+
+            return flags;
+
+        }
+
         protected override async Task<FingerprintAuthenticationResult> NativeAuthenticateAsync(AuthenticationRequestConfiguration authRequestConfig, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(authRequestConfig.Title))
@@ -114,6 +136,13 @@ namespace Plugin.Fingerprint
                     .SetTitle(authRequestConfig.Title)
                     .SetConfirmationRequired(authRequestConfig.ConfirmationRequired)
                     .SetDescription(authRequestConfig.Reason);
+                
+                // there's no definition for API 30 :( and I don't know how to update MonoAndroid
+                if (((int)Build.VERSION.SdkInt) >= 30)
+                {
+                    int allowedAuthenticators = getAllowedAuthenticators(authRequestConfig);
+                    builder.SetAllowedAuthenticators(allowedAuthenticators);
+                }
 
                 if (authRequestConfig.AllowAlternativeAuthentication)
                 {
@@ -124,6 +153,7 @@ namespace Plugin.Fingerprint
                 {
                     builder = builder.SetNegativeButtonText(cancel);
                 }
+
                 var info = builder.Build();
                 var executor = Executors.NewSingleThreadExecutor();
 
